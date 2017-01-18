@@ -18,9 +18,9 @@ dependencies:
 	- chmod +x ./ZerdaReaderProject/ZerdaReader/gradlew
 	- cd ./ZerdaReaderProject/ZerdaReader/
         - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-25.0.2,android-25,extra-google-m2repository,extra-google-google_play_services,extra-android-support
-        - ANDROID_HOME=/usr/local/android-sdk-linux ./ZerdaReaderProject/ZerdaReader/gradlew dependencies
+        - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
 
 test:
     override:
-        - (./ZerdaReaderProject/ZerdaReader/gradlew assemble):
+        - (./gradlew assemble):
             timeout: 360
