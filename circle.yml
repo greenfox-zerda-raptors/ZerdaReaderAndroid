@@ -4,7 +4,7 @@
 
 general:
     artifacts:
-        - /home/ubuntu/ZerdaReaderAndroid/ZerdaReaderProject/ZerdaReader/app/build/outputs/apk/
+        - /home/ubuntu/ZerdaReaderAndroid/app/build/outputs/apk/
 
 machine:
 
@@ -15,8 +15,7 @@ machine:
 
 dependencies:
     override:
-	- chmod +x ./ZerdaReaderProject/ZerdaReader/gradlew
-	- cd ./ZerdaReaderProject/ZerdaReader/
+	- chmod +x gradlew
         - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-25.0.2,android-25,extra-google-m2repository,extra-google-google_play_services,extra-android-support
         - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
 
