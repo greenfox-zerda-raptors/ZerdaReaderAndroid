@@ -7,7 +7,6 @@ general:
         - /home/ubuntu/ZerdaReaderAndroid/app/build/outputs/apk/
 
 machine:
-
     java:
         version: oraclejdk8
     environment:
