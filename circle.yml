@@ -4,7 +4,7 @@
 
 general:
     artifacts:
-        - /home/ubuntu/ZerdaReaderAndroid/app/build/outputs/apk/
+        - /home/ubuntu/ZerdaReaderAndroid/ZerdaReaderProject/ZerdaReader/app/build/outputs/apk/
 
 machine:
 
@@ -20,5 +20,5 @@ dependencies:
 
 test:
     override:
-        - (./gradlew assemble):
+        - (./ZerdaReaderProject/ZerdaReader/gradlew assemble):
             timeout: 360
