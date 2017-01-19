@@ -1,4 +1,4 @@
-package greenfox.com.zerdareader;
+package com.greenfox.fuchsit.zerdareader;
 
 import org.junit.Test;
 

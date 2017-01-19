@@ -1,4 +1,4 @@
-package greenfox.com.zerdareader;
+package com.greenfox.fuchsit.zerdareader;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,9 +1,11 @@
-package greenfox.com.zerdareader;
+package com.greenfox.fuchsit.zerdareader;
 
 import android.app.Activity;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.greenfox.fuchsit.zerdareader.activity.HelloWorldActivity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,11 +23,11 @@ import static org.junit.Assert.*;
  */
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricTestRunner.class)
-public class ActivityTest {
+public class HelloWorldActivityTest {
 
     @Test
     public void testClickButton() throws Exception {
-        Activity activity = Robolectric.buildActivity(LoginActivity.class).create().get();
+        Activity activity = Robolectric.buildActivity(HelloWorldActivity.class).create().get();
         Button button = (Button) activity.findViewById(R.id.button);
         TextView results = (TextView) activity.findViewById(R.id.text_view);
         button.performClick();

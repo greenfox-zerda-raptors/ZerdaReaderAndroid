@@ -1,4 +1,4 @@
-package greenfox.com.zerdareader.models;
+package com.greenfox.fuchsit.zerdareader.model;
 
 /**
  * Created by Anna on 17/01/16.
