@@ -5,16 +5,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.model.UserResponse;
+import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
+import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     Button button;
     EditText editUserName, editPassword;
-    TextView textView;
-
+    String username, password;
+    ReaderApi api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +31,30 @@ public class LoginActivity extends AppCompatActivity {
         editPassword = (EditText) findViewById(R.id.password);
 
         button = (Button) findViewById(R.id.loginButton);
-        button.setOnClickListener(new View.OnClickListener() {
 
+        final ReaderApiInterface apiService =
+                api.getClient().create(ReaderApiInterface.class);
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = editUserName.getText().toString();
-                String password = editPassword.getText().toString();
-                loginUser(username, password);
+                username = editUserName.getText().toString();
+                password = editPassword.getText().toString();
+                Call<UserResponse> call = apiService.loginUser(username, password);
+
+                call.enqueue(new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        UserResponse user = response.body();
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                    }
+            });
             }
         });
     }
 }
+
