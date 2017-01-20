@@ -16,8 +16,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Button button;
     EditText editUserName, editPassword;
-    TextView textView;
-    TextView dataView;
+    TextView textView, dataView;
 
 
     @Override
@@ -32,13 +31,13 @@ public class LoginActivity extends AppCompatActivity {
         editPassword = (EditText) findViewById(R.id.password);
 
         button = (Button) findViewById(R.id.loginButton);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                textView.setText("Login Button works!");
-            }
-        });
+//        button.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                textView.setText("Login Button works!");
+//            }
+//        });
     }
 
     //Save login info
