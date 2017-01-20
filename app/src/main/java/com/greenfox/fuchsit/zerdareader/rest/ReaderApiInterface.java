@@ -15,6 +15,7 @@ import retrofit2.http.Query;
 public interface ReaderApiInterface {
 
     @GET("user/login")
-    Call<UserResponse> loginUser(@Query("username") String username,  @Query("password") String password);
+    Call<UserResponse> loginUser(@Query("username") String username,
+                                 @Query("password") String password);
 
 }

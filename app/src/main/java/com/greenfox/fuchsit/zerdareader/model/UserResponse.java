@@ -8,8 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserResponse {
 
-    @SerializedName("id")
-    private long id;
     @SerializedName("result")
     private boolean success;
     @SerializedName("token")
