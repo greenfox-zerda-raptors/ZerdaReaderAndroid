@@ -21,8 +21,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        textView = (TextView) findViewById(R.id.loginTitle);
-
         editUserName = (EditText) findViewById(R.id.userName);
         editPassword = (EditText) findViewById(R.id.password);
 
@@ -31,7 +29,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                textView.setText("Login Button works!");
+                String username = editUserName.getText().toString();
+                String password = editPassword.getText().toString();
+                loginUser(username, password);
             }
         });
     }
