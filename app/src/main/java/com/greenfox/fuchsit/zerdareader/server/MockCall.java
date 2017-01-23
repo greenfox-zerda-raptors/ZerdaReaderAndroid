@@ -15,14 +15,15 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
  * Created by Zsuzska on 2017. 01. 23..
  */
 
-public class MockCall implements Call<UserResponse> {
+public abstract class MockCall<T> implements Call<T> {
+
     @Override
-    public Response<UserResponse> execute() throws IOException {
+    public Response<T> execute() throws IOException {
         return null;
     }
 
     @Override
-    public void enqueue(Callback<UserResponse> callback) {
+    public void enqueue(Callback<T> callback) {
 
     }
 
@@ -42,7 +43,7 @@ public class MockCall implements Call<UserResponse> {
     }
 
     @Override
-    public Call<UserResponse> clone() {
+    public Call<T> clone() {
         return null;
     }
 
