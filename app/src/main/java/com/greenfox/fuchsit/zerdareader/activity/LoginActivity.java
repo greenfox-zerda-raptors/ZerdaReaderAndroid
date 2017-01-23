@@ -10,6 +10,7 @@ import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+import com.greenfox.fuchsit.zerdareader.server.MockCall;
 import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import retrofit2.Call;
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 username = editUserName.getText().toString();
                 password = editPassword.getText().toString();
-                Call<UserResponse> call = apiService.loginUser(username, password);
+                MockCall<UserResponse> call = (MockCall<UserResponse>) apiService.loginUser(username, password);
 
                 call.enqueue(new Callback<UserResponse>() {
                     @Override
