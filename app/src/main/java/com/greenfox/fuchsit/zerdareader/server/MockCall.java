@@ -23,11 +23,6 @@ public abstract class MockCall<T> implements Call<T> {
     }
 
     @Override
-    public void enqueue(Callback<T> callback) {
-
-    }
-
-    @Override
     public boolean isExecuted() {
         return false;
     }

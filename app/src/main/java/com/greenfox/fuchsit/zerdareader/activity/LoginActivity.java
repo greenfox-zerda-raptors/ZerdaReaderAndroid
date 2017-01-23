@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 username = editUserName.getText().toString();
                 password = editPassword.getText().toString();
-                MockCall<UserResponse> call = (MockCall<UserResponse>) apiService.loginUser(username, password);
+                Call<UserResponse> call = apiService.loginUser(username, password);
 
                 call.enqueue(new Callback<UserResponse>() {
                     @Override

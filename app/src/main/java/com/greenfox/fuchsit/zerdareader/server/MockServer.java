@@ -5,6 +5,7 @@ import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.http.Query;
 
 /**
@@ -17,7 +18,8 @@ public class MockServer implements ReaderApiInterface {
         return new MockCall<UserResponse>() {
             @Override
             public void enqueue(Callback<UserResponse> callback) {
-                super.enqueue(callback);
+                Response<UserResponse> r = Response.success(new UserResponse());
+                callback.onResponse(this, r);
             }
         };
     }
