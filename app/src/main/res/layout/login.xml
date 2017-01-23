@@ -59,21 +59,9 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick = "saveData"
+                android:onClick = "login"
                 android:id="@+id/loginButton"
                 android:text="LOGIN" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick = "getData"
-                android:id="@+id/getDataButton"
-                android:text="Get data" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/dataTextView" />
         </LinearLayout>
     </LinearLayout>
 
