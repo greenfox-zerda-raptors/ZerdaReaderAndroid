@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 
 public class MockServer implements ReaderApiInterface {
     @Override
-    public Call<UserResponse> loginUser(@Query("username") String username, @Query("password") String password) {
-        return null;
+    public Call<UserResponse> loginUser(String username, String password) {
+        return new MockCall();
     }
 }
