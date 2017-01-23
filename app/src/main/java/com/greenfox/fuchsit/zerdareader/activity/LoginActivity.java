@@ -43,9 +43,6 @@ public class LoginActivity extends AppCompatActivity {
         editPassword = (EditText) findViewById(R.id.password);
 
         button = (Button) findViewById(R.id.loginButton);
-      
-        final ReaderApiInterface apiService =
-                  api.getClient().create(ReaderApiInterface.class);
     }
 
     public void login(View view){
@@ -55,22 +52,24 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString("password", editPassword.getText().toString());
         editor.putBoolean("isLogin", true);
         editor.commit();
+
+        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
       
         username = editUserName.getText().toString();
-                password = editPassword.getText().toString();
-                Call<UserResponse> call = apiService.loginUser(username, password);
+        password = editPassword.getText().toString();
+        Call<UserResponse> call = apiService.loginUser(username, password);
 
-                call.enqueue(new Callback<UserResponse>() {
-                    @Override
-                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        UserResponse user = response.body();
-                    }
+        call.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                UserResponse user = response.body();
+            }
 
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
 
-                    }
-            });
+            }
+        });
 
         Toast.makeText(this,"Saved",Toast.LENGTH_LONG).show();
 
