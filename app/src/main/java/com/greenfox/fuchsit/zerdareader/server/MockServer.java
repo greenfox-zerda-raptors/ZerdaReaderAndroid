@@ -1,4 +1,4 @@
-package server;
+package com.greenfox.fuchsit.zerdareader.server;
 
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
