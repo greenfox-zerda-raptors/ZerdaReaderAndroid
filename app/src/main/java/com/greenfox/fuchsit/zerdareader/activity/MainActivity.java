@@ -33,7 +33,7 @@ public class MainActivity extends FragmentActivity {
         checkIfLoggedIn();
         setContentView(R.layout.activity_main);
 
-//        feed = (ListView) findViewById(R.id.@android_id/list);
+        feed = (ListView) findViewById(android.R.id.list);
 
         newsItems = new ArrayList<>();
 
