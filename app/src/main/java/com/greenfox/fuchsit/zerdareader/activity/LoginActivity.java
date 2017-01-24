@@ -23,7 +23,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button button, buttonToolbar;
+    Button button;
     EditText editUserName, editPassword;
 
     TextView textView;
@@ -43,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
         editUserName = (EditText) findViewById(R.id.userName);
         editPassword = (EditText) findViewById(R.id.password);
         button = (Button) findViewById(R.id.loginButton);
-        buttonToolbar = (Button) findViewById(R.id.buttonToolbar);
     }
 
     public void login(View view){
