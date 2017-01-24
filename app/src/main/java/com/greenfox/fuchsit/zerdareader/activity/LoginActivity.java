@@ -5,10 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,8 +16,6 @@ import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-import com.greenfox.fuchsit.zerdareader.server.MockCall;
-import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,7 +23,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button button;
+    Button button, buttonToolbar;
     EditText editUserName, editPassword;
 
     TextView textView;
@@ -38,11 +36,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         textView = (TextView) findViewById(R.id.loginTitle);
         editUserName = (EditText) findViewById(R.id.userName);
         editPassword = (EditText) findViewById(R.id.password);
-
         button = (Button) findViewById(R.id.loginButton);
+        buttonToolbar = (Button) findViewById(R.id.buttonToolbar);
     }
 
     public void login(View view){
