@@ -1,22 +1,19 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import com.greenfox.fuchsit.zerdareader.R;
-
-import static android.app.DialogFragment.STYLE_NO_TITLE;
 
 /**
  * Created by regnisalram on 1/24/17.
  */
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
