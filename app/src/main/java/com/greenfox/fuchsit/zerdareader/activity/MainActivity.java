@@ -7,13 +7,13 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.greenfox.fuchsit.zerdareader.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText editTextWelcome;
+    TextView textViewWelcome;
     Button buttonToolbar;
     SharedPreferences sharedPreferences;
 
@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         buttonToolbar = (Button) findViewById(R.id.buttonToolbar);
+        textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        editTextWelcome = (EditText) findViewById(R.id.editText);
 
         checkIfLoggedIn();
     }
