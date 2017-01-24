@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by Zsuzska on 2017. 01. 24..
  */
 
-public class listItem {
+public class ListItem {
     @SerializedName("id")
     private long id;
     @SerializedName("title")
@@ -28,10 +28,10 @@ public class listItem {
     @SerializedName("url")
     private String url;
 
-    public listItem() {
+    public ListItem() {
     }
 
-    public listItem(String title, String description, Date created, String feedName, long feedId, boolean favorite, boolean opened, String url) {
+    public ListItem(String title, String description, Date created, String feedName, long feedId, boolean favorite, boolean opened, String url) {
         this.title = title;
         this.description = description;
         this.created = created;
