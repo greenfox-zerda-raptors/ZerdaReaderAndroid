@@ -10,13 +10,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.greenfox.fuchsit.zerdareader.activity.MainActivity">
 
-
     <fragment
+        android:name="com.greenfox.fuchsit.zerdareader.activity.FeedFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="android.support.v4.app.ListFragment"
         android:id="@+id/feed_fragment"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
 </RelativeLayout>

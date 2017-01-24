@@ -8,6 +8,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:transcriptMode="alwaysScroll"
-        android:id="@+id/feed_items" />
+        android:id="@android:id/list" />
 
 </RelativeLayout>
