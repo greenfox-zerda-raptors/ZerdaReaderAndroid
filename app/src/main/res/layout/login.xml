@@ -10,14 +10,76 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.greenfox.fuchsit.zerdareader.activity.HelloWorldActivity">
 
-    <LinearLayout
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar" android:layout_width="match_parent" android:layout_height="56dp"
+        android:background="@drawable/actionbar_bg" >
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignBottom="@+id/my_toolbar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="13dp">
 
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="username"
+            android:ems="10"
+            android:id="@+id/userName"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:layout_above="@+id/password"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="13dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="password"
+            android:ems="10"
+            android:textAlignment="center"
+            android:id="@+id/password"
+            android:textSize="22sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick = "login"
+            android:id="@+id/loginButton"
+            android:text="LOGIN"
+            android:layout_below="@+id/password"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="11dp"
+            android:layout_marginStart="11dp" />
 
         <TextView
             android:text="Please login"
@@ -26,43 +88,11 @@
             android:id="@+id/loginTitle"
             android:textSize="30sp"
             android:textAlignment="center"
-            android:layout_marginBottom="20dp"/>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="218dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/customborder"
-            android:layout_weight="0.30">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="username"
-                android:ems="10"
-                android:id="@+id/userName"
-                android:textAlignment="center"
-                android:textSize="24sp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="password"
-                android:ems="10"
-                android:textAlignment="center"
-                android:id="@+id/password"
-                android:textSize="22sp" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick = "login"
-                android:id="@+id/loginButton"
-                android:text="LOGIN" />
-        </LinearLayout>
-    </LinearLayout>
+            android:layout_weight="0.09"
+            android:layout_marginBottom="27dp"
+            android:layout_above="@+id/userName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
 
 </RelativeLayout>
