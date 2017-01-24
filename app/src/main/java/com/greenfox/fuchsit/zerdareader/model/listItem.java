@@ -27,6 +27,7 @@ public class ListItem {
     private boolean opened;
     @SerializedName("url")
     private String url;
+    
 
     public ListItem() {
     }

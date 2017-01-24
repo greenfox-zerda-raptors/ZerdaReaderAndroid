@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class Feed {
     @SerializedName("id")
     private long id;
+
     private String name;
     private String url;
 
