@@ -47,11 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view){
         SharedPreferences loginData = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = loginData.edit();
-        editor.putString("userName", editUserName.getText().toString());
-        editor.putString("password", editPassword.getText().toString());
-        editor.putBoolean("isLogin", true);
-        editor.commit();
+        final SharedPreferences.Editor editor = loginData.edit();
 
         final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
       
@@ -63,6 +59,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 UserResponse user = response.body();
+                editor.putString("userName", username);
+                editor.putString("password", password);
+                editor.putBoolean("isLogin", true);
+                editor.commit();
             }
 
             @Override
