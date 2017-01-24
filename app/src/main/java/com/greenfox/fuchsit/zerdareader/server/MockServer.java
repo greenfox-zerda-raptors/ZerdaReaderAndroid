@@ -1,7 +1,10 @@
 package com.greenfox.fuchsit.zerdareader.server;
 
+import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,6 +16,11 @@ import retrofit2.http.Query;
  */
 
 public class MockServer implements ReaderApiInterface {
+    @Override
+    public Call<ArrayList<NewsItem>> getNewsItems() {
+        return null;
+    }
+
     @Override
     public MockCall<UserResponse> loginUser(String username, String password) {
         return new MockCall<UserResponse>() {
