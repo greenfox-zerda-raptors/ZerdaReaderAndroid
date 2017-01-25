@@ -32,6 +32,11 @@ public class NewsItem {
     public NewsItem() {
     }
 
+    public NewsItem(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
     public NewsItem(String title, String description, Date created, String feedName, long feedId, boolean favorite, boolean opened, String url) {
         this.title = title;
         this.description = description;
