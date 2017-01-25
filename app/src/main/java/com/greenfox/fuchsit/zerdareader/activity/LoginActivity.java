@@ -13,11 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 import com.greenfox.fuchsit.zerdareader.server.MockCall;
 import com.greenfox.fuchsit.zerdareader.server.MockServer;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
 
     String username, password;
     ReaderApi api;
+    @Inject
+    MockServer mockServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         editPassword = (EditText) findViewById(R.id.password);
 
         button = (Button) findViewById(R.id.loginButton);
+
+        DaggerMockServerComponent.builder().build().inject(this);
     }
 
     public void login(View view){
