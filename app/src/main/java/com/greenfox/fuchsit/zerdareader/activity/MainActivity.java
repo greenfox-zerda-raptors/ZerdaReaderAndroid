@@ -37,6 +37,8 @@ public class MainActivity extends FragmentActivity {
     ReaderApiInterface readerApiInterface;
     Retrofit retrofit;
     FeedAdapter adapter;
+    ListView feed;
+    ArrayList<NewsItem> newsItems;
 
     public void showNewsItems() {
         readerApiInterface = retrofit.create(ReaderApiInterface.class);
@@ -53,12 +55,6 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
-    ListView feed;
-
-    ArrayList<NewsItem> newsItems;
-
-    FeedAdapter feedAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +66,8 @@ public class MainActivity extends FragmentActivity {
 
         newsItems = new ArrayList<>();
 
-        feedAdapter = new FeedAdapter(this, newsItems);
-        feed.setAdapter(feedAdapter);
+        adapter = new FeedAdapter(this, newsItems);
+        feed.setAdapter(adapter);
     }
 
     private void checkIfLoggedIn() {
