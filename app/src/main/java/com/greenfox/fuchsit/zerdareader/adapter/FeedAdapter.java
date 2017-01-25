@@ -1,7 +1,13 @@
 package com.greenfox.fuchsit.zerdareader.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
 import java.util.ArrayList;
@@ -13,5 +19,26 @@ public class FeedAdapter extends ArrayAdapter<NewsItem> {
 
     public FeedAdapter(Context context, ArrayList<NewsItem> newsItems) {
         super(context, 0, newsItems);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // Get the data item for this position
+        NewsItem newsItem = getItem(position);
+        // Check if an existing view is being reused, otherwise inflate the view
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.newsitem, parent, false);
+        }
+        // Lookup view for data population
+        TextView titleTW = (TextView) convertView.findViewById(R.id.title);
+        TextView descriptionTW = (TextView) convertView.findViewById(R.id.description);
+
+        // Populate the data into the template view using the data object
+        titleTW.setText(newsItem.getTitle());
+        descriptionTW.setText(newsItem.getDescription());
+//        dateTW.setText(message.time.toString());
+
+        // Return the completed view to render on screen
+        return convertView;
     }
 }
