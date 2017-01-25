@@ -31,12 +31,9 @@ public class FeedAdapter extends ArrayAdapter<NewsItem> {
         }
         // Lookup view for data population
         TextView titleTW = (TextView) convertView.findViewById(R.id.title);
-//        TextView descriptionTW = (TextView) convertView.findViewById(R.id.description);
 
         // Populate the data into the template view using the data object
         titleTW.setText(newsItem.getTitle());
-//        descriptionTW.setText(newsItem.getDescription());
-//        dateTW.setText(message.time.toString());
 
         // Return the completed view to render on screen
         return convertView;
