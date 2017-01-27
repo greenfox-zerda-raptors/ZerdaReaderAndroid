@@ -11,6 +11,8 @@ import android.widget.ListAdapter;
 
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.model.UserResponse;
+import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import java.util.ArrayList;
@@ -35,26 +37,12 @@ public class MainActivity extends FragmentActivity {
 
     SharedPreferences sharedPreferences;
     ReaderApiInterface readerApiInterface;
+    ReaderApi api;
     Retrofit retrofit;
     FeedAdapter adapter;
     ListView feed;
     ArrayList<NewsItem> newsItems;
     FeedFragment feedFragment;
-
-    public void showNewsItems() {
-        readerApiInterface = retrofit.create(ReaderApiInterface.class);
-        readerApiInterface.getNewsItems().enqueue(new Callback<ArrayList<NewsItem>>() {
-            @Override
-            public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {
-                adapter.addAll(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<NewsItem>> call, Throwable t) {
-
-            }
-        });
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +53,29 @@ public class MainActivity extends FragmentActivity {
 
         feed = (ListView) findViewById(android.R.id.list);
 
+        showNewsItems();
+
         adapter = new FeedAdapter(this, newsItems);
         feed.setAdapter(adapter);
+    }
 
-        showNewsItems();
+    public void showNewsItems() {
+
+        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
+        Call<ArrayList<NewsItem>> call = apiService.getNewsItems();
+
+
+        call.enqueue(new Callback<ArrayList<NewsItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {
+                adapter.addAll(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<NewsItem>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void checkIfLoggedIn() {
