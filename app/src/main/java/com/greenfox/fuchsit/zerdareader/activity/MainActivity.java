@@ -65,16 +65,10 @@ public class MainActivity extends FragmentActivity {
 
         feed = (ListView) findViewById(android.R.id.list);
 
-        newsItems = new ArrayList<>();
-        newsItems.add(new NewsItem("Title 1", "blablabla"));
-        newsItems.add(new NewsItem("Title 2", "blablabla"));
-        newsItems.add(new NewsItem("Title 3", "blablabla"));
-        newsItems.add(new NewsItem("Title 4", "blablabla"));
-        newsItems.add(new NewsItem("Title 5", "blablabla"));
-        newsItems.add(new NewsItem("Title 6", "blablabla"));
-
         adapter = new FeedAdapter(this, newsItems);
         feed.setAdapter(adapter);
+
+        showNewsItems();
     }
 
     private void checkIfLoggedIn() {

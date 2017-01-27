@@ -33,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     String username, password;
     ReaderApi api;
 
+    SharedPreferences loginData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view){
-        SharedPreferences loginData = PreferenceManager.getDefaultSharedPreferences(this);
+        loginData = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor editor = loginData.edit();
 
         final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
