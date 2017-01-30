@@ -13,6 +13,5 @@ import dagger.Component;
 @Singleton
 @Component(modules = {MockServer.class})
 public interface MockServerComponent {
-
     void inject (LoginActivity loginActivity);
 }
