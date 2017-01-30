@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +19,9 @@ import com.greenfox.fuchsit.zerdareader.R;
 public class MainActivity extends AppCompatActivity {
 
     TextView textViewWelcome;
+    Button logoutButton;
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
+        logoutButton =(Button) findViewById(R.id.logoutButton);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         checkIfLoggedIn();
@@ -39,6 +44,17 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
+    }
+
+    public void logOut(View view){
+       SharedPreferences loginData = PreferenceManager.getDefaultSharedPreferences(this);
+       SharedPreferences.Editor editor = loginData.edit();
+        editor.putString("userName", "");
+        editor.putString("password", "");
+        editor.apply();
+        Toast.makeText(this,"Successful logout", Toast.LENGTH_SHORT).show();
+        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(loginIntent);
     }
 
     // toolbar methods:
