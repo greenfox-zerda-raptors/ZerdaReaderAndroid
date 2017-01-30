@@ -11,14 +11,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textViewWelcome;
     Button logoutButton;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -30,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
         logoutButton =(Button) findViewById(R.id.logoutButton);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
