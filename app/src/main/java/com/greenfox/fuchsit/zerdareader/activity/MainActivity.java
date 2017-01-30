@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    
+
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -65,8 +65,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        FeedFragment fragment = new FeedFragment();
-        fragmentTransaction.add(R.id.fragment_container, fragment);
+//        Commented out because not sure if needed, please review
+
+//        FeedFragment fragment = new FeedFragment();
+//        fragmentTransaction.add(R.id.fragment_container, fragment);
+
         fragmentTransaction.commit();
 
     }
