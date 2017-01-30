@@ -1,9 +1,10 @@
 package com.greenfox.fuchsit.zerdareader.rest;
 
+import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 
-import dagger.Module;
-import dagger.Provides;
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -13,6 +14,9 @@ import retrofit2.http.Query;
  */
 
 public interface ReaderApiInterface {
+
+    @GET("/messages")
+    Call<ArrayList<NewsItem>> getNewsItems();
 
     @POST("user/login")
     Call<UserResponse> loginUser(@Query("username") String username,
