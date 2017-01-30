@@ -57,7 +57,8 @@ public class LoginActivity extends AppCompatActivity {
        DaggerMockServerComponent.builder().build().inject(this);
     }
 
-    public void login(View view){
+    public void login(View view) {
+
         username = editUserName.getText().toString();
         password = editPassword.getText().toString();
         Call<UserResponse> call = apiService.loginUser(username, password);
@@ -75,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putBoolean("isLogin", true);
                 editor.apply();
 
-                Toast.makeText(LoginActivity.this,"Saved",Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
 
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(i);
@@ -100,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this,"You must be my lucky star",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
         return true;
     }
 }
