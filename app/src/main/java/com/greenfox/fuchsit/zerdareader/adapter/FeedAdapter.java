@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 public class FeedAdapter extends ArrayAdapter<NewsItem> {
 
-    public FeedAdapter(Context context, ArrayList<NewsItem> newsItems) {
-        super(context, 0, newsItems);
+    public FeedAdapter(Context context) {
+        super(context, 0, new ArrayList<NewsItem>());
     }
 
     @Override

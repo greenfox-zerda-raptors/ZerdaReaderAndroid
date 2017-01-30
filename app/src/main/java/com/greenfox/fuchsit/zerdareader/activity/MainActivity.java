@@ -53,18 +53,17 @@ public class MainActivity extends FragmentActivity {
 
         feed = (ListView) findViewById(android.R.id.list);
 
-        showNewsItems();
-
-        adapter = new FeedAdapter(this, newsItems);
+        adapter = new FeedAdapter(this);
         feed.setAdapter(adapter);
+
+        showNewsItems();
     }
 
     public void showNewsItems() {
 
         final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
         Call<ArrayList<NewsItem>> call = apiService.getNewsItems();
-
-
+        
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
             public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {

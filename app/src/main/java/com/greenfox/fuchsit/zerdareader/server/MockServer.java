@@ -28,7 +28,7 @@ public class MockServer implements ReaderApiInterface {
                 newsItems.add(new NewsItem("Title 4", "blablabla"));
                 newsItems.add(new NewsItem("Title 5", "blablabla"));
                 newsItems.add(new NewsItem("Title 6", "blablabla"));
-                Response<ArrayList<NewsItem>> r = Response.success(new ArrayList<NewsItem>());
+                Response<ArrayList<NewsItem>> r = Response.success(newsItems);
                 callback.onResponse(this, r);
             }
         };
