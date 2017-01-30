@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         button = (Button) findViewById(R.id.loginButton);
     }
 
-    public void login(View view){
+    public void login(View view) {
 
 //        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
 
@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putBoolean("isLogin", true);
                 editor.apply();
 
-                Toast.makeText(LoginActivity.this,"Saved",Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
 
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(i);
@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this,"You must be my lucky star",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
         return true;
     }
 }
