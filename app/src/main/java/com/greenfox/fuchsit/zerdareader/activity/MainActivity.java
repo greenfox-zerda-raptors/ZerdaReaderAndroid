@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-//        Commented out because not sure if needed, please review
+//        Commented out because not sure if needed and underlined w/ red, please review
 
 //        FeedFragment fragment = new FeedFragment();
 //        fragmentTransaction.add(R.id.fragment_container, fragment);
