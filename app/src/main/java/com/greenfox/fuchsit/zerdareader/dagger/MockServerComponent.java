@@ -11,7 +11,7 @@ import dagger.Component;
  * Created by Anna on 17/01/25.
  */
 @Singleton
-@Component(modules = {MockServer.class})
+@Component(modules = {ReaderApiProvider.class})
 public interface MockServerComponent {
     void inject (LoginActivity loginActivity);
 }

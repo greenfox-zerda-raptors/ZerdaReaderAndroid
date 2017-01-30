@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
         button = (Button) findViewById(R.id.loginButton);
 
-        DaggerMockServerComponent.builder().build().inject(this);
+       DaggerMockServerComponent.builder().build().inject(this);
     }
 
     public void login(View view){
