@@ -17,6 +17,4 @@ public interface ReaderApiInterface {
     @POST("user/login")
     Call<UserResponse> loginUser(@Query("username") String username,
                                  @Query("password") String password);
-
-    public ReaderApiInterface provideApiInterface();
 }
