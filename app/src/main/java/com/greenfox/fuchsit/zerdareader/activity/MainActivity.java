@@ -28,6 +28,7 @@ import android.widget.ListView;
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import java.util.ArrayList;
 
@@ -38,11 +39,8 @@ public class MainActivity extends FragmentActivity {
     SharedPreferences sharedPreferences;
     ReaderApiInterface readerApiInterface;
     ReaderApi api;
-    Retrofit retrofit;
     FeedAdapter adapter;
     ListView feed;
-    ArrayList<NewsItem> newsItems;
-    FeedFragment feedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +59,11 @@ public class MainActivity extends FragmentActivity {
 
     public void showNewsItems() {
 
-        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
+        //this is commented out because we will switch to this line when we'll use the real server
+//        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
+        MockServer apiService = new MockServer();
         Call<ArrayList<NewsItem>> call = apiService.getNewsItems();
-        
+
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
             public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {
