@@ -17,8 +17,6 @@ import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-import com.greenfox.fuchsit.zerdareader.server.MockCall;
-import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import javax.inject.Inject;
 
@@ -36,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     String username, password;
     ReaderApi api;
     @Inject
-    MockServer mockServer;
+    ReaderApiInterface apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         editor.putBoolean("isLogin", true);
         editor.commit();
 
-        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
+//        Will be needed to instantiate apiInterface (I think)
+//        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
       
         username = editUserName.getText().toString();
         password = editPassword.getText().toString();
