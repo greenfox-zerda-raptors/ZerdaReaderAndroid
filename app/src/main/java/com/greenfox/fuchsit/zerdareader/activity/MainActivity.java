@@ -1,5 +1,7 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -28,10 +29,18 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        logoutButton =(Button) findViewById(R.id.logoutButton);
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         checkIfLoggedIn();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        FeedFragment fragment = new FeedFragment();
+        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+
     }
 
     private void checkIfLoggedIn() {
@@ -43,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void logOut(View view){
+    public void logOut(){
        SharedPreferences loginData = PreferenceManager.getDefaultSharedPreferences(this);
        SharedPreferences.Editor editor = loginData.edit();
         editor.putString("userName", "");
@@ -70,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this,"Refreshed",Toast.LENGTH_LONG).show();
             case R.id.favorite:
                 Toast.makeText(this,"You must be my lucky star",Toast.LENGTH_LONG).show();
+            case R.id.logout:
+                logOut();
         }
         return true;
     }
