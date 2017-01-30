@@ -19,6 +19,7 @@ import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
 
     String username, password;
     ReaderApi api;
+
+    SharedPreferences loginData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +52,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view){
-        SharedPreferences loginData = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = loginData.edit();
-        editor.putString("userName", editUserName.getText().toString());
-        editor.putString("password", editPassword.getText().toString());
-        editor.putBoolean("isLogin", true);
-        editor.commit();
 
-        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
-      
+//        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
+
+        MockServer apiService = new MockServer();
+
         username = editUserName.getText().toString();
         password = editPassword.getText().toString();
         Call<UserResponse> call = apiService.loginUser(username, password);
@@ -66,6 +65,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 UserResponse user = response.body();
+
+                loginData = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                final SharedPreferences.Editor editor = loginData.edit();
+
+                editor.putString("userName", username);
+                editor.putString("password", password);
+                editor.putBoolean("isLogin", true);
+                editor.apply();
+
+                Toast.makeText(LoginActivity.this,"Saved",Toast.LENGTH_LONG).show();
+
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(i);
             }
 
             @Override
@@ -73,11 +85,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-        Toast.makeText(this,"Saved",Toast.LENGTH_LONG).show();
-
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
 
     }
 

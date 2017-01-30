@@ -1,5 +1,7 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,14 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textViewWelcome;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -26,10 +26,18 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         checkIfLoggedIn();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        FeedFragment fragment = new FeedFragment();
+        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+
     }
 
     private void checkIfLoggedIn() {
