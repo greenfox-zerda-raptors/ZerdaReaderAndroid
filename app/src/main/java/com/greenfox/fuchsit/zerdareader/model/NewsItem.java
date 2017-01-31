@@ -112,3 +112,5 @@ public class NewsItem {
         this.url = url;
     }
 }
+
+
