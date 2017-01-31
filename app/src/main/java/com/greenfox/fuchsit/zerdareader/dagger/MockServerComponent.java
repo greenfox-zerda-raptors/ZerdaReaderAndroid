@@ -2,6 +2,7 @@ package com.greenfox.fuchsit.zerdareader.dagger;
 
 import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
+import com.greenfox.fuchsit.zerdareader.activity.TabFragment2;
 
 import javax.inject.Singleton;
 
@@ -15,4 +16,5 @@ import dagger.Component;
 public interface MockServerComponent {
     void inject (LoginActivity loginActivity);
     void inject (FeedFragment feedFragment);
+    void inject (TabFragment2 tabFragment);
 }
