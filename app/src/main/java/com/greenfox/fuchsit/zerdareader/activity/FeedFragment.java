@@ -3,7 +3,6 @@ package com.greenfox.fuchsit.zerdareader.activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -25,7 +23,7 @@ import retrofit2.Response;
  * Created by regnisalram on 1/24/17.
  */
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends ListFragment {
 
     ListView feed;
     FeedAdapter adapter;
@@ -70,10 +68,9 @@ public class FeedFragment extends Fragment {
         super.onListItemClick(feed, view, position, id);
 
         NewsItem item = (NewsItem) feed.getItemAtPosition(position);
-//        savedInstanceState.putSerializable("edttext", item.getDescription());
 
         Bundle bundle = new Bundle();
-        bundle.putString("edttext", item.getDescription());
+        bundle.putSerializable("newsItem", item);
 
         DetailedPageFragment detailedPageFragment = new DetailedPageFragment();
         detailedPageFragment.setArguments(bundle);

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
 /**
  * Created by regnisalram on 1/30/17.
@@ -23,11 +24,10 @@ public class DetailedPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.detailed_page_fragment, container, false);
 
-        String strtext = getArguments().getString("edttext");
+        NewsItem newsItem = (NewsItem) savedInstanceState.getSerializable("newsItem");
 
         article = (TextView) view.findViewById(R.id.description);
-        article.setText(strtext);
-
+        article.setText(newsItem.getDescription());
 
         return view;
     }
