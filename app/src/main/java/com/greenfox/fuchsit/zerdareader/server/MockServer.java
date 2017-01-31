@@ -6,10 +6,8 @@ import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Query;
 
 /**
  * Created by Zsuzska on 2017. 01. 20..
@@ -45,3 +43,5 @@ public class MockServer implements ReaderApiInterface {
         };
     }
 }
+
+
