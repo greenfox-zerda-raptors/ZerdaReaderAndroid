@@ -1,7 +1,5 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
