@@ -24,7 +24,7 @@ public class DetailedPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.detailed_page_fragment, container, false);
 
-        NewsItem newsItem = (NewsItem) savedInstanceState.getSerializable("newsItem");
+        NewsItem newsItem = (NewsItem) getArguments().getSerializable("newsItem");
 
         article = (TextView) view.findViewById(R.id.description);
         article.setText(newsItem.getDescription());
