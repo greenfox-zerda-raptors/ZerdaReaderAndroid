@@ -56,8 +56,6 @@ public class FeedFragment extends ListFragment {
 
     public void showNewsItems() {
 
-        //this is commented out because we will switch to this line when we'll use the real server
-//        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
         Call<ArrayList<NewsItem>> call = apiService.getNewsItems();
 
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
