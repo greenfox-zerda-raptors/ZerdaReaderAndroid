@@ -23,13 +23,12 @@ public class DetailedPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.detailed_page_fragment, container, false);
 
-        article = (TextView) view.findViewById(R.id.description);
+        String strtext = getArguments().getString("edttext");
 
-        showDescription();
+        article = (TextView) view.findViewById(R.id.description);
+        article.setText(strtext);
+
 
         return view;
-    }
-
-    private void showDescription() {
     }
 }

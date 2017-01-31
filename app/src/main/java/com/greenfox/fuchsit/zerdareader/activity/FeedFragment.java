@@ -66,7 +66,12 @@ public class FeedFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView feed, View view, int position, long id) {
         super.onListItemClick(feed, view, position, id);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("edttext", "From Activity");
+
         DetailedPageFragment detailedPageFragment = new DetailedPageFragment();
+        detailedPageFragment.setArguments(bundle);
         getActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, detailedPageFragment)
                 .addToBackStack(null)
