@@ -39,3 +39,5 @@ public class FeedAdapter extends ArrayAdapter<NewsItem> {
         return convertView;
     }
 }
+
+
