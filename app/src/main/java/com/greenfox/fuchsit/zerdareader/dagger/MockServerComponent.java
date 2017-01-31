@@ -1,7 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.dagger;
 
-import android.app.ListFragment;
-
+import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 
 import javax.inject.Singleton;
@@ -15,5 +14,5 @@ import dagger.Component;
 @Component(modules = {ReaderApiProvider.class})
 public interface MockServerComponent {
     void inject (LoginActivity loginActivity);
-    void inject (ListFragment feedFragment);
+    void inject (FeedFragment feedFragment);
 }
