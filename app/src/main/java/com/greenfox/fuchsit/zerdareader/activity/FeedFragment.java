@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
@@ -39,7 +40,6 @@ public class FeedFragment extends ListFragment {
         feed.setAdapter(adapter);
 
         showNewsItems();
-
         return view;
     }
 
