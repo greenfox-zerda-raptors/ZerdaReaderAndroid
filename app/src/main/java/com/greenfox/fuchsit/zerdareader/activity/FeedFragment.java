@@ -13,10 +13,14 @@ import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
+import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +35,9 @@ public class FeedFragment extends Fragment {
     ListView feed;
     FeedAdapter adapter;
 
+    @Inject
+    ReaderApiInterface apiService;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +48,8 @@ public class FeedFragment extends Fragment {
         adapter = new FeedAdapter(getActivity());
         feed.setAdapter(adapter);
 
+        DaggerMockServerComponent.builder().build().inject(this);
+
         showNewsItems();
 
         return view;
@@ -48,9 +57,6 @@ public class FeedFragment extends Fragment {
 
     public void showNewsItems() {
 
-        //this is commented out because we will switch to this line when we'll use the real server
-//        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
-        MockServer apiService = new MockServer();
         Call<ArrayList<NewsItem>> call = apiService.getNewsItems();
 
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
