@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
-import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import javax.inject.Inject;
@@ -31,11 +30,9 @@ public class LoginActivity extends AppCompatActivity {
 
     Button button;
     EditText editUserName, editPassword;
-
     TextView textView;
 
     String username, password;
-    ReaderApi api;
     @Inject
     ReaderApiInterface apiService;
 
