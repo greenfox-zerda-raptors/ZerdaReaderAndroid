@@ -76,8 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Toast.makeText(LoginActivity.this,"Saved",Toast.LENGTH_LONG).show();
 
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
+                loginWithCorrectData();
             }
 
             @Override
@@ -87,6 +86,17 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+    private void loginWithCorrectData() {
+        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(i);
+    }
+
+    private boolean isTextfieldsEmpty() {
+        return editUserName.getText().toString().equals("") || editPassword.getText().toString().equals("");
+    }
+
+    
 
     // toolbar methods:
 
