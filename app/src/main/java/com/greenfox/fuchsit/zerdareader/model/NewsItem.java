@@ -2,13 +2,14 @@ package com.greenfox.fuchsit.zerdareader.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Zsuzska on 2017. 01. 24..
  */
 
-public class NewsItem {
+public class NewsItem implements Serializable{
     @SerializedName("id")
     private long id;
     @SerializedName("title")

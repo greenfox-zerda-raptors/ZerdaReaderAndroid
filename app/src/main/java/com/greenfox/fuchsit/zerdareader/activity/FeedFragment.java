@@ -13,6 +13,7 @@ import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -67,8 +68,11 @@ public class FeedFragment extends ListFragment {
     public void onListItemClick(ListView feed, View view, int position, long id) {
         super.onListItemClick(feed, view, position, id);
 
+        NewsItem item = (NewsItem) feed.getItemAtPosition(position);
+//        savedInstanceState.putSerializable("edttext", item.getDescription());
+
         Bundle bundle = new Bundle();
-        bundle.putString("edttext", "From Activity");
+        bundle.putString("edttext", item.getDescription());
 
         DetailedPageFragment detailedPageFragment = new DetailedPageFragment();
         detailedPageFragment.setArguments(bundle);
