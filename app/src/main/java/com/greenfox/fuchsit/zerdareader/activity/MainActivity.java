@@ -1,5 +1,7 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -83,6 +85,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(loginIntent);
     }
 
+    public void addFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    }
+
     // toolbar methods:
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,6 +110,13 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.logout:
                 logOut();
+                break;
+            case R.id.manage_subscriptions:
+                //TODO
+                break;
+            case R.id.settings:
+                //TODO
+                break;
         }
         return true;
     }
