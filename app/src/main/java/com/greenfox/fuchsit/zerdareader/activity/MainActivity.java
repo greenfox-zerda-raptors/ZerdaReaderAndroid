@@ -64,11 +64,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkIfLoggedIn() {
         boolean islogin = sharedPreferences.getBoolean("isLogin", false);
-        if(!islogin) {
+        if (!islogin) {
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
             finish();
         }
+    }
+
+    public void logOut() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("userName", "");
+        editor.putString("password", "");
+        editor.apply();
+
+        Toast.makeText(this, "Successful logout", Toast.LENGTH_SHORT).show();
+
+        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(loginIntent);
     }
 
     // toolbar methods:
@@ -82,11 +94,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.refresh:
-                Toast.makeText(this,"Refreshed",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Refreshed", Toast.LENGTH_LONG).show();
+                break;
             case R.id.favorite:
-                Toast.makeText(this,"You must be my lucky star",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
+                break;
+            case R.id.logout:
+                logOut();
         }
         return true;
     }
