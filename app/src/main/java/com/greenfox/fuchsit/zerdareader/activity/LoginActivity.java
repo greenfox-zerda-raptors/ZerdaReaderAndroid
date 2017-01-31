@@ -96,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         return editUserName.getText().toString().equals("") || editPassword.getText().toString().equals("");
     }
 
-    
 
     // toolbar methods:
 
