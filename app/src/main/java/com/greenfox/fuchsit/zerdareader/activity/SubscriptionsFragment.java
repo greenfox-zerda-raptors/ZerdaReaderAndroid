@@ -14,13 +14,11 @@ import com.greenfox.fuchsit.zerdareader.R;
 
 public class SubscriptionsFragment extends Fragment {
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.subscriptions_fragment, container, false);
         return view;
     }
-
 
 }
 
