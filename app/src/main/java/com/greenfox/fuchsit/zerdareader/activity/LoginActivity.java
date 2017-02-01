@@ -78,8 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
 
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
 
             @Override

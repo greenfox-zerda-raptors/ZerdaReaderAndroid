@@ -65,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkIfLoggedIn() {
         boolean islogin = sharedPreferences.getBoolean("isLogin", false);
         if (!islogin) {
-            Intent i = new Intent(this, LoginActivity.class);
-            startActivity(i);
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
     }
@@ -79,8 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Successful logout", Toast.LENGTH_SHORT).show();
 
-        Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(loginIntent);
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
 
 
@@ -104,14 +102,10 @@ public class MainActivity extends AppCompatActivity {
                 logOut();
                 break;
             case R.id.manage_subscriptions:
-                Intent i = new Intent(this, ManageSubscriptionsActivity.class);
-                startActivity(i);
-                finish();
+                startActivity(new Intent(this, ManageSubscriptionsActivity.class));
                 break;
             case R.id.settings:
-                Intent j = new Intent(this, SettingsActivity.class);
-                startActivity(j);
-                finish();
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
         }
         return true;
