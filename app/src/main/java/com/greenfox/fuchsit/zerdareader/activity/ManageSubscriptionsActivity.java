@@ -34,3 +34,4 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
     }
 
 }
+
