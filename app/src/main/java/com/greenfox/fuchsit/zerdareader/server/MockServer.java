@@ -33,15 +33,20 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public MockCall<UserResponse> loginUser(String username, String password) {
+    public MockCall<UserResponse> loginUser(final String username, final String password) {
         return new MockCall<UserResponse>() {
             @Override
             public void enqueue(Callback<UserResponse> callback) {
+                checkUser(username, password);
+                
                 UserResponse userResponse = new UserResponse();
-                Response<UserResponse> r = Response.success(new UserResponse());
+                Response<UserResponse> r = Response.success(userResponse);
                 callback.onResponse(this, r);
             }
         };
+    }
+
+    private void checkUser(String username, String password) {
     }
 }
 
