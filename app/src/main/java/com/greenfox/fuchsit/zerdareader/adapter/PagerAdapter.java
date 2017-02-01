@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
-import com.greenfox.fuchsit.zerdareader.activity.TabFragment2;
 
 /**
  * Created by Zsuzska on 2017. 01. 30..
