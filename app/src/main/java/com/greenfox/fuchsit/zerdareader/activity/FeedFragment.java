@@ -40,6 +40,9 @@ public class FeedFragment extends Fragment {
     @Inject
     ReaderApiInterface apiService;
 
+    @Inject
+    ReaderApiInterface apiService;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +55,9 @@ public class FeedFragment extends Fragment {
         feed.setAdapter(adapter);
 
         DaggerMockServerComponent.builder().build().inject(this);
+
         tabNumber = getArguments().getInt("someInt", 0);
+
 
         showNewsItems();
 
@@ -68,6 +73,7 @@ public class FeedFragment extends Fragment {
         } else {
             call = apiService.getFavouriteNewsItems();
         }
+
 
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
