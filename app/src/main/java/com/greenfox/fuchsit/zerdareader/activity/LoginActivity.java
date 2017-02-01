@@ -35,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
 
     TextView textView;
 
-    String email, password;
     ReaderApi api;
     @Inject
     ReaderApiInterface apiService;
@@ -63,9 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) {
 
-        email = editEmail.getText().toString();
-        password = editPassword.getText().toString();
-        Call<UserResponse> call = apiService.loginUser(email, password);
+        Call<UserResponse> call = apiService.loginUser(editEmail.getText().toString(), editPassword.getText().toString());
 
         call.enqueue(new Callback<UserResponse>() {
             @Override
@@ -87,8 +84,8 @@ public class LoginActivity extends AppCompatActivity {
         loginData = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         final SharedPreferences.Editor editor = loginData.edit();
 
-        editor.putString("userName", email);
-        editor.putString("password", password);
+        editor.putString("userName", editEmail.getText().toString());
+        editor.putString("password", editPassword.getText().toString());
         editor.putBoolean("isLogin", true);
         editor.apply();
     }
@@ -99,11 +96,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isTextfieldsEmpty() {
-        return email.equals("") || password.equals("");
+        return editEmail.getText().toString().equals("") || editPassword.getText().toString().equals("");
     }
 
     private boolean isLoginDataCorrect() {
-        return email.equals(user.getEmail()) && password.equals(user.getPassword());
+        return editEmail.getText().toString().equals(user.getEmail()) && editPassword.getText().toString().equals(user.getPassword());
     }
 
     private void checkCredentialsAndLogIn() {
