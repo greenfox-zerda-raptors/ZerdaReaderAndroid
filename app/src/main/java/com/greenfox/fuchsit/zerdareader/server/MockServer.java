@@ -37,6 +37,7 @@ public class MockServer implements ReaderApiInterface {
         return new MockCall<UserResponse>() {
             @Override
             public void enqueue(Callback<UserResponse> callback) {
+                UserResponse userResponse = new UserResponse();
                 Response<UserResponse> r = Response.success(new UserResponse());
                 callback.onResponse(this, r);
             }
