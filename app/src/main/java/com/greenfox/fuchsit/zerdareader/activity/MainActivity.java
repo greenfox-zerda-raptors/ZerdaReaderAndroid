@@ -62,13 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         checkIfLoggedIn();
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        FeedFragment fragment = new FeedFragment();
-        fragmentTransaction.add(R.id.fragment_container, fragment);
-        fragmentTransaction.commit();
-
     }
 
     private void checkIfLoggedIn() {
@@ -100,3 +93,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 }
+
+
+

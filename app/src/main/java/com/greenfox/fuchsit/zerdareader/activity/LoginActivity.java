@@ -16,12 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
-import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-
-import javax.inject.Inject;
+import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,8 +34,6 @@ public class LoginActivity extends AppCompatActivity {
 
     String username, password;
     ReaderApi api;
-    @Inject
-    ReaderApiInterface apiService;
 
     SharedPreferences loginData;
 
@@ -53,11 +49,13 @@ public class LoginActivity extends AppCompatActivity {
         editUserName = (EditText) findViewById(R.id.userName);
         editPassword = (EditText) findViewById(R.id.password);
         button = (Button) findViewById(R.id.loginButton);
-
-       DaggerMockServerComponent.builder().build().inject(this);
     }
 
-    public void login(View view) {
+    public void login(View view){
+
+//        final ReaderApiInterface apiService = api.getClient().create(ReaderApiInterface.class);
+
+        MockServer apiService = new MockServer();
 
         username = editUserName.getText().toString();
         password = editPassword.getText().toString();
@@ -76,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putBoolean("isLogin", true);
                 editor.apply();
 
-                Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this,"Saved",Toast.LENGTH_LONG).show();
 
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(i);
@@ -101,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"You must be my lucky star",Toast.LENGTH_LONG).show();
         return true;
     }
 }

@@ -1,16 +1,14 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
@@ -43,6 +41,7 @@ public class FeedFragment extends ListFragment {
         feed.setAdapter(adapter);
 
         showNewsItems();
+
         return view;
     }
 
