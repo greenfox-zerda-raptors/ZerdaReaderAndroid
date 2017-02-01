@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -70,15 +71,19 @@ public class FeedFragment extends ListFragment {
 
         NewsItem item = (NewsItem) feed.getItemAtPosition(position);
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("newsItem", item);
+        Intent i = new Intent(getActivity(), DetailedPageActivity.class);
+        i.putExtra("newsItem", item);
+        startActivity(i);
 
-        DetailedPageFragment detailedPageFragment = new DetailedPageFragment();
-        detailedPageFragment.setArguments(bundle);
-        getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, detailedPageFragment)
-                .addToBackStack(null)
-                .commit();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("newsItem", item);
+//
+//        DetailedPageActivity detailedPageActivity = new DetailedPageActivity();
+//        detailedPageActivity.setArguments(bundle);
+//        getActivity().getFragmentManager().beginTransaction()
+//                .replace(R.id.pager, detailedPageActivity)
+//                .addToBackStack(null)
+//                .commit();
     }
 }
 

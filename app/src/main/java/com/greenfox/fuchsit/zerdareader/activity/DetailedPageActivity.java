@@ -1,8 +1,9 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,20 +16,19 @@ import com.greenfox.fuchsit.zerdareader.model.NewsItem;
  * Created by regnisalram on 1/30/17.
  */
 
-public class DetailedPageFragment extends Fragment {
+public class DetailedPageActivity extends AppCompatActivity {
 
     TextView article;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.detailed_page_fragment, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.detailed_page);
 
-        NewsItem newsItem = (NewsItem) getArguments().getSerializable("newsItem");
+        Intent i = getIntent();
+        NewsItem newsItem = (NewsItem) i.getSerializableExtra("newsItem");
 
-        article = (TextView) view.findViewById(R.id.description);
+        article = (TextView) findViewById(R.id.description);
         article.setText(newsItem.getDescription());
-
-        return view;
     }
 }
