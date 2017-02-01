@@ -74,16 +74,6 @@ public class FeedFragment extends ListFragment {
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);
         startActivity(i);
-
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("newsItem", item);
-//
-//        DetailedPageActivity detailedPageActivity = new DetailedPageActivity();
-//        detailedPageActivity.setArguments(bundle);
-//        getActivity().getFragmentManager().beginTransaction()
-//                .replace(R.id.pager, detailedPageActivity)
-//                .addToBackStack(null)
-//                .commit();
     }
 }
 
