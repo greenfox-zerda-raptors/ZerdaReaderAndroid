@@ -20,9 +20,8 @@ public class DetailedPageActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailed_page);
-
-        Intent i = getIntent();
-        NewsItem newsItem = (NewsItem) i.getSerializableExtra("newsItem");
+        
+        NewsItem newsItem = (NewsItem) getIntent().getSerializableExtra("newsItem");
 
         article = (TextView) findViewById(R.id.description);
         article.setText(newsItem.getDescription());
