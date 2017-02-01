@@ -72,11 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 UserResponse user = response.body();
 
-                saveDataToSharedPreferences();
-
-                Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
-
-                loginWithCorrectData();
+                checkCredentialsAndLogIn();
             }
 
             @Override
@@ -108,6 +104,19 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isLoginDataCorrect() {
         return email.equals(user.getEmail()) && password.equals(user.getPassword());
+    }
+
+    private void checkCredentialsAndLogIn() {
+        if (isTextfieldsEmpty()) {
+            Toast.makeText(this, "Please, fill in username/password.", Toast.LENGTH_LONG).show();
+        }
+        else if (!isLoginDataCorrect()) {
+            Toast.makeText(this, "Username/password is incorrect.", Toast.LENGTH_LONG).show();
+        } else {
+            saveDataToSharedPreferences();
+            Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
+            loginWithCorrectData();
+        }
     }
 
 
