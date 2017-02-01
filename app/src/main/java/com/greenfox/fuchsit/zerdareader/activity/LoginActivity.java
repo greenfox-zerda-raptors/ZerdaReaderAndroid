@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkCredentialsAndLogIn() {
         if (isTextfieldsEmpty()) {
-            Toast.makeText(this, "Please, fill in username/password.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please fill in username/password.", Toast.LENGTH_LONG).show();
         }
         else if (!isLoginDataCorrect()) {
             Toast.makeText(this, "Username/password is incorrect.", Toast.LENGTH_LONG).show();
