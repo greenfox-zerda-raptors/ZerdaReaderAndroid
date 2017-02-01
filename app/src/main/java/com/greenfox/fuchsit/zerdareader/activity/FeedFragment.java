@@ -40,9 +40,6 @@ public class FeedFragment extends Fragment {
     @Inject
     ReaderApiInterface apiService;
 
-    @Inject
-    ReaderApiInterface apiService;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
