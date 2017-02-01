@@ -1,4 +1,4 @@
-package com.greenfox.fuchsit.zerdareader;
+package com.greenfox.fuchsit.zerdareader.activityTests;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 
+import com.greenfox.fuchsit.zerdareader.BuildConfig;
+import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.activity.MainActivity;
 
 import org.junit.Before;
