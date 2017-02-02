@@ -16,6 +16,9 @@ import retrofit2.http.Query;
 
 public interface ReaderApiInterface {
 
+    @GET("/favorites")
+    Call<ArrayList<NewsItem>> getFavouriteNewsItems();
+
     @GET("/messages")
     Call<ArrayList<NewsItem>> getNewsItems();
 

@@ -1,12 +1,10 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -34,6 +32,7 @@ public class FeedFragment extends Fragment {
 
     ListView feed;
     FeedAdapter adapter;
+    int tabNumber;
 
     @Inject
     ReaderApiInterface apiService;
@@ -41,6 +40,7 @@ public class FeedFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.feed_fragment, container, false);
 
         feed = (ListView) view.findViewById(android.R.id.list);
@@ -50,6 +50,9 @@ public class FeedFragment extends Fragment {
 
         DaggerMockServerComponent.builder().build().inject(this);
 
+        tabNumber = getArguments().getInt("tabNumber", 1);
+
+
         showNewsItems();
 
         return view;
@@ -57,7 +60,14 @@ public class FeedFragment extends Fragment {
 
     public void showNewsItems() {
 
-        Call<ArrayList<NewsItem>> call = apiService.getNewsItems();
+        Call<ArrayList<NewsItem>> call;
+
+        if(tabNumber == 1) {
+            call = apiService.getNewsItems();
+        } else {
+            call = apiService.getFavouriteNewsItems();
+        }
+
 
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
@@ -70,6 +80,16 @@ public class FeedFragment extends Fragment {
 
             }
         });
+    }
+
+    public static FeedFragment newInstance(int tabNumber) {
+        FeedFragment myFragment = new FeedFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("tabNumber", tabNumber);
+        myFragment.setArguments(args);
+
+        return myFragment;
     }
 }
 

@@ -6,6 +6,7 @@ import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -14,6 +15,24 @@ import retrofit2.Response;
  */
 
 public class MockServer implements ReaderApiInterface {
+    @Override
+    public Call<ArrayList<NewsItem>> getFavouriteNewsItems() {
+        return new MockCall<ArrayList<NewsItem>>() {
+            @Override
+            public void enqueue(Callback<ArrayList<NewsItem>> callback) {
+                ArrayList<NewsItem> newsItems = new ArrayList<>();
+                newsItems.add(new NewsItem("Favourite 1", "you are my favourite"));
+                newsItems.add(new NewsItem("Favourite 2", "you are my favourite"));
+                newsItems.add(new NewsItem("Favourite 3", "you are my favourite"));
+                newsItems.add(new NewsItem("Favourite 4", "you are my favourite"));
+                newsItems.add(new NewsItem("Favourite 5", "you are my favourite"));
+                newsItems.add(new NewsItem("Favourite 6", "you are my favourite"));
+                Response<ArrayList<NewsItem>> r = Response.success(newsItems);
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
     @Override
     public MockCall<ArrayList<NewsItem>> getNewsItems() {
         return new MockCall<ArrayList<NewsItem>>() {
