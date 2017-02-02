@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 UserResponse user = response.body();
 
-                checkCredentialsAndLogIn();
+                checkCredentialsAndLogIn(user);
             }
 
             @Override
@@ -99,15 +99,15 @@ public class LoginActivity extends AppCompatActivity {
         return editEmail.getText().toString().equals("") || editPassword.getText().toString().equals("");
     }
 
-    private boolean isLoginDataCorrect() {
-        return editEmail.getText().toString().equals(user.getEmail()) && editPassword.getText().toString().equals(user.getPassword());
+    private boolean isLoginDataCorrect(String result) {
+        return result.equals("success");
     }
 
-    private void checkCredentialsAndLogIn() {
+    private void checkCredentialsAndLogIn(UserResponse user) {
         if (isTextfieldsEmpty()) {
             Toast.makeText(this, "Please fill in username/password.", Toast.LENGTH_LONG).show();
         }
-        else if (!isLoginDataCorrect()) {
+        else if (!isLoginDataCorrect(user.getResult())) {
             Toast.makeText(this, "Username/password is incorrect.", Toast.LENGTH_LONG).show();
         } else {
             saveDataToSharedPreferences();

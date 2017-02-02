@@ -25,6 +25,10 @@ public class UserResponse {
         this.token = token;
     }
 
+    public UserResponse(String result) {
+        this.result = result;
+    }
+
     public Long getId() {
         return id;
     }
