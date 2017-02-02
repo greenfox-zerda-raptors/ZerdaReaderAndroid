@@ -24,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        checkIfLoggedIn();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -48,19 +52,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
-
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        checkIfLoggedIn();
 
     }
 

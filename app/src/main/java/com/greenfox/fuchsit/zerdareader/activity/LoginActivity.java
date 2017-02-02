@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         editPassword = (EditText) findViewById(R.id.password);
         button = (Button) findViewById(R.id.loginButton);
 
-       DaggerMockServerComponent.builder().build().inject(this);
+        DaggerMockServerComponent.builder().build().inject(this);
     }
 
     public void login(View view) {
