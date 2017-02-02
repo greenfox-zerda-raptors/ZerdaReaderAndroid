@@ -1,16 +1,22 @@
 package com.greenfox.fuchsit.zerdareader.activityTests;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 import com.greenfox.fuchsit.zerdareader.activity.MainActivity;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +29,10 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowListView;
 
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
@@ -66,6 +75,22 @@ public class MainActivityTest {
         ViewPager viewPager = (ViewPager) mActivity.findViewById(R.id.pager);
 
         assertNotNull(viewPager);
+    }
+
+    @Test
+    public void testNavigateToLogin() throws Exception {
+        MainActivity mActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
+        assertEquals(LoginActivity.class.getName(), shadowOf(mActivity).getNextStartedActivity().getComponent().getClassName());
+    }
+
+    @Test void testSharedPrefEmptiedAfterLogout() throws Exception {
+        MainActivity mActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
+        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.my_toolbar);
+        ShadowActivity shadowActivity = shadowOf(mActivity);
+        shadowActivity.onCreateOptionsMenu(toolbar.getMenu());
+        MenuItem item = shadowActivity.getOptionsMenu().findItem(R.id.logout);
+
+
     }
 
 }
