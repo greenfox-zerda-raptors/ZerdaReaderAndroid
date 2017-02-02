@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.model.User;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
@@ -29,14 +30,19 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     Button button;
-    EditText editUserName, editPassword;
+
+    EditText editEmail, editPassword;
     TextView textView;
 
     String username, password;
+
     @Inject
     ReaderApiInterface apiService;
 
     SharedPreferences loginData;
+
+    UserResponse userResponse;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,36 +53,23 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
 
         textView = (TextView) findViewById(R.id.loginTitle);
-        editUserName = (EditText) findViewById(R.id.userName);
+        editEmail = (EditText) findViewById(R.id.userName);
         editPassword = (EditText) findViewById(R.id.password);
         button = (Button) findViewById(R.id.loginButton);
 
-       DaggerMockServerComponent.builder().build().inject(this);
+        DaggerMockServerComponent.builder().build().inject(this);
     }
 
     public void login(View view) {
 
-        username = editUserName.getText().toString();
-        password = editPassword.getText().toString();
-        Call<UserResponse> call = apiService.loginUser(username, password);
+        Call<UserResponse> call = apiService.loginUser(editEmail.getText().toString(), editPassword.getText().toString());
 
         call.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 UserResponse user = response.body();
 
-                loginData = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                final SharedPreferences.Editor editor = loginData.edit();
-
-                editor.putString("userName", username);
-                editor.putString("password", password);
-                editor.putBoolean("isLogin", true);
-                editor.apply();
-
-                Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
-
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
+                checkCredentialsAndLogIn();
             }
 
             @Override
@@ -86,6 +79,43 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+    private void saveDataToSharedPreferences() {
+        loginData = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        final SharedPreferences.Editor editor = loginData.edit();
+
+        editor.putString("userName", editEmail.getText().toString());
+        editor.putString("password", editPassword.getText().toString());
+        editor.putBoolean("isLogin", true);
+        editor.apply();
+    }
+
+    private void loginWithCorrectData() {
+        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(i);
+    }
+
+    private boolean isTextfieldsEmpty() {
+        return editEmail.getText().toString().equals("") || editPassword.getText().toString().equals("");
+    }
+
+    private boolean isLoginDataCorrect() {
+        return editEmail.getText().toString().equals(user.getEmail()) && editPassword.getText().toString().equals(user.getPassword());
+    }
+
+    private void checkCredentialsAndLogIn() {
+        if (isTextfieldsEmpty()) {
+            Toast.makeText(this, "Please fill in username/password.", Toast.LENGTH_LONG).show();
+        }
+        else if (!isLoginDataCorrect()) {
+            Toast.makeText(this, "Username/password is incorrect.", Toast.LENGTH_LONG).show();
+        } else {
+            saveDataToSharedPreferences();
+            Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
+            loginWithCorrectData();
+        }
+    }
+
 
     // toolbar methods:
 
