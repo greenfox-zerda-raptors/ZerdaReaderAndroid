@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,11 +30,14 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     Button button;
+
     EditText editEmail, editPassword;
 
-    TextView textView;
-
     ReaderApi api;
+
+    
+    TextView textView;
+    
     @Inject
     ReaderApiInterface apiService;
 
@@ -49,8 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
 
         textView = (TextView) findViewById(R.id.loginTitle);
         editEmail = (EditText) findViewById(R.id.userName);
@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+
 
     private void saveDataToSharedPreferences() {
         loginData = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
@@ -133,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
         return true;
     }
+
 }
 
 
