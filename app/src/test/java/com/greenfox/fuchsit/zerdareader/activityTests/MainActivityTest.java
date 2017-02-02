@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
 import com.greenfox.fuchsit.zerdareader.R;
@@ -16,9 +18,12 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
+import org.robolectric.shadows.ShadowListView;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
@@ -58,8 +63,9 @@ public class MainActivityTest {
         sharedPreferences.edit().putBoolean("isLogin", true).apply();
 
         MainActivity mActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
-        mActivity.findViewById(R.id.);
+        ViewPager viewPager = (ViewPager) mActivity.findViewById(R.id.pager);
+
+        assertNotNull(viewPager);
     }
 
-    
 }
