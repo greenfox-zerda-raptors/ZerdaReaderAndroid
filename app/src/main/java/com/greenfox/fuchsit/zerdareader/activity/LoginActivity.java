@@ -62,6 +62,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) {
 
+        if (isTextfieldsEmpty()) {
+            Toast.makeText(this, "Please fill in username/password.", Toast.LENGTH_LONG).show();
+        }
+
         Call<UserResponse> call = apiService.loginUser(editEmail.getText().toString(), editPassword.getText().toString());
 
         call.enqueue(new Callback<UserResponse>() {
@@ -104,10 +108,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkCredentialsAndLogIn() {
-        if (isTextfieldsEmpty()) {
-            Toast.makeText(this, "Please fill in username/password.", Toast.LENGTH_LONG).show();
-        }
-        else if (!isLoginDataCorrect()) {
+        if (!isLoginDataCorrect()) {
             Toast.makeText(this, "Username/password is incorrect.", Toast.LENGTH_LONG).show();
         } else {
             saveDataToSharedPreferences();
