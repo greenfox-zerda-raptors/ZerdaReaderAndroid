@@ -20,6 +20,7 @@ import com.greenfox.fuchsit.zerdareader.model.User;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import javax.inject.Inject;
 
@@ -31,13 +32,15 @@ public class LoginActivity extends AppCompatActivity {
 
     Button button;
 
+    String username, password;
+
     EditText editEmail, editPassword;
 
     ReaderApi api;
 
     
     TextView textView;
-    
+
     @Inject
     ReaderApiInterface apiService;
 
@@ -57,10 +60,10 @@ public class LoginActivity extends AppCompatActivity {
         editPassword = (EditText) findViewById(R.id.password);
         button = (Button) findViewById(R.id.loginButton);
 
-       DaggerMockServerComponent.builder().build().inject(this);
+        DaggerMockServerComponent.builder().build().inject(this);
     }
 
-    public void login(View view) {
+    public void login(View view){
 
         if (isTextfieldsEmpty()) {
             Toast.makeText(this, "Please fill in username/password.", Toast.LENGTH_LONG).show();
@@ -78,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                Toast.makeText(LoginActivity.this,"Saved",Toast.LENGTH_LONG).show();
 
                 }
             });
@@ -134,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
         return true;
     }
-
 }
 
 
