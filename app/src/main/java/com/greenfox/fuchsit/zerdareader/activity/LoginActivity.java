@@ -5,10 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,8 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
 
         textView = (TextView) findViewById(R.id.loginTitle);
         editUserName = (EditText) findViewById(R.id.userName);
@@ -75,8 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
 
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
 
             @Override
@@ -87,20 +80,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    // toolbar methods:
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.my_toolbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
-        return true;
-    }
 }
 
 

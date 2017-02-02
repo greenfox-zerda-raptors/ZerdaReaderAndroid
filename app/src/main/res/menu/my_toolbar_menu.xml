@@ -13,7 +13,14 @@
         android:id="@+id/favorite"
         android:icon="@drawable/ic_star"
         android:title="@string/favorite"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/back"
+        android:icon="@drawable/ic_back_button"
+        android:title="@string/back"
+        app:showAsAction="always"/>
+
 
     <item
         android:id="@+id/manage_subscriptions"
@@ -21,7 +28,7 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/Settings"
+        android:id="@+id/settings"
         android:title="@string/settings"
         app:showAsAction="never"/>
 
