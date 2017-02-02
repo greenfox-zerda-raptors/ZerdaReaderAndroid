@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 import com.greenfox.fuchsit.zerdareader.activity.MainActivity;
 
@@ -83,14 +84,21 @@ public class MainActivityTest {
         assertEquals(LoginActivity.class.getName(), shadowOf(mActivity).getNextStartedActivity().getComponent().getClassName());
     }
 
-    @Test void testSharedPrefEmptiedAfterLogout() throws Exception {
+    @Test
+    public void testSharedPrefEmptiedAfterLogout() throws Exception {
+        sharedPreferences.edit().putString("username", "12345").apply();
+        sharedPreferences.edit().putString("password", "12345").apply();
+
         MainActivity mActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
         Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.my_toolbar);
         ShadowActivity shadowActivity = shadowOf(mActivity);
         shadowActivity.onCreateOptionsMenu(toolbar.getMenu());
-        MenuItem item = shadowActivity.getOptionsMenu().findItem(R.id.logout);
+        shadowActivity.clickMenuItem(R.id.logout);
+//        MenuItem item = shadowActivity.getOptionsMenu().findItem(R.id.logout);
+//        mActivity.onOptionsItemSelected(item);
 
-
+        assertEquals("", sharedPreferences.getString("username", "default"));
+        assertEquals("", sharedPreferences.getString("password", "default"));
     }
 
 }
