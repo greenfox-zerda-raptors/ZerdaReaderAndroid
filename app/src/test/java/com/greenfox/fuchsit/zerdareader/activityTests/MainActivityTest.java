@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activityTests;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -8,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
 import com.greenfox.fuchsit.zerdareader.R;
-import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.activity.MainActivity;
 
 import org.junit.Before;
@@ -20,9 +20,9 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
-import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFragment;
 
 /**
  * Created by Anna on 17/02/01.
@@ -32,24 +32,16 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 public class MainActivityTest {
 
-    private static MainActivity mActivity;
     private SharedPreferences sharedPreferences;
-
-    @Before
-    public void setMainActivity() {
-        if (mActivity == null) {
-            mActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
-        }
-    }
 
     @Before
     public void setupSharedPreference() {
         Context context = RuntimeEnvironment.application.getApplicationContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
-
     @Test
     public void testMenu() throws Exception {
+        MainActivity mActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
         Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.my_toolbar);
         ShadowActivity shadowActivity = shadowOf(mActivity);
 
@@ -63,10 +55,10 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testIfSharedPrefContainsUserListAppears() throws Exception {
+    public void testIfSharedPrefContainsUser() throws Exception {
         sharedPreferences.edit().putString("testId", "12345").apply();
         sharedPreferences.edit().putBoolean("isLogin", true).apply();
-
+        assertTrue(sharedPreferences.getBoolean("isLogin", false));
     }
 
     
