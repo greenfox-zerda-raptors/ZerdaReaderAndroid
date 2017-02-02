@@ -10,16 +10,18 @@ public class UserResponse {
     @SerializedName("id")
     private Long id;
     @SerializedName("result")
-    private boolean success;
+    private String result;
     @SerializedName("token")
     private String token;
+    @SerializedName("message")
+    private String message;
 
     public UserResponse() {
     }
 
-    public UserResponse(Long id, boolean success, String token) {
+    public UserResponse(Long id, String result, String token) {
         this.id = id;
-        this.success = success;
+        this.result = result;
         this.token = token;
     }
 
@@ -31,14 +33,6 @@ public class UserResponse {
         this.id = id;
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
     public String getToken() {
         return token;
     }
@@ -46,8 +40,23 @@ public class UserResponse {
     public void setToken(String token) {
         this.token = token;
     }
-}
 
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+}
 
 
 

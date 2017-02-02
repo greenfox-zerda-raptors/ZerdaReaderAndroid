@@ -15,7 +15,6 @@ import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import java.util.ArrayList;
 
@@ -33,6 +32,7 @@ public class FeedFragment extends ListFragment {
 
     ListView feed;
     FeedAdapter adapter;
+    int tabNumber;
 
     @Inject
     ReaderApiInterface apiService;
@@ -40,6 +40,7 @@ public class FeedFragment extends ListFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.feed_fragment, container, false);
 
         feed = (ListView) view.findViewById(android.R.id.list);
@@ -49,6 +50,9 @@ public class FeedFragment extends ListFragment {
 
         DaggerMockServerComponent.builder().build().inject(this);
 
+        tabNumber = getArguments().getInt("tabNumber", 1);
+
+
         showNewsItems();
 
         return view;
@@ -56,7 +60,14 @@ public class FeedFragment extends ListFragment {
 
     public void showNewsItems() {
 
-        Call<ArrayList<NewsItem>> call = apiService.getNewsItems();
+        Call<ArrayList<NewsItem>> call;
+
+        if(tabNumber == 1) {
+            call = apiService.getNewsItems();
+        } else {
+            call = apiService.getFavouriteNewsItems();
+        }
+
 
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
@@ -80,6 +91,17 @@ public class FeedFragment extends ListFragment {
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);
         startActivity(i);
+    }
+
+    public static FeedFragment newInstance(int tabNumber) {
+        FeedFragment myFragment = new FeedFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("tabNumber", tabNumber);
+        myFragment.setArguments(args);
+
+        return myFragment;
+
     }
 }
 
