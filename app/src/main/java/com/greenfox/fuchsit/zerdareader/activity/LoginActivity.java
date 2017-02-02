@@ -5,10 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +15,6 @@ import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.User;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
-import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import javax.inject.Inject;
@@ -31,11 +26,16 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     Button button;
+
     EditText editEmail, editPassword;
 
     TextView textView;
 
     ReaderApi api;
+
+    
+    TextView textView;
+    
     @Inject
     ReaderApiInterface apiService;
 
@@ -49,8 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
 
         textView = (TextView) findViewById(R.id.loginTitle);
         editEmail = (EditText) findViewById(R.id.userName);
@@ -73,7 +71,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 UserResponse user = response.body();
 
-                checkCredentialsAndLogIn();
+
+                checkCredentialsAndLogIn();                           
             }
 
             @Override
@@ -83,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
 
     private void saveDataToSharedPreferences() {
         loginData = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
@@ -132,6 +132,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
         return true;
     }
+
 }
 
 
