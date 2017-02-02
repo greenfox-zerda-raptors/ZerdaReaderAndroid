@@ -53,7 +53,7 @@ public class FeedFragment extends Fragment {
 
         DaggerMockServerComponent.builder().build().inject(this);
 
-        tabNumber = getArguments().getInt("someInt", 0);
+        tabNumber = getArguments().getInt("tabNumber", 1);
 
 
         showNewsItems();
@@ -65,7 +65,7 @@ public class FeedFragment extends Fragment {
 
         Call<ArrayList<NewsItem>> call;
 
-        if(tabNumber == 0) {
+        if(tabNumber == 1) {
             call = apiService.getNewsItems();
         } else {
             call = apiService.getFavouriteNewsItems();
@@ -85,11 +85,11 @@ public class FeedFragment extends Fragment {
         });
     }
 
-    public static FeedFragment newInstance(int someInt) {
+    public static FeedFragment newInstance(int tabNumber) {
         FeedFragment myFragment = new FeedFragment();
 
         Bundle args = new Bundle();
-        args.putInt("someInt", someInt);
+        args.putInt("tabNumber", tabNumber);
         myFragment.setArguments(args);
 
         return myFragment;

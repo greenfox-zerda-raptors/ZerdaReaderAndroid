@@ -23,10 +23,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                FeedFragment tab1 = FeedFragment.newInstance(0);
+                FeedFragment tab1 = FeedFragment.newInstance(1);
                 return tab1;
             case 1:
-                FeedFragment tab2 = FeedFragment.newInstance(1);
+                FeedFragment tab2 = FeedFragment.newInstance(2);
                 return tab2;
             default:
                 return null;
