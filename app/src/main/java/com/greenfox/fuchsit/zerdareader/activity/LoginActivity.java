@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
-import com.greenfox.fuchsit.zerdareader.model.User;
+import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences loginData;
 
     UserResponse userResponse;
-    User user;
+    LoginRequest loginRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +115,7 @@ public class LoginActivity extends AppCompatActivity {
             loginWithCorrectData();
         }
     }
-
-
+    
     // toolbar methods:
 
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Anna on 17/01/16.
  */
-public class User {
+public class LoginRequest {
 
     @SerializedName("email")
     private String email;
     @SerializedName("password")
     private String password;
 
-    public User() {
+    public LoginRequest() {
     }
 
-    public User(String email, String password) {
+    public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
