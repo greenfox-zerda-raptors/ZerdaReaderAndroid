@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +18,7 @@ import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
+import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import javax.inject.Inject;
@@ -30,18 +30,14 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     Button button;
-
     EditText editEmail, editPassword;
     TextView textView;
-
-    String username, password;
 
     @Inject
     ReaderApiInterface apiService;
 
     SharedPreferences loginData;
 
-    UserResponse userResponse;
     LoginRequest loginRequest;
 
     @Override
@@ -49,8 +45,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
 
         textView = (TextView) findViewById(R.id.loginTitle);
         editEmail = (EditText) findViewById(R.id.userName);
@@ -62,23 +56,29 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) {
 
-        Call<UserResponse> call = apiService.loginUser(editEmail.getText().toString(), editPassword.getText().toString());
+        if (isTextfieldsEmpty()) {
+            Toast.makeText(this, "Please fill in username/password.", Toast.LENGTH_LONG).show();
+        } else {
 
-        call.enqueue(new Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                UserResponse user = response.body();
+            loginRequest = new LoginRequest(editEmail.getText().toString(), editPassword.getText().toString());
+            Call<UserResponse> call = apiService.loginUser(loginRequest);
 
-                checkCredentialsAndLogIn(user);
-            }
+            call.enqueue(new Callback<UserResponse>() {
+                @Override
+                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                    UserResponse userResponse = response.body();
 
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+                    checkCredentialsAndLogIn(userResponse);
+                }
 
-            }
-        });
+                @Override
+                public void onFailure(Call<UserResponse> call, Throwable t) {
 
+                }
+            });
+        }
     }
+
 
     private void saveDataToSharedPreferences() {
         loginData = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
@@ -103,11 +103,8 @@ public class LoginActivity extends AppCompatActivity {
         return result.equals("success");
     }
 
-    private void checkCredentialsAndLogIn(UserResponse user) {
-        if (isTextfieldsEmpty()) {
-            Toast.makeText(this, "Please fill in username/password.", Toast.LENGTH_LONG).show();
-        }
-        else if (!isLoginDataCorrect(user.getResult())) {
+    private void checkCredentialsAndLogIn(UserResponse userResponse) {
+        if (!isLoginDataCorrect(userResponse.getResult())) {
             Toast.makeText(this, "Username/password is incorrect.", Toast.LENGTH_LONG).show();
         } else {
             saveDataToSharedPreferences();
@@ -130,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
         return true;
     }
+
 }
 
 

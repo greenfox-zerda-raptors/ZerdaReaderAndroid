@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.rest;
 
+import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 
@@ -16,12 +17,15 @@ import retrofit2.http.Query;
 
 public interface ReaderApiInterface {
 
+    @GET("/favorites")
+    Call<ArrayList<NewsItem>> getFavouriteNewsItems();
+
     @GET("/messages")
     Call<ArrayList<NewsItem>> getNewsItems();
 
     @POST("user/login")
-    Call<UserResponse> loginUser(@Query("username") String username,
-                                 @Query("password") String password);
+    Call<UserResponse> loginUser(LoginRequest loginRequest);
+
 }
 
 

@@ -1,11 +1,13 @@
 package com.greenfox.fuchsit.zerdareader.server;
 
+import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -14,6 +16,24 @@ import retrofit2.Response;
  */
 
 public class MockServer implements ReaderApiInterface {
+    @Override
+    public Call<ArrayList<NewsItem>> getFavouriteNewsItems() {
+        return new MockCall<ArrayList<NewsItem>>() {
+            @Override
+            public void enqueue(Callback<ArrayList<NewsItem>> callback) {
+                ArrayList<NewsItem> newsItems = new ArrayList<>();
+                newsItems.add(new NewsItem("Favourite 1", "you are my favourite"));
+                newsItems.add(new NewsItem("Favourite 2", "you are my favourite"));
+                newsItems.add(new NewsItem("Favourite 3", "you are my favourite"));
+                newsItems.add(new NewsItem("Favourite 4", "you are my favourite"));
+                newsItems.add(new NewsItem("Favourite 5", "you are my favourite"));
+                newsItems.add(new NewsItem("Favourite 6", "you are my favourite"));
+                Response<ArrayList<NewsItem>> r = Response.success(newsItems);
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
     @Override
     public MockCall<ArrayList<NewsItem>> getNewsItems() {
         return new MockCall<ArrayList<NewsItem>>() {
@@ -33,20 +53,20 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public MockCall<UserResponse> loginUser(final String email, final String password) {
+    public MockCall<UserResponse> loginUser(final LoginRequest loginRequest) {
         return new MockCall<UserResponse>() {
             @Override
             public void enqueue(Callback<UserResponse> callback) {
 
-                Response<UserResponse> r = Response.success(checkUser(email, password));
+                Response<UserResponse> r = Response.success(checkUser(loginRequest));
                 callback.onResponse(this, r);
             }
         };
     }
 
-    private UserResponse checkUser(String email, String password) {
+    private UserResponse checkUser(LoginRequest loginRequest) {
         UserResponse userResponse;
-        if (email.equals("admin") && password.equals("fuchsit")) {
+        if (loginRequest.getEmail().equals("admin") && loginRequest.getPassword().equals("fuchsit")) {
             userResponse = new UserResponse("success");
         } else {
             userResponse = new UserResponse("fail");
