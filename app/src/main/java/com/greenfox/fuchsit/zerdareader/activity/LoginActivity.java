@@ -21,7 +21,6 @@ import com.greenfox.fuchsit.zerdareader.model.User;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import javax.inject.Inject;
 
@@ -62,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         editEmail = (EditText) findViewById(R.id.userName);
         editPassword = (EditText) findViewById(R.id.password);
         button = (Button) findViewById(R.id.loginButton);
-        til = (TextInputLayout) findViewById(R.id.text_input_layout);
+        til = (TextInputLayout) findViewById(R.id.error_text);
 
         DaggerMockServerComponent.builder().build().inject(this);
     }
