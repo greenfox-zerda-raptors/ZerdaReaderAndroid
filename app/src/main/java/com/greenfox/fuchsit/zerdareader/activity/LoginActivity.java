@@ -64,23 +64,24 @@ public class LoginActivity extends AppCompatActivity {
 
         if (isTextfieldsEmpty()) {
             Toast.makeText(this, "Please fill in username/password.", Toast.LENGTH_LONG).show();
+        } else {
+
+            Call<UserResponse> call = apiService.loginUser(editEmail.getText().toString(), editPassword.getText().toString());
+
+            call.enqueue(new Callback<UserResponse>() {
+                @Override
+                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                    UserResponse user = response.body();
+
+                    checkCredentialsAndLogIn();
+                }
+
+                @Override
+                public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                }
+            });
         }
-
-        Call<UserResponse> call = apiService.loginUser(editEmail.getText().toString(), editPassword.getText().toString());
-
-        call.enqueue(new Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                UserResponse user = response.body();
-
-                checkCredentialsAndLogIn();
-            }
-
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-
-            }
-        });
 
     }
 
