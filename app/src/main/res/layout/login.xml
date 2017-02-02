@@ -5,7 +5,7 @@
     android:id="@+id/login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.greenfox.fuchsit.zerdareader.activity.HelloWorldActivity">
+    tools:context="com.greenfox.fuchsit.zerdareader.activity.LoginActivity">
 
     <RelativeLayout
         android:orientation="vertical"
@@ -74,6 +74,15 @@
             android:layout_below="@+id/password"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            android:layout_below="@id/loginButton">
+
+        </android.support.design.widget.TextInputLayout>
 
     </RelativeLayout>
 
