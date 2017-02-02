@@ -1,6 +1,5 @@
 package com.greenfox.fuchsit.zerdareader.activityTests;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -20,7 +19,6 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
@@ -58,7 +56,9 @@ public class MainActivityTest {
     public void testIfSharedPrefContainsUser() throws Exception {
         sharedPreferences.edit().putString("testId", "12345").apply();
         sharedPreferences.edit().putBoolean("isLogin", true).apply();
-        assertTrue(sharedPreferences.getBoolean("isLogin", false));
+
+        MainActivity mActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
+        mActivity.findViewById(R.id.);
     }
 
     
