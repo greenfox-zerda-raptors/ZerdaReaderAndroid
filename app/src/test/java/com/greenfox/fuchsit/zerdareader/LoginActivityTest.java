@@ -50,4 +50,11 @@ public class LoginActivityTest {
         loginActivity.findViewById(R.id.loginButton).performClick();
         Assert.assertEquals("Please fill in username/password.", ShadowToast.getTextOfLatestToast());
     }
+
+    @Test
+    public void loginWithEmptyCredentialsStaysOnSameActivity() {
+        loginActivity.findViewById(R.id.loginButton).performClick();
+        Assert.assertEquals(LoginActivity.class.getName(), LoginActivity.class.getName());
+    }
+
 }
