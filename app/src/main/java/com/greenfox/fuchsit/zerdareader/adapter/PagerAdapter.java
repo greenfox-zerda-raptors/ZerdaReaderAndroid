@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
-import com.greenfox.fuchsit.zerdareader.activity.TabFragment2;
 
 /**
  * Created by Zsuzska on 2017. 01. 30..
@@ -24,10 +23,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                FeedFragment tab1 = new FeedFragment();
+                FeedFragment tab1 = FeedFragment.newInstance(1);
                 return tab1;
             case 1:
-                TabFragment2 tab2 = new TabFragment2();
+                FeedFragment tab2 = FeedFragment.newInstance(2);
                 return tab2;
             default:
                 return null;
