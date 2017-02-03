@@ -86,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_toolbar_menu, menu);
+        MenuItem starItem = menu.findItem(R.id.favorite);
+        starItem.setVisible(false);
+        MenuItem backItem = menu.findItem(R.id.back);
+        backItem.setVisible(false);
         return true;
     }
 

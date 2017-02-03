@@ -22,6 +22,8 @@ public class SettingsActivity extends AppCompatActivity {
         TextView settingsBack = (TextView) findViewById(R.id.settingsTextView);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar.setTitle("Feed");
+        myToolbar.setSubtitle("Back to your feed");
         setSupportActionBar(myToolbar);
     }
 

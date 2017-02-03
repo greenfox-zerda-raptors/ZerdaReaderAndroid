@@ -23,6 +23,8 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
 
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar.setTitle("Feed");
+        myToolbar.setSubtitle("Back to your feed");
         setSupportActionBar(myToolbar);
     }
 
