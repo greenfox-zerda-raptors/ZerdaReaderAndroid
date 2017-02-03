@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
-import com.greenfox.fuchsit.zerdareader.model.User;
+import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
@@ -32,13 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Button button;
 
-    String username, password;
-
     EditText editEmail, editPassword;
-
-    ReaderApi api;
-
-    
     TextView textView;
 
     TextInputLayout til;
@@ -48,8 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
     SharedPreferences loginData;
 
-    UserResponse userResponse;
-    User user;
+    LoginRequest loginRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +65,15 @@ public class LoginActivity extends AppCompatActivity {
             til.setError("Please fill in username and password");
         } else {
 
-            Call<UserResponse> call = apiService.loginUser(editEmail.getText().toString(), editPassword.getText().toString());
+            loginRequest = new LoginRequest(editEmail.getText().toString(), editPassword.getText().toString());
+            Call<UserResponse> call = apiService.loginUser(loginRequest);
 
             call.enqueue(new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                    UserResponse user = response.body();
+                    UserResponse userResponse = response.body();
 
-                    checkCredentialsAndLogIn();
+                    checkCredentialsAndLogIn(userResponse);
                 }
 
                 @Override
@@ -90,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
 
@@ -113,22 +106,20 @@ public class LoginActivity extends AppCompatActivity {
         return editEmail.getText().toString().equals("") || editPassword.getText().toString().equals("");
     }
 
-    private boolean isLoginDataCorrect() {
-        return editEmail.getText().toString().equals(user.getEmail()) && editPassword.getText().toString().equals(user.getPassword());
+    private boolean isLoginDataCorrect(String result) {
+        return result.equals("success");
     }
 
-    private void checkCredentialsAndLogIn() {
-        if (!isLoginDataCorrect()) {
+    private void checkCredentialsAndLogIn(UserResponse userResponse) {
+        if (!isLoginDataCorrect(userResponse.getResult())) {
             til.setError("Username or password is incorrect");
-
         } else {
             saveDataToSharedPreferences();
             Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
             loginWithCorrectData();
         }
     }
-
-
+    
     // toolbar methods:
 
     public boolean onCreateOptionsMenu(Menu menu) {
