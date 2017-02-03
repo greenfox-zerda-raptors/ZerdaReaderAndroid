@@ -1,14 +1,12 @@
 package com.greenfox.fuchsit.zerdareader.activityTests;
 
+import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
@@ -16,8 +14,7 @@ import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 import com.greenfox.fuchsit.zerdareader.activity.MainActivity;
-
-import junit.framework.Assert;
+import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,17 +22,16 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
-import org.robolectric.shadows.ShadowListView;
 
-import static org.hamcrest.core.IsEqual.equalTo;
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
+import static org.robolectric.util.FragmentTestUtil.startFragment;
 
 /**
  * Created by Anna on 17/02/01.
@@ -52,6 +48,7 @@ public class MainActivityTest {
         Context context = RuntimeEnvironment.application.getApplicationContext();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
+
     @Test
     public void testMenu() throws Exception {
         MainActivity mActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
@@ -75,7 +72,13 @@ public class MainActivityTest {
         MainActivity mActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
         ViewPager viewPager = (ViewPager) mActivity.findViewById(R.id.pager);
 
-        assertNotNull(viewPager);
+        assertNotNull(viewPager.getCurrentItem());
+    }
+
+    @Test
+    public void testFragmentIsNotNull() throws Exception {
+        FeedFragment fragment = FeedFragment.newInstance(1);
+        assertNotNull(fragment);
     }
 
     @Test
@@ -94,11 +97,8 @@ public class MainActivityTest {
         ShadowActivity shadowActivity = shadowOf(mActivity);
         shadowActivity.onCreateOptionsMenu(toolbar.getMenu());
         shadowActivity.clickMenuItem(R.id.logout);
-//        MenuItem item = shadowActivity.getOptionsMenu().findItem(R.id.logout);
-//        mActivity.onOptionsItemSelected(item);
 
         assertEquals("", sharedPreferences.getString("username", "default"));
         assertEquals("", sharedPreferences.getString("password", "default"));
     }
-
 }
