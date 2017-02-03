@@ -1,26 +1,25 @@
 package com.greenfox.fuchsit.zerdareader;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
+import com.greenfox.fuchsit.zerdareader.activity.MainActivity;
 
 import junit.framework.Assert;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
-import org.robolectric.shadows.ShadowApplication;
 import org.robolectric.shadows.ShadowToast;
 
+import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
@@ -40,8 +39,8 @@ public class LoginActivityTest {
 
     @Before
     public void setUp() throws Exception {
-        loginActivity = Robolectric.buildActivity(LoginActivity.class).create().visible().get();
-        editEmail = (EditText) loginActivity.findViewById(R.id.userName);
+        loginActivity = Robolectric.buildActivity(LoginActivity.class).create().get();
+        editEmail = (EditText) loginActivity.findViewById(R.id.email);
         editPassword = (EditText) loginActivity.findViewById(R.id.password);
     }
 
@@ -55,6 +54,16 @@ public class LoginActivityTest {
     public void loginWithEmptyCredentialsStaysOnSameActivity() {
         loginActivity.findViewById(R.id.loginButton).performClick();
         Assert.assertEquals(LoginActivity.class.getName(), LoginActivity.class.getName());
+    }
+
+    @Test
+    public void loginWithCorrectDataOpensNextActivity() {
+        editEmail.setText("admin");
+        editPassword.setText("fuchsit");
+
+        loginActivity.findViewById(R.id.loginButton).performClick();
+
+        Assert.assertEquals(MainActivity.class.getName(), shadowOf(loginActivity).getNextStartedActivity().getComponent().getClassName());
     }
 
 }
