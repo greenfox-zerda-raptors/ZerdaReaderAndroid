@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/back"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav"
         android:icon="@drawable/ic_back"
-        android:title="@string/back"
-        app:showAsAction="always"
-        android:orderInCategory="1"/>
+        app:showAsAction="always"></android.support.design.widget.NavigationView>
 
     <item
         android:id="@+id/refresh"

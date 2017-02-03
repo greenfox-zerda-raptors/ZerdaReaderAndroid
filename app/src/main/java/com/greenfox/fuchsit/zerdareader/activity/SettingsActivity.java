@@ -24,6 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setTitle("Feed");
         myToolbar.setSubtitle("Back to your feed");
+        //myToolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(myToolbar);
     }
 
@@ -31,6 +32,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_toolbar_menu, menu);
+        MenuItem refreshItem = menu.findItem(R.id.refresh);
+        refreshItem.setVisible(false);
+        MenuItem starItem = menu.findItem(R.id.favorite);
+        starItem.setVisible(false);
         return true;
     }
 
