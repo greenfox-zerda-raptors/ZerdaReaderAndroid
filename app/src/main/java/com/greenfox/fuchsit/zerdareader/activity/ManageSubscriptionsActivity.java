@@ -26,6 +26,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         myToolbar.setTitle("Feed");
         myToolbar.setSubtitle("Back to your feed");
         setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -48,8 +49,8 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
             case R.id.favorite:
                 Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.back:
-                startActivity(new Intent(this, MainActivity.class));
+            case android.R.id.home:
+                finish();
                 break;
             case R.id.manage_subscriptions:
                 startActivity(new Intent(this, ManageSubscriptionsActivity.class));
