@@ -19,6 +19,7 @@ import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 public class DetailedPageActivity extends AppCompatActivity {
 
     TextView article;
+    NewsItem newsItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class DetailedPageActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         
-        NewsItem newsItem = (NewsItem) getIntent().getSerializableExtra("newsItem");
+        newsItem = (NewsItem) getIntent().getSerializableExtra("newsItem");
 
         article = (TextView) findViewById(R.id.description);
         article.setText(newsItem.getDescription());
@@ -44,6 +45,10 @@ public class DetailedPageActivity extends AppCompatActivity {
         return true;
     }
 
+    public void markAsFavorite(NewsItem newsItem) {
+        newsItem.setFavorite(true);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -51,7 +56,8 @@ public class DetailedPageActivity extends AppCompatActivity {
                 finish();
             break;
             case R.id.favorite:
-                Toast.makeText(this,"You must be my lucky star",Toast.LENGTH_LONG).show();
+                markAsFavorite(newsItem);
+                Toast.makeText(this,"Marked as Favorite",Toast.LENGTH_LONG).show();
             break;
         }
         return true;

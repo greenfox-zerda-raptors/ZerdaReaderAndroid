@@ -90,7 +90,7 @@ public class NewsItem implements Serializable{
     }
 
     public boolean isFavorite() {
-        return favorite;
+        return false;
     }
 
     public void setFavorite(boolean favorite) {
