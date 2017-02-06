@@ -33,10 +33,16 @@ public class FeedAdapter extends ArrayAdapter<NewsItem> {
         // Lookup view for data population
         ImageView email = (ImageView) convertView.findViewById(R.id.thumbnail);
         TextView title = (TextView) convertView.findViewById(R.id.title);
+        TextView feedName = (TextView) convertView.findViewById(R.id.feed_name);
 
         // Populate the data into the template view using the data object
-        email.setImageResource(R.drawable.email);
+        if (newsItem.isOpened()) {
+            email.setImageResource(R.drawable.email_open);
+        } else {
+            email.setImageResource(R.drawable.email);
+        }
         title.setText(newsItem.getTitle());
+        feedName.setText(newsItem.getFeedName());
 
         // Return the completed view to render on screen
         return convertView;

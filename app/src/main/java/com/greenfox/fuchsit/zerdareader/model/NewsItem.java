@@ -58,6 +58,10 @@ public class NewsItem implements Serializable{
         this.opened = opened;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
