@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public interface ReaderApiInterface {
     Call<UserResponse> loginUser(LoginRequest loginRequest);
 
     @PUT("/feed/{item_id}")
-    Call<NewsItem> updateOpened(@Path("item_id") Long id, @Field("opened") Integer integer);
+    void updateOpened(@Path("item_id") long id, UpdateRequest updateRequest);
 }
 
 

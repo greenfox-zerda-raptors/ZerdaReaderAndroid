@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
@@ -73,8 +74,7 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public MockCall<NewsItem> updateOpened(Long id, Integer integer) {
-        return null;
+    public void updateOpened(@Path("item_id") long id, UpdateRequest updateRequest) {
     }
 
     private UserResponse checkUser(LoginRequest loginRequest) {
