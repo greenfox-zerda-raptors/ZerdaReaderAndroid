@@ -26,6 +26,10 @@ public interface ReaderApiInterface {
     @POST("user/login")
     Call<UserResponse> loginUser(LoginRequest loginRequest);
 
+    @POST("user/signup")
+    Call<UserResponse> signUpUser(LoginRequest loginRequest);
+
+
 }
 
 
