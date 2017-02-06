@@ -2,6 +2,7 @@ package com.greenfox.fuchsit.zerdareader;
 
 import android.content.Intent;
 import android.os.Build;
+import android.support.design.widget.TextInputLayout;
 import android.widget.EditText;
 
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
@@ -36,18 +37,20 @@ public class LoginActivityTest {
     private LoginActivity loginActivity;
     private EditText editEmail;
     private EditText editPassword;
+    private TextInputLayout til;
 
     @Before
     public void setUp() throws Exception {
         loginActivity = Robolectric.buildActivity(LoginActivity.class).create().get();
         editEmail = (EditText) loginActivity.findViewById(R.id.email);
         editPassword = (EditText) loginActivity.findViewById(R.id.password);
+        til = (TextInputLayout) loginActivity.findViewById(R.id.error_text);
     }
 
     @Test
     public void loginWithEmptyUsernameAndPassword() {
         loginActivity.findViewById(R.id.loginButton).performClick();
-        Assert.assertEquals("Please fill in username/password.", ShadowToast.getTextOfLatestToast());
+        Assert.assertEquals("Please fill in username and password", til.getError().toString());
     }
 
     @Test
