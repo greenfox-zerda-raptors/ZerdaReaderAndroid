@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkCredentialsAndLogIn(UserResponse userResponse) {
         if (!isLoginDataCorrect(userResponse.getResult())) {
-            til.setError("Username or password is incorrect");
+            til.setError("Username or password is incorrect. Click here to register");
             
         } else {
             saveDataToSharedPreferences();
@@ -132,6 +132,11 @@ public class LoginActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
         return true;
+    }
+
+    public void redirectToSignup(View view) {
+        Intent i = new Intent(LoginActivity.this, SignupActivity.class);
+        startActivity(i);
     }
 }
 
