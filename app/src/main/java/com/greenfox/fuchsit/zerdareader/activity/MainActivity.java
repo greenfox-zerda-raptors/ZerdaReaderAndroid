@@ -94,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.refresh:
                 Toast.makeText(this,"Refreshed",Toast.LENGTH_LONG).show();
-            case R.id.favorite:
-                Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
                 break;
             case R.id.logout:
                 logOut();

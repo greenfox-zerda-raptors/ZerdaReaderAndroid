@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -6,6 +6,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    
+    <style name="login_error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/lightPink</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <!--unfortunately this doesn't work-->
+    <style name="button_text" parent="@android:style/TextAppearance">
+        <item name="android:fontFeatureSettings" tools:targetApi="lollipop">smcp</item>
     </style>
 
 </resources>

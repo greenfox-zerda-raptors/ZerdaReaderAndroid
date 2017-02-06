@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +21,6 @@ import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import javax.inject.Inject;
 
@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText editEmail, editPassword;
     TextView textView;
+
+    TextInputLayout til;
 
     @Inject
     ReaderApiInterface apiService;
@@ -52,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         editEmail = (EditText) findViewById(R.id.userName);
         editPassword = (EditText) findViewById(R.id.password);
         button = (Button) findViewById(R.id.loginButton);
+        til = (TextInputLayout) findViewById(R.id.error_text);
 
         DaggerMockServerComponent.builder().build().inject(this);
     }
@@ -59,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view){
 
         if (isTextfieldsEmpty()) {
-            Toast.makeText(this, "Please fill in username/password.", Toast.LENGTH_LONG).show();
+            til.setError("Please fill in username and password");
         } else {
 
             loginRequest = new LoginRequest(editEmail.getText().toString(), editPassword.getText().toString());
@@ -109,7 +112,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkCredentialsAndLogIn(UserResponse userResponse) {
         if (!isLoginDataCorrect(userResponse.getResult())) {
-            Toast.makeText(this, "Username/password is incorrect.", Toast.LENGTH_LONG).show();
+            til.setError("Username or password is incorrect");
+            
         } else {
             saveDataToSharedPreferences();
             Toast.makeText(LoginActivity.this, "Saved", Toast.LENGTH_LONG).show();
