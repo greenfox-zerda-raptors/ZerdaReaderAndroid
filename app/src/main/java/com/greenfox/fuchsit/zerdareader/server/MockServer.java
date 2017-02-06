@@ -74,7 +74,28 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
+
     public void updateOpened(@Path("item_id") long id, UpdateRequest updateRequest) {
+    }
+    public MockCall<UserResponse> signUpUser(final LoginRequest loginRequest) {
+        return new MockCall<UserResponse>() {
+            @Override
+            public void enqueue(Callback<UserResponse> callback) {
+
+                Response<UserResponse> r = Response.success(checkUsername(loginRequest));
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
+    private UserResponse checkUsername(LoginRequest loginRequest) {
+        UserResponse userResponse;
+        if (loginRequest.getEmail().equals("admin")) {
+            userResponse = new UserResponse("fail");
+        } else {
+            userResponse = new UserResponse("success");
+        }
+        return userResponse;
     }
 
     private UserResponse checkUser(LoginRequest loginRequest) {

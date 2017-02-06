@@ -33,6 +33,10 @@ public interface ReaderApiInterface {
 
     @PUT("/feed/{item_id}")
     void updateOpened(@Path("item_id") long id, UpdateRequest updateRequest);
+
+    @POST("user/signup")
+    Call<UserResponse> signUpUser(LoginRequest loginRequest);
+
 }
 
 

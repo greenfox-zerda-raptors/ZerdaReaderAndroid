@@ -29,4 +29,6 @@
     <string name="closed_email">closed_email</string>
     <string name="star">star</string>
     <string name="rss">rss</string>
+    <string name="notfavorite">notFavorite</string>
+
 </resources>
