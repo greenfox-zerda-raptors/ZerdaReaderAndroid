@@ -38,8 +38,10 @@ public class FeedAdapter extends ArrayAdapter<NewsItem> {
         // Populate the data into the template view using the data object
         if (newsItem.isOpened()) {
             email.setImageResource(R.drawable.email_open);
+            convertView.setBackgroundResource(R.color.light_grey);
         } else {
             email.setImageResource(R.drawable.email);
+            convertView.setBackgroundResource(R.color.alabaster);
         }
         title.setText(newsItem.getTitle());
         feedName.setText(newsItem.getFeedName());
