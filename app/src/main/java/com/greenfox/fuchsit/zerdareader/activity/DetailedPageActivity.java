@@ -7,30 +7,40 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
-public class ManageSubscriptionsActivity extends AppCompatActivity {
+/**
+ * Created by regnisalram on 1/30/17.
+ */
+
+public class DetailedPageActivity extends AppCompatActivity {
+
+    TextView article;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_subscriptions);
-
-        TextView subscriptions = (TextView) findViewById(R.id.subscriptionsTextView);
-
+        setContentView(R.layout.detailed_page);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setTitle("Feed");
         myToolbar.setSubtitle("Back to your feed");
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        NewsItem newsItem = (NewsItem) getIntent().getSerializableExtra("newsItem");
+
+        article = (TextView) findViewById(R.id.description);
+        article.setText(newsItem.getDescription());
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.short_menu, menu);
+        inflater.inflate(R.menu.detailed_view_toolbar_menu, menu);
         return true;
     }
 
@@ -39,9 +49,13 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                break;
+            break;
+            case R.id.favorite:
+                Toast.makeText(this,"You must be my lucky star",Toast.LENGTH_LONG).show();
+            break;
         }
         return true;
     }
 }
+
 

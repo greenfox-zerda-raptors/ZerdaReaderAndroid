@@ -1,9 +1,10 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
+
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ import retrofit2.Response;
  * Created by regnisalram on 1/24/17.
  */
 
-public class FeedFragment extends Fragment {
+public class FeedFragment extends ListFragment {
 
     ListView feed;
     FeedAdapter adapter;
@@ -82,6 +82,17 @@ public class FeedFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onListItemClick(ListView feed, View view, int position, long id) {
+        super.onListItemClick(feed, view, position, id);
+
+        NewsItem item = (NewsItem) feed.getItemAtPosition(position);
+
+        Intent i = new Intent(getActivity(), DetailedPageActivity.class);
+        i.putExtra("newsItem", item);
+        startActivity(i);
+    }
+
     public static FeedFragment newInstance(int tabNumber) {
         FeedFragment myFragment = new FeedFragment();
 
@@ -90,6 +101,7 @@ public class FeedFragment extends Fragment {
         myFragment.setArguments(args);
 
         return myFragment;
+
     }
 }
 

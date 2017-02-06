@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkIfLoggedIn() {
         boolean islogin = sharedPreferences.getBoolean("isLogin", false);
+
         if (!islogin) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -81,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
 
-
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
@@ -91,12 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        switch (item.getItemId()){
             case R.id.refresh:
-                Toast.makeText(this, "Refreshed", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.favorite:
-                Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Refreshed",Toast.LENGTH_LONG).show();
                 break;
             case R.id.logout:
                 logOut();
