@@ -1,10 +1,12 @@
-package com.greenfox.fuchsit.zerdareader;
+package com.greenfox.fuchsit.zerdareader.activityTests;
 
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.TextInputLayout;
 import android.widget.EditText;
 
+import com.greenfox.fuchsit.zerdareader.BuildConfig;
+import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 import com.greenfox.fuchsit.zerdareader.activity.MainActivity;
 
