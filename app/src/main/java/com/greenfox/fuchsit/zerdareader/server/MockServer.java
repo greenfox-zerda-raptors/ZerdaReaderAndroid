@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.server;
 
+import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
@@ -52,14 +53,25 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public MockCall<UserResponse> loginUser(String username, String password) {
+    public MockCall<UserResponse> loginUser(final LoginRequest loginRequest) {
         return new MockCall<UserResponse>() {
             @Override
             public void enqueue(Callback<UserResponse> callback) {
-                Response<UserResponse> r = Response.success(new UserResponse());
+
+                Response<UserResponse> r = Response.success(checkUser(loginRequest));
                 callback.onResponse(this, r);
             }
         };
+    }
+
+    private UserResponse checkUser(LoginRequest loginRequest) {
+        UserResponse userResponse;
+        if (loginRequest.getEmail().equals("admin") && loginRequest.getPassword().equals("fuchsit")) {
+            userResponse = new UserResponse("success");
+        } else {
+            userResponse = new UserResponse("fail");
+        }
+        return userResponse;
     }
 }
 
