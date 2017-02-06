@@ -7,6 +7,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
@@ -76,9 +77,12 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testFragmentIsNotNull() throws Exception {
+    public void testFragmentIsNotNullAndViewIsSameAsMainActivity() throws Exception {
         FeedFragment fragment = FeedFragment.newInstance(1);
         assertNotNull(fragment);
+        MainActivity mActivity = Robolectric.buildActivity(MainActivity.class).create().visible().get();
+        View feed = mActivity.findViewById(R.id.feed);
+        assertEquals(fragment.getView(), feed);
     }
 
     @Test
