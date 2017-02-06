@@ -79,7 +79,10 @@
         android:layout_below="@id/loginButton"
         android:layout_marginTop="10dp"
         app:errorEnabled="true"
-        app:errorTextAppearance="@style/login_error_appearance" />
+        app:errorTextAppearance="@style/login_error_appearance"
+        android:onClick = "redirectToSignup"
+        android:clickable="true"
+        android:orientation="horizontal" />
 
 </android.support.percent.PercentRelativeLayout>
 
