@@ -6,14 +6,21 @@
     <android.support.design.widget.NavigationView
         android:id="@+id/nav"
         android:icon="@drawable/ic_back"
-        app:showAsAction="always"></android.support.design.widget.NavigationView>
-
-    <item
-        android:id="@+id/favorite"
-        android:icon="@drawable/ic_star"
-        android:title="@string/favorite"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/add_favorite"
+        android:icon="@drawable/not_fav_star"
+        android:title="@string/notfavorite"
+        android:visible="true"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/remove_favorite"
+        android:icon="@drawable/ic_star"
+        android:title="@string/favorite"
+        android:visible="false"
+        app:showAsAction="always"/>
 </menu>
 
 
