@@ -52,7 +52,6 @@ public class FeedFragment extends ListFragment {
 
         tabNumber = getArguments().getInt("tabNumber", 1);
 
-
         showNewsItems();
 
         return view;
@@ -87,6 +86,7 @@ public class FeedFragment extends ListFragment {
         super.onListItemClick(feed, view, position, id);
 
         NewsItem item = (NewsItem) feed.getItemAtPosition(position);
+        Call<NewsItem> call = apiService.updateOpened(item.getId(), 1);
 
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);

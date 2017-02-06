@@ -16,6 +16,9 @@ import java.util.Date;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.Path;
 
 /**
  * Created by Zsuzska on 2017. 01. 20..
@@ -67,6 +70,11 @@ public class MockServer implements ReaderApiInterface {
                 callback.onResponse(this, r);
             }
         };
+    }
+
+    @Override
+    public MockCall<NewsItem> updateOpened(Long id, Integer integer) {
+        return null;
     }
 
     private UserResponse checkUser(LoginRequest loginRequest) {
