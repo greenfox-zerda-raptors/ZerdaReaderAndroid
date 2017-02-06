@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,10 @@ import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 public class DetailedPageActivity extends AppCompatActivity {
 
     TextView article;
+    NewsItem newsItem;
+    MenuItem favoriteStar;
+    MenuItem notFavoriteStar;
+    boolean isItemFavorite;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,7 @@ public class DetailedPageActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         
-        NewsItem newsItem = (NewsItem) getIntent().getSerializableExtra("newsItem");
+        newsItem = (NewsItem) getIntent().getSerializableExtra("newsItem");
 
         article = (TextView) findViewById(R.id.description);
         article.setText(newsItem.getDescription());
@@ -41,7 +46,24 @@ public class DetailedPageActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detailed_view_toolbar_menu, menu);
+
+        favoriteStar = menu.findItem(R.id.remove_favorite);
+        notFavoriteStar = menu.findItem(R.id.add_favorite);
+
         return true;
+    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (isItemFavorite) {
+            menu.findItem(R.id.add_favorite).setVisible(false);
+            menu.findItem(R.id.remove_favorite).setVisible(true);
+        } else {
+            menu.findItem(R.id.add_favorite).setVisible(true);
+            menu.findItem(R.id.remove_favorite).setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -50,12 +72,25 @@ public class DetailedPageActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
             break;
-            case R.id.favorite:
-                Toast.makeText(this,"You must be my lucky star",Toast.LENGTH_LONG).show();
+            case R.id.remove_favorite:
+                isItemFavorite = false;
+                newsItem.setFavorite(false);
+                Toast.makeText(this,"Removed from Favorites",Toast.LENGTH_LONG).show();
+                invalidateOptionsMenu();
             break;
+
+            case R.id.add_favorite:
+                isItemFavorite = true;
+                newsItem.setFavorite(true);
+                Toast.makeText(this,"Marked as Favorite",Toast.LENGTH_LONG).show();
+                invalidateOptionsMenu();
+            break;
+
         }
         return true;
     }
+
+
 }
 
 

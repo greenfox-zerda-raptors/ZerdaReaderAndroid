@@ -6,7 +6,7 @@
     <android.support.design.widget.NavigationView
         android:id="@+id/nav"
         android:icon="@drawable/ic_back"
-        app:showAsAction="always"></android.support.design.widget.NavigationView>
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/refresh"
