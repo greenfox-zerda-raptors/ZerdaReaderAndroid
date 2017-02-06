@@ -1,10 +1,12 @@
-package com.greenfox.fuchsit.zerdareader;
+package com.greenfox.fuchsit.zerdareader.activityTests;
 
 import android.app.Activity;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.greenfox.fuchsit.zerdareader.BuildConfig;
+import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.activity.HelloWorldActivity;
 
 import org.junit.Test;
