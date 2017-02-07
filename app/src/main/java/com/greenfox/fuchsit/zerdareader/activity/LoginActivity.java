@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences loginData;
 
     LoginRequest loginRequest;
+    UserResponse userResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         loginData = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         final SharedPreferences.Editor editor = loginData.edit();
 
+        editor.putString("token", userResponse.getToken());
         editor.putString("userName", editEmail.getText().toString());
         editor.putString("password", editPassword.getText().toString());
         editor.putBoolean("isLogin", true);
