@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOut() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("token", "");
         editor.putString("username", "");
         editor.putString("password", "");
         editor.apply();
