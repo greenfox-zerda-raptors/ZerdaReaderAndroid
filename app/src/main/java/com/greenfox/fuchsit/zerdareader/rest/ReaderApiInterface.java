@@ -1,7 +1,5 @@
 package com.greenfox.fuchsit.zerdareader.rest;
 
-import android.content.Intent;
-
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
@@ -10,7 +8,6 @@ import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import java.util.ArrayList;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;

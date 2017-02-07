@@ -1,6 +1,7 @@
 package com.greenfox.fuchsit.zerdareader.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class FeedAdapter extends ArrayAdapter<NewsItem> {
         ImageView email = (ImageView) convertView.findViewById(R.id.thumbnail);
         TextView title = (TextView) convertView.findViewById(R.id.title);
         TextView feedName = (TextView) convertView.findViewById(R.id.feed_name);
+        ImageView star = (ImageView) convertView.findViewById(R.id.favorite);
 
         // Populate the data into the template view using the data object
         if (newsItem.isOpened()) {
@@ -42,6 +44,12 @@ public class FeedAdapter extends ArrayAdapter<NewsItem> {
         } else {
             email.setImageResource(R.drawable.email);
             convertView.setBackgroundResource(R.color.alabaster);
+        }
+
+        if (newsItem.isFavorite()) {
+            star.setImageResource(R.drawable.ic_star);
+        } else {
+            star.setImageResource(R.drawable.not_fav_star);
         }
         title.setText(newsItem.getTitle());
         feedName.setText(newsItem.getFeedName());
