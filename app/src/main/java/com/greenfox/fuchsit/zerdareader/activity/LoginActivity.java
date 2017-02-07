@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                    UserResponse userResponse = response.body();
+                    userResponse = response.body();
 
                     checkCredentialsAndLogIn(userResponse);
                 }
