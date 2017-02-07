@@ -56,6 +56,7 @@ public class DetailedPageActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        isItemFavorite = newsItem.isFavorite();
         if (isItemFavorite) {
             menu.findItem(R.id.add_favorite).setVisible(false);
             menu.findItem(R.id.remove_favorite).setVisible(true);

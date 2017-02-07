@@ -25,5 +25,10 @@
     <string name="password">password</string>
     <string name="please_login">Please login</string>
     <string name="login">Login</string>
+    <string name="email">email</string>
+    <string name="closed_email">closed_email</string>
+    <string name="star">star</string>
+    <string name="rss">rss</string>
     <string name="notfavorite">notFavorite</string>
+
 </resources>
