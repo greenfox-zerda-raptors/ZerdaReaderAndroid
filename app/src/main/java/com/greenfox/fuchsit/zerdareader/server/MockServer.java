@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
@@ -89,6 +90,34 @@ public class MockServer implements ReaderApiInterface {
         };
     }
 
+    @Override
+    public Call<ArrayList<SubscriptionModel>> getSubscriptions() {
+        return new MockCall<ArrayList<SubscriptionModel>>() {
+            @Override
+            public void enqueue(Callback<ArrayList<SubscriptionModel>> callback) {
+                ArrayList<SubscriptionModel> subscriptionModels = null;
+                try {
+                    subscriptionModels = addSubscriptions();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Response<ArrayList<SubscriptionModel>> r = Response.success(subscriptionModels);
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
+    @Override
+    public Call<SubscriptionModel> addNewSubscription() {
+        return null;
+    }
+
+
+    @Override
+    public Call<SubscriptionModel> deleteSubscription(SubscriptionModel subscriptionModel) {
+        return null;
+    }
+
     private UserResponse checkUsername(LoginRequest loginRequest) {
         UserResponse userResponse;
         if (loginRequest.getEmail().equals("admin")) {
@@ -107,6 +136,18 @@ public class MockServer implements ReaderApiInterface {
             userResponse = new UserResponse("fail");
         }
         return userResponse;
+    }
+
+    @NonNull
+    private ArrayList<SubscriptionModel> addSubscriptions() throws ParseException {
+        ArrayList<SubscriptionModel> subscriptionModels = new ArrayList<>();
+        subscriptionModels.add(new SubscriptionModel("www.444.hu/feed"));
+        subscriptionModels.add(new SubscriptionModel("www.index.hu/feed"));
+        subscriptionModels.add(new SubscriptionModel("www.hvg.hu/feed"));
+        subscriptionModels.add(new SubscriptionModel("www.origo.hu/feed"));
+        subscriptionModels.add(new SubscriptionModel("www.444.hu/feed"));
+        subscriptionModels.add(new SubscriptionModel("www.444.hu/feed"));
+        return subscriptionModels;
     }
 
 
@@ -128,6 +169,8 @@ public class MockServer implements ReaderApiInterface {
                 d1, "Fox Crunch", false, true));
         return newsItems;
     }
+
+
 }
 
 

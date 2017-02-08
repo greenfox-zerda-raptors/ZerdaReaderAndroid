@@ -40,7 +40,7 @@ public interface ReaderApiInterface {
     Call<ArrayList<SubscriptionModel>> getSubscriptions();
 
     @POST("/subscribe")
-    Call<SubscriptionModel> addSubscription(SubscriptionModel subscriptionModel);
+    Call<SubscriptionModel> addNewSubscription();
 
     @DELETE("/subsribe/:id")
     Call<SubscriptionModel> deleteSubscription(SubscriptionModel subscriptionModel);

@@ -6,25 +6,49 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.adapter.SubscriptionsAdapter;
+import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
+import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ManageSubscriptionsActivity extends AppCompatActivity {
+
+    ListView subscriptionsList;
+    SubscriptionsAdapter subscriptionsAdapter;
+    @Inject
+    ReaderApiInterface apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_subscriptions);
 
-        TextView subscriptions = (TextView) findViewById(R.id.subscriptionsTextView);
-
+        subscriptionsList = (ListView) findViewById(R.id.subscriptions_list);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setTitle("Feed");
         myToolbar.setSubtitle("Back to your feed");
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        DaggerMockServerComponent.builder().build().inject(this);
+        subscriptionsAdapter = new SubscriptionsAdapter(this);
+        subscriptionsList.setAdapter(subscriptionsAdapter);
+
+        showSubscriptions();
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -42,6 +66,25 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    public void showSubscriptions() {
+
+        Call<ArrayList<SubscriptionModel>> call;
+
+        call = apiService.getSubscriptions();
+
+        call.enqueue(new Callback<ArrayList<SubscriptionModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<SubscriptionModel>> call, Response<ArrayList<SubscriptionModel>> response) {
+                subscriptionsAdapter.addAll(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<SubscriptionModel>> call, Throwable t) {
+
+            }
+        });
     }
 }
 

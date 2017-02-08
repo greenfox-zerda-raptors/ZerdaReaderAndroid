@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.greenfox.fuchsit.zerdareader.R;
-import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 
 import java.util.ArrayList;
@@ -33,11 +32,12 @@ public class SubscriptionsAdapter extends ArrayAdapter<SubscriptionModel> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.subscription, parent, false);
         }
         // Lookup view for data population
-        TextView url = (TextView) convertView.findViewById(R.id.name);
+        TextView subsName = (TextView) convertView.findViewById(R.id.subscription_name);
         ImageView trashCan = (ImageView) convertView.findViewById(R.id.trashcan);
 
         // Populate the data into the template view using the data object
-        url.setText(subscriptionModel.getUrl());
+        subsName.setText(subscriptionModel.getName());
+        trashCan.setImageResource(R.drawable.delete);
 
 
         // Return the completed view to render on screen
