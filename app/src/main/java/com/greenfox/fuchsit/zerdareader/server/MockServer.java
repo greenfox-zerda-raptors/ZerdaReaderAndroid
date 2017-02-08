@@ -141,7 +141,6 @@ public class MockServer implements ReaderApiInterface {
     @NonNull
     private ArrayList<SubscriptionModel> addSubscriptions() throws ParseException {
         ArrayList<SubscriptionModel> subscriptionModels = new ArrayList<>();
-        subscriptionModels.add(new SubscriptionModel("www.444.hu/feed"));
         subscriptionModels.add(new SubscriptionModel("www.index.hu/feed"));
         subscriptionModels.add(new SubscriptionModel("www.hvg.hu/feed"));
         subscriptionModels.add(new SubscriptionModel("www.origo.hu/feed"));

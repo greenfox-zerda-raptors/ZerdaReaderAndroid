@@ -28,8 +28,8 @@ public class SubscriptionModel implements Serializable {
         this.id = id;
     }
 
-    public SubscriptionModel(String url) {
-        this.url = url;
+    public SubscriptionModel(String name) {
+        this.name = name;
     }
 
     public SubscriptionModel(String result, String message) {
