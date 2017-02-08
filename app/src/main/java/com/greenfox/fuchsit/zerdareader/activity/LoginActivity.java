@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkCredentialsAndLogIn(UserResponse userResponse) {
         if (!isLoginDataCorrect(userResponse.getResult())) {
-            til.setError("Username or password is incorrect. Click here to register");
+            til.setError("Username or password is incorrect");
             
         } else {
             saveDataToSharedPreferences();
