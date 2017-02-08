@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
@@ -20,9 +21,9 @@ import javax.inject.Inject;
 
 public class SignupActivity extends AppCompatActivity {
 
-    Button button;
-    EditText editEmail, editPassword;
-    TextInputLayout til;
+    Button registerButton;
+    EditText emailToReg, passwordToReg;
+    TextInputLayout textInputLayout;
 
     @Inject
     ReaderApiInterface apiService;
@@ -35,6 +36,13 @@ public class SignupActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
+
+        emailToReg = (EditText) findViewById(R.id.userName);
+        passwordToReg = (EditText) findViewById(R.id.password);
+        registerButton = (Button) findViewById(R.id.registerButton);
+        textInputLayout = (TextInputLayout) findViewById(R.id.register_error_text);
+
+        DaggerMockServerComponent.builder().build().inject(this);
     }
 
     public void register(View view) {
