@@ -71,17 +71,6 @@
         android:textColor="@color/colorPrimaryDark"
         android:background="@color/aluminium" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/error_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/registerButton"
-        android:layout_marginTop="10dp"
-        app:errorEnabled="true"
-        app:errorTextAppearance="@style/login_error_appearance"
-        android:orientation="horizontal" />
-
     <Button
         app:layout_widthPercent="50%"
         android:layout_width="match_parent"
@@ -96,6 +85,17 @@
         android:layout_below="@+id/loginButton"
         android:layout_alignLeft="@+id/loginButton"
         android:layout_alignStart="@+id/loginButton" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/registerButton"
+        android:layout_marginTop="10dp"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/login_error_appearance"
+        android:orientation="horizontal" />
 
 </android.support.percent.PercentRelativeLayout>
 
