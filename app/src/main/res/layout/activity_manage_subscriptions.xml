@@ -16,13 +16,23 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <TextView
-        android:text="Manage Subscriptions"
+    <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/subscriptionsTextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:layout_marginTop="23dp"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/plus"
+        android:layout_marginRight="31dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginBottom="33dp"
+        android:id="@+id/floatingActionButton3"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/my_toolbar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
