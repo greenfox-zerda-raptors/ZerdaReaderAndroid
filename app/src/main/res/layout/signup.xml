@@ -9,15 +9,6 @@
     android:background="@color/colorPrimary"
     tools:context="com.greenfox.fuchsit.zerdareader.activity.SignupActivity">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/greenfox_grey"
-        android:id="@+id/imageView"
-        android:layout_above="@+id/loginTitle"
-        android:layout_centerHorizontal="true"
-        tools:ignore="ContentDescription" />
-
     <TextView
         android:text="@string/signup"
         android:layout_width="match_parent"
@@ -80,5 +71,14 @@
         android:layout_marginTop="10dp"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/login_error_appearance" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/greenfox_grey"
+        android:id="@+id/imageView"
+        tools:ignore="ContentDescription"
+        android:layout_above="@+id/signupTitle"
+        android:layout_centerHorizontal="true" />
 
 </android.support.percent.PercentRelativeLayout>
