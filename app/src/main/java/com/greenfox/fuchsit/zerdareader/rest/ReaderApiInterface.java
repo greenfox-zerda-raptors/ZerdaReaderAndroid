@@ -2,12 +2,14 @@ package com.greenfox.fuchsit.zerdareader.rest;
 
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 
 import java.util.ArrayList;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -33,6 +35,15 @@ public interface ReaderApiInterface {
 
     @POST("user/signup")
     Call<UserResponse> signUpUser(LoginRequest loginRequest);
+
+    @GET("/subscriptions")
+    Call<ArrayList<SubscriptionModel>> getSubscriptions();
+
+    @POST("/subscribe")
+    Call<SubscriptionModel> addSubscription(SubscriptionModel subscriptionModel);
+
+    @DELETE("/subsribe/:id")
+    Call<SubscriptionModel> deleteSubscription(SubscriptionModel subscriptionModel);
 
 }
 
