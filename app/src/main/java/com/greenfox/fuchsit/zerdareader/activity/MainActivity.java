@@ -72,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("username", "");
         editor.putString("password", "");
+        editor.putBoolean("isLogin", false);
         editor.apply();
+        finish();
 
         Toast.makeText(this, "Successful logout", Toast.LENGTH_SHORT).show();
 

@@ -14,6 +14,7 @@ import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class FeedFragment extends ListFragment {
     @Inject
     ReaderApiInterface apiService;
 
+    UpdateRequest updateRequest;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +54,6 @@ public class FeedFragment extends ListFragment {
         DaggerMockServerComponent.builder().build().inject(this);
 
         tabNumber = getArguments().getInt("tabNumber", 1);
-
 
         showNewsItems();
 
@@ -87,6 +89,8 @@ public class FeedFragment extends ListFragment {
         super.onListItemClick(feed, view, position, id);
 
         NewsItem item = (NewsItem) feed.getItemAtPosition(position);
+        updateRequest = new UpdateRequest(item.getId(), 1);
+        apiService.updateOpened(item.getId(), updateRequest);
 
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);
