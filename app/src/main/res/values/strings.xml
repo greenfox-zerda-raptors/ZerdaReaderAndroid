@@ -30,5 +30,6 @@
     <string name="star">star</string>
     <string name="rss">rss</string>
     <string name="notfavorite">notFavorite</string>
+    <string name="favorite_star">favorite_star</string>
 
 </resources>
