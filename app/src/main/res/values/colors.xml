@@ -9,4 +9,10 @@
     <color name="light_grey">#DDDDDD</color>
     <color name="black">#000000</color>
     <color name="alabaster">#FAFAFA</color>
+    <color name="white">#ffffff</color>
+
+
+    <color name="text_tab_selected">@color/black</color>
+    <color name="text_tab_unselected">@color/aluminium</color>
+    <color name="actionBarText">@color/alabaster</color>
 </resources>

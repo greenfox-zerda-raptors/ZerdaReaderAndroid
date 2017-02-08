@@ -25,6 +25,8 @@
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
         android:layout_toEndOf="@+id/thumbnail"
+        android:layout_toLeftOf="@+id/favorite"
+        android:layout_toStartOf="@+id/favorite"
         android:paddingTop="5dp"
         android:textColor="@color/black"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -61,7 +63,8 @@
         android:padding="10dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/favorite_star" />
 
 </RelativeLayout>
 
