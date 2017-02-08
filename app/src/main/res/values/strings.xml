@@ -23,6 +23,7 @@
     <string name="logout">Logout</string>
     <string name="username">username</string>
     <string name="password">password</string>
+    <string name="passwordAgain">password again</string>
     <string name="please_login">Please login</string>
     <string name="login">Login</string>
     <string name="signup">Sign up</string>
