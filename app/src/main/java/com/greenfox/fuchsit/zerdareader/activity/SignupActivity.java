@@ -11,9 +11,14 @@ import android.widget.EditText;
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
+import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Anna on 17/02/06.
@@ -46,6 +51,28 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
+        if (areTextfieldsEmpty()) {
+            textInputLayout.setError("Please fill in username and password");
+        } else {
+            loginRequest = new LoginRequest(emailToReg.getText().toString(), passwordToReg.getText().toString());
+            Call<UserResponse> call = apiService.signUpUser(loginRequest);
 
+            call.enqueue(new Callback<UserResponse>() {
+                @Override
+                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                    UserResponse userResponse = response.body();
+                    
+                }
+
+                @Override
+                public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    private boolean areTextfieldsEmpty() {
+        return emailToReg.getText().toString().equals("") || passwordToReg.getText().toString().equals("");
     }
 }
