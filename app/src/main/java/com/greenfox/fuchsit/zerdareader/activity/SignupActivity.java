@@ -1,12 +1,15 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
@@ -61,7 +64,14 @@ public class SignupActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     UserResponse userResponse = response.body();
-                    
+
+                    if (userResponse.getResult().equals("success")) {
+                        saveDataToSharedPreferences();
+                        Toast.makeText(SignupActivity.this, "Saved", Toast.LENGTH_LONG).show();
+                        goToMainActivity();
+                    } else {
+                        textInputLayout.setError(userResponse.getMessage());
+                    }
                 }
 
                 @Override
@@ -74,5 +84,20 @@ public class SignupActivity extends AppCompatActivity {
 
     private boolean areTextfieldsEmpty() {
         return emailToReg.getText().toString().equals("") || passwordToReg.getText().toString().equals("");
+    }
+
+    private void saveDataToSharedPreferences() {
+        loginData = PreferenceManager.getDefaultSharedPreferences(SignupActivity.this);
+        final SharedPreferences.Editor editor = loginData.edit();
+
+        editor.putString("username", emailToReg.getText().toString());
+        editor.putString("password", passwordToReg.getText().toString());
+        editor.putBoolean("isLogin", true);
+        editor.apply();
+    }
+
+    private void goToMainActivity() {
+        Intent i = new Intent(SignupActivity.this, MainActivity.class);
+        startActivity(i);
     }
 }
