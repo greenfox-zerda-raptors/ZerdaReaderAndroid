@@ -76,13 +76,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/loginButton"
+        android:layout_below="@id/registerButton"
         android:layout_marginTop="10dp"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/login_error_appearance"
-        android:onClick = "redirectToSignup"
-        android:clickable="true"
         android:orientation="horizontal" />
+
+    <Button
+        app:layout_widthPercent="50%"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick = "redirectToSignup"
+        android:id="@+id/registerButton"
+        android:text="@string/register"
+        android:layout_marginTop="19dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:background="@color/aluminium"
+        android:layout_below="@+id/loginButton"
+        android:layout_alignLeft="@+id/loginButton"
+        android:layout_alignStart="@+id/loginButton" />
 
 </android.support.percent.PercentRelativeLayout>
 
