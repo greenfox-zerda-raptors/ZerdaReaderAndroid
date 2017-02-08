@@ -2,6 +2,8 @@ package com.greenfox.fuchsit.zerdareader.server;
 
 import android.support.annotation.NonNull;
 
+import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
+import com.greenfox.fuchsit.zerdareader.model.FavoriteResponse;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
@@ -20,29 +22,13 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Zsuzska on 2017. 01. 20..
  */
 
 public class MockServer implements ReaderApiInterface {
-    @Override
-    public Call<ArrayList<NewsItem>> getFavouriteNewsItems() {
-        return new MockCall<ArrayList<NewsItem>>() {
-            @Override
-            public void enqueue(Callback<ArrayList<NewsItem>> callback) {
-                ArrayList<NewsItem> newsItems = new ArrayList<>();
-                newsItems.add(new NewsItem("Favourite 1", "you are my favourite"));
-                newsItems.add(new NewsItem("Favourite 2", "you are my favourite"));
-                newsItems.add(new NewsItem("Favourite 3", "you are my favourite"));
-                newsItems.add(new NewsItem("Favourite 4", "you are my favourite"));
-                newsItems.add(new NewsItem("Favourite 5", "you are my favourite"));
-                newsItems.add(new NewsItem("Favourite 6", "you are my favourite"));
-                Response<ArrayList<NewsItem>> r = Response.success(newsItems);
-                callback.onResponse(this, r);
-            }
-        };
-    }
 
     @Override
     public MockCall<ArrayList<NewsItem>> getNewsItems() {
@@ -59,6 +45,33 @@ public class MockServer implements ReaderApiInterface {
                 callback.onResponse(this, r);
             }
         };
+    }
+
+    @Override
+    public MockCall<ArrayList<NewsItem>> getFavouriteNewsItems(@Query("token") String token) {
+        return new MockCall<ArrayList<NewsItem>>() {
+            @Override
+            public void enqueue(Callback<ArrayList<NewsItem>> callback) {
+                ArrayList<NewsItem> favoriteNewsItems = null;
+                try {
+                    favoriteNewsItems = addFavoriteNewsItems();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Response<ArrayList<NewsItem>> r = Response.success(favoriteNewsItems);
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
+    @Override
+    public Call<FavoriteResponse> createFavoriteItem(@Query("token") String token, FavoriteRequest favoriteRequest) {
+        return null;
+    }
+
+    @Override
+    public Call<FavoriteResponse> deleteFavoriteItem(@Query("token") String token, FavoriteRequest favoriteRequest) {
+        return null;
     }
 
     @Override
@@ -127,6 +140,17 @@ public class MockServer implements ReaderApiInterface {
         newsItems.add(new NewsItem("Title 5", "Pastry candy canes oat cake icing sugar plum jelly-o biscuit danish. Dessert icing cookie bear claw jelly. Carrot cake icing sweet. Croissant jelly-o cheesecake biscuit dessert caramels wafer dragée tootsie roll. Lollipop pastry soufflé. Wafer cotton candy caramels apple pie sugar plum pie sesame snaps candy. Jelly-o tootsie roll ice cream croissant dessert. Jujubes cheesecake toffee pudding. Carrot cake bear claw gingerbread jelly chupa chups. Candy canes jelly beans candy canes soufflé. Liquorice donut donut. Sweet apple pie carrot cake pastry biscuit marshmallow.",
                 d1, "Fox Crunch", false, true));
         return newsItems;
+    }
+
+    private ArrayList<NewsItem> addFavoriteNewsItems() throws ParseException {
+        ArrayList<NewsItem> newsItems = addNewsItems();
+        ArrayList<NewsItem> favoriteNewsItems = new ArrayList<>();
+        for (NewsItem newsItem : newsItems) {
+            if (newsItem.isFavorite()) {
+                favoriteNewsItems.add(newsItem);
+            }
+        }
+        return favoriteNewsItems;
     }
 }
 

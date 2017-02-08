@@ -1,7 +1,9 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.ListFragment;
@@ -38,6 +40,8 @@ public class FeedFragment extends ListFragment {
     @Inject
     ReaderApiInterface apiService;
 
+    SharedPreferences sharedPreferences;
+
     UpdateRequest updateRequest;
 
     @Nullable
@@ -62,12 +66,14 @@ public class FeedFragment extends ListFragment {
 
     public void showNewsItems() {
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(FeedFragment.super.getContext());
+
         Call<ArrayList<NewsItem>> call;
 
         if(tabNumber == 1) {
             call = apiService.getNewsItems();
         } else {
-            call = apiService.getFavouriteNewsItems();
+            call = apiService.getFavouriteNewsItems(sharedPreferences.getString("token", null));
         }
 
 
@@ -105,7 +111,6 @@ public class FeedFragment extends ListFragment {
         myFragment.setArguments(args);
 
         return myFragment;
-
     }
 }
 
