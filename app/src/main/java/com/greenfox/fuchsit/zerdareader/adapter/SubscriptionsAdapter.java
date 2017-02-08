@@ -33,7 +33,7 @@ public class SubscriptionsAdapter extends ArrayAdapter<SubscriptionModel> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.subscription, parent, false);
         }
         // Lookup view for data population
-        TextView url = (TextView) convertView.findViewById(R.id.url);
+        TextView url = (TextView) convertView.findViewById(R.id.name);
         ImageView trashCan = (ImageView) convertView.findViewById(R.id.trashcan);
 
         // Populate the data into the template view using the data object
