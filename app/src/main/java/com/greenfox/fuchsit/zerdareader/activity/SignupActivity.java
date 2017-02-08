@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class SignupActivity extends AppCompatActivity {
 
     Button registerButton;
-    EditText emailToReg, passwordToReg;
+    EditText emailToReg, passwordToReg, passwordAgain;
     TextInputLayout textInputLayout;
 
     @Inject
@@ -47,6 +47,7 @@ public class SignupActivity extends AppCompatActivity {
 
         emailToReg = (EditText) findViewById(R.id.userName);
         passwordToReg = (EditText) findViewById(R.id.password);
+        passwordAgain = (EditText) findViewById(R.id.passwordAgain);
         registerButton = (Button) findViewById(R.id.registerButton);
         textInputLayout = (TextInputLayout) findViewById(R.id.register_error_text);
 
@@ -56,6 +57,8 @@ public class SignupActivity extends AppCompatActivity {
     public void register(View view) {
         if (areTextfieldsEmpty()) {
             textInputLayout.setError("Please fill in username and password");
+        } else if (!arePasswordsMatching()){
+            textInputLayout.setError("Passwords do not match");
         } else {
             loginRequest = new LoginRequest(emailToReg.getText().toString(), passwordToReg.getText().toString());
             Call<UserResponse> call = apiService.signUpUser(loginRequest);
@@ -70,7 +73,7 @@ public class SignupActivity extends AppCompatActivity {
                         Toast.makeText(SignupActivity.this, "Saved", Toast.LENGTH_LONG).show();
                         goToMainActivity();
                     } else {
-                        textInputLayout.setError(userResponse.getMessage());
+                        textInputLayout.setError("Email address already exists");
                     }
                 }
 
@@ -82,8 +85,13 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
+    private boolean arePasswordsMatching() {
+        return passwordToReg.getText().toString().equals(passwordAgain.getText().toString());
+    }
+
     private boolean areTextfieldsEmpty() {
-        return emailToReg.getText().toString().equals("") || passwordToReg.getText().toString().equals("");
+        return emailToReg.getText().toString().equals("") || passwordToReg.getText().toString().equals("")
+                || passwordAgain.getText().toString().equals("");
     }
 
     private void saveDataToSharedPreferences() {
