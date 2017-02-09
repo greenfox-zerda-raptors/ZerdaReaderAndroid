@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Zsuzska on 2017. 01. 19..
@@ -20,7 +21,7 @@ import retrofit2.http.Path;
 public interface ReaderApiInterface {
 
     @GET("/favorites")
-    Call<ArrayList<NewsItem>> getFavouriteNewsItems();
+    Call<ArrayList<NewsItem>> getFavouriteNewsItems(@Query("token") String token);
 
     @GET("/feed")
     Call<ArrayList<NewsItem>> getNewsItems();
