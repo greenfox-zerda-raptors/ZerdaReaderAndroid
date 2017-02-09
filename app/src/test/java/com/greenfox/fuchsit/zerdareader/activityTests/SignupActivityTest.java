@@ -1,6 +1,9 @@
 package com.greenfox.fuchsit.zerdareader.activityTests;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.widget.EditText;
 
@@ -14,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
@@ -62,5 +66,18 @@ public class SignupActivityTest {
         passwordAgain.setText("password");
         signupActivity.findViewById(R.id.registerButton).performClick();
         assertEquals(MainActivity.class.getName(), shadowOf(signupActivity).getNextStartedActivity().getComponent().getClassName());
+    }
+
+    @Test
+    public void testUserDataIsSavedInSharedPref() throws Exception {
+        userName.setText("username");
+        password.setText("password");
+        signupActivity.findViewById(R.id.registerButton).performClick();
+
+        Context context = RuntimeEnvironment.application.getApplicationContext();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        assertEquals("username", sharedPreferences.getString("username", "default"));
+        assertEquals("password", sharedPreferences.getString("password", "default"));
     }
 }
