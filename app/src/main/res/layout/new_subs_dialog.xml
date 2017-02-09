@@ -11,21 +11,20 @@
         android:text="Please enter URL:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:id="@+id/enterUrlTextView" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
         android:ems="10"
-        android:id="@+id/editText"
-        android:inputType="text" />
+        android:id="@+id/urlEditText"
+        android:inputType="textUri" />
 
     <Button
         android:text="Button"
         android:layout_width="105dp"
         android:layout_height="wrap_content"
-        android:id="@+id/button2"
+        android:id="@+id/okButton"
         android:layout_weight="0.02" />
 
 </LinearLayout>
