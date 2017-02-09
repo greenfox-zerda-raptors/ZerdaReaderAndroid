@@ -69,7 +69,7 @@ public class FeedFragment extends ListFragment {
         Call<ArrayList<NewsItem>> call;
 
         if(tabNumber == 1) {
-            call = apiService.getNewsItems();
+            call = apiService.getNewsItems(sharedPreferences.getString("token", "default"));
         } else {
             call = apiService.getFavouriteNewsItems(sharedPreferences.getString("token", "default"));
         }
