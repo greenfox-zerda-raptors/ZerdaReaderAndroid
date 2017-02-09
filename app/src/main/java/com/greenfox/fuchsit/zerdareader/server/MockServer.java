@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
@@ -114,8 +115,8 @@ public class MockServer implements ReaderApiInterface {
 
 
     @Override
-    public Call<SubscriptionModel> deleteSubscription(SubscriptionModel subscriptionModel) {
-        return null;
+    public void deleteSubscription(@Path("id") long id, SubsDeleteRequest subsDeleteRequest) {
+
     }
 
     private UserResponse checkUsername(LoginRequest loginRequest) {
