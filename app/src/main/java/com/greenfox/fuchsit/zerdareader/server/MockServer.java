@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,13 +66,25 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public Call<FavoriteResponse> createFavoriteItem(@Query("token") String token, FavoriteRequest favoriteRequest) {
-        return null;
+    public MockCall<FavoriteResponse> createFavoriteItem(@Query("token") String token, final FavoriteRequest favoriteRequest) {
+        return new MockCall<FavoriteResponse>() {
+            @Override
+            public void enqueue(Callback<FavoriteResponse> callback) {
+                Response<FavoriteResponse> r = Response.success(getFavoriteResponse());
+                callback.onResponse(this, r);
+            }
+        };
     }
 
     @Override
     public Call<FavoriteResponse> deleteFavoriteItem(@Query("token") String token, FavoriteRequest favoriteRequest) {
-        return null;
+        return new MockCall<FavoriteResponse>() {
+            @Override
+            public void enqueue(Callback<FavoriteResponse> callback) {
+                Response<FavoriteResponse> r = Response.success(getFavoriteResponse());
+                callback.onResponse(this, r);
+            }
+        };
     }
 
     @Override
@@ -151,6 +164,17 @@ public class MockServer implements ReaderApiInterface {
             }
         }
         return favoriteNewsItems;
+    }
+
+    private FavoriteResponse getFavoriteResponse() {
+        String[] responses = {"success", "error_message"};
+        FavoriteResponse favoriteResponse = new FavoriteResponse(getRandom(responses));
+        return favoriteResponse;
+    }
+
+    public static String getRandom(String[] array) {
+        int rnd = new Random().nextInt(array.length);
+        return array[rnd];
     }
 }
 

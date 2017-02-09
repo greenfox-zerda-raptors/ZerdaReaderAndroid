@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.dagger;
 
+import com.greenfox.fuchsit.zerdareader.activity.DetailedPageActivity;
 import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 
@@ -15,4 +16,5 @@ import dagger.Component;
 public interface MockServerComponent {
     void inject (LoginActivity loginActivity);
     void inject (FeedFragment feedFragment);
+    void inject (DetailedPageActivity detailedPageActivity);
 }

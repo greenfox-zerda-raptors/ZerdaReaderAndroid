@@ -1,9 +1,12 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,7 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
+import com.greenfox.fuchsit.zerdareader.model.FavoriteResponse;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by regnisalram on 1/30/17.
@@ -24,6 +37,13 @@ public class DetailedPageActivity extends AppCompatActivity {
     MenuItem favoriteStar;
     MenuItem notFavoriteStar;
     boolean isItemFavorite;
+
+    @Inject
+    ReaderApiInterface apiService;
+
+    FavoriteRequest favoriteRequest;
+
+    SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +60,8 @@ public class DetailedPageActivity extends AppCompatActivity {
 
         article = (TextView) findViewById(R.id.description);
         article.setText(newsItem.getDescription());
+
+        DaggerMockServerComponent.builder().build().inject(this);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,24 +91,56 @@ public class DetailedPageActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        favoriteRequest = new FavoriteRequest(newsItem.getId());
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
             break;
-            case R.id.remove_favorite:
-                isItemFavorite = false;
-                newsItem.setFavorite(false);
-                Toast.makeText(this,"Removed from Favorites",Toast.LENGTH_LONG).show();
-                invalidateOptionsMenu();
-            break;
-
             case R.id.add_favorite:
-                isItemFavorite = true;
-                newsItem.setFavorite(true);
-                Toast.makeText(this,"Marked as Favorite",Toast.LENGTH_LONG).show();
-                invalidateOptionsMenu();
-            break;
+                Call<FavoriteResponse> createCall = apiService.createFavoriteItem(sharedPreferences.getString("token", null), favoriteRequest);
+                createCall.enqueue(new Callback<FavoriteResponse>() {
+                    @Override
+                    public void onResponse(Call<FavoriteResponse> call, Response<FavoriteResponse> response) {
+                        FavoriteResponse favoriteResponse = response.body();
+                        if (favoriteResponse.getResponse().equals("success")) {
+                            newsItem.setFavorite(true);
+                            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Marked as Favorite",Toast.LENGTH_LONG).show();
+                            invalidateOptionsMenu();
+                        } else {
+                            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Please try again",Toast.LENGTH_LONG).show();
+                            invalidateOptionsMenu();
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<FavoriteResponse> call, Throwable t) {
+
+                    }
+                });
+            break;
+            case R.id.remove_favorite:
+                Call<FavoriteResponse> deleteCall = apiService.deleteFavoriteItem(sharedPreferences.getString("token", null), favoriteRequest);
+                deleteCall.enqueue(new Callback<FavoriteResponse>() {
+                    @Override
+                    public void onResponse(Call<FavoriteResponse> call, Response<FavoriteResponse> response) {
+                        FavoriteResponse favoriteResponse = response.body();
+                        if (favoriteResponse.getResponse().equals("success")) {
+                            newsItem.setFavorite(false);
+                            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Removed from Favorites",Toast.LENGTH_LONG).show();
+                            invalidateOptionsMenu();
+                        } else {
+                            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Please try again",Toast.LENGTH_LONG).show();
+                            invalidateOptionsMenu();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FavoriteResponse> call, Throwable t) {
+
+                    }
+                });
+                break;
         }
         return true;
     }

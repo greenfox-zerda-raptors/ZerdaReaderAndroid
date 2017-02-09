@@ -1,7 +1,5 @@
 package com.greenfox.fuchsit.zerdareader.rest;
 
-import android.content.SharedPreferences;
-
 import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteResponse;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
