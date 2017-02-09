@@ -28,5 +28,8 @@
         <activity android:name=".activity.SettingsActivity"/>
         <activity android:name=".activity.ManageSubscriptionsActivity"/>
         <service android:name=".syncService.BackgroundSyncService" android:exported="false" />
+        <intent-filter>
+            <action android:name="BackgroundSyncService.TRANSACTION_DONE" />
+        </intent-filter>
     </application>
 </manifest>
