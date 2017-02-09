@@ -6,12 +6,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.SubscriptionsAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
@@ -48,7 +52,6 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         subscriptionsList.setAdapter(subscriptionsAdapter);
 
         showSubscriptions();
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

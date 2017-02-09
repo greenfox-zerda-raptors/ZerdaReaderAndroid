@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
@@ -75,6 +76,7 @@ public class MockServer implements ReaderApiInterface {
         };
     }
 
+
     @Override
 
     public void updateOpened(@Path("item_id") long id, UpdateRequest updateRequest) {
@@ -113,11 +115,11 @@ public class MockServer implements ReaderApiInterface {
         return null;
     }
 
-
     @Override
-    public void deleteSubscription(@Path("id") long id, SubsDeleteRequest subsDeleteRequest) {
-
+    public Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, SubsDeleteRequest subsDeleteRequest) {
+        return null;
     }
+
 
     private UserResponse checkUsername(LoginRequest loginRequest) {
         UserResponse userResponse;
@@ -138,6 +140,7 @@ public class MockServer implements ReaderApiInterface {
         }
         return userResponse;
     }
+
 
     @NonNull
     private ArrayList<SubscriptionModel> addSubscriptions() throws ParseException {
