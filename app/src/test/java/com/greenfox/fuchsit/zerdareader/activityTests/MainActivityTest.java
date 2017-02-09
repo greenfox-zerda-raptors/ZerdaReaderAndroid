@@ -1,6 +1,5 @@
 package com.greenfox.fuchsit.zerdareader.activityTests;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -8,14 +7,12 @@ import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 import com.greenfox.fuchsit.zerdareader.activity.MainActivity;
-import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,13 +23,10 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
-import static org.robolectric.util.FragmentTestUtil.startFragment;
 
 /**
  * Created by Anna on 17/02/01.
@@ -61,7 +55,7 @@ public class MainActivityTest {
         assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.refresh).isVisible());
         assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.favorite).isVisible());
         assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.manage_subscriptions).isVisible());
-        assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.Settings).isVisible());
+        assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.settings).isVisible());
         assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.logout).isVisible());
     }
 
