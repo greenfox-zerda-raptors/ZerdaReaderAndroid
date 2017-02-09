@@ -40,9 +40,8 @@ public class FeedFragment extends ListFragment {
     @Inject
     ReaderApiInterface apiService;
 
-    SharedPreferences sharedPreferences;
-
     UpdateRequest updateRequest;
+    SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -56,6 +55,7 @@ public class FeedFragment extends ListFragment {
         feed.setAdapter(adapter);
 
         DaggerMockServerComponent.builder().build().inject(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         tabNumber = getArguments().getInt("tabNumber", 1);
 
@@ -71,9 +71,9 @@ public class FeedFragment extends ListFragment {
         Call<ArrayList<NewsItem>> call;
 
         if(tabNumber == 1) {
-            call = apiService.getNewsItems();
+            call = apiService.getNewsItems(sharedPreferences.getString("token", "default"));
         } else {
-            call = apiService.getFavouriteNewsItems(sharedPreferences.getString("token", null));
+            call = apiService.getFavouriteNewsItems(sharedPreferences.getString("token", "default"));
         }
 
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
@@ -95,7 +95,7 @@ public class FeedFragment extends ListFragment {
 
         NewsItem item = (NewsItem) feed.getItemAtPosition(position);
         updateRequest = new UpdateRequest(item.getId(), 1);
-        apiService.updateOpened(item.getId(), updateRequest);
+        apiService.updateOpened(item.getId(), updateRequest, sharedPreferences.getString("token", "default"));
 
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);

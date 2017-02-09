@@ -32,7 +32,7 @@ import retrofit2.http.Query;
 public class MockServer implements ReaderApiInterface {
 
     @Override
-    public MockCall<ArrayList<NewsItem>> getNewsItems() {
+    public MockCall<ArrayList<NewsItem>> getNewsItems(String token) {
         return new MockCall<ArrayList<NewsItem>>() {
             @Override
             public void enqueue(Callback<ArrayList<NewsItem>> callback) {
@@ -100,8 +100,7 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-
-    public void updateOpened(@Path("item_id") long id, UpdateRequest updateRequest) {
+    public void updateOpened(long id, UpdateRequest updateRequest, String token) {
     }
 
     public MockCall<UserResponse> signUpUser(final LoginRequest loginRequest) {
