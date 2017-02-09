@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences loginData;
 
     LoginRequest loginRequest;
+    UserResponse userResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                    UserResponse userResponse = response.body();
+                    userResponse = response.body();
 
                     checkCredentialsAndLogIn(userResponse);
                 }
@@ -88,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         loginData = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         final SharedPreferences.Editor editor = loginData.edit();
 
+        editor.putString("token", userResponse.getToken());
         editor.putString("userName", editEmail.getText().toString());
         editor.putString("password", editPassword.getText().toString());
         editor.putBoolean("isLogin", true);
@@ -131,6 +133,11 @@ public class LoginActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
         return true;
+    }
+
+    public void redirectToSignup(View view) {
+        Intent i = new Intent(LoginActivity.this, SignupActivity.class);
+        startActivity(i);
     }
 }
 

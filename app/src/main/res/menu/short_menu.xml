@@ -7,8 +7,6 @@
         android:id="@+id/nav"
         android:icon="@drawable/ic_back"
         app:showAsAction="always"/>
-
-
 </menu>
 
 

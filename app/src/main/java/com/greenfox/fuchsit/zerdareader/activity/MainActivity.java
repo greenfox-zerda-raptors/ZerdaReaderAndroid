@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        setTabLayout();
+
+    }
+
+    private void setTabLayout() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Feed"));
         tabLayout.addTab(tabLayout.newTab().setText("Favorites"));
@@ -56,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
     }
 
     private void checkIfLoggedIn() {
@@ -70,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOut() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("token", "");
         editor.putString("username", "");
         editor.putString("password", "");
         editor.putBoolean("isLogin", false);
