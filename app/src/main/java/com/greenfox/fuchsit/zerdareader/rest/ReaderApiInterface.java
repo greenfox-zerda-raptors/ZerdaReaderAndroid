@@ -24,7 +24,7 @@ public interface ReaderApiInterface {
     Call<ArrayList<NewsItem>> getFavouriteNewsItems(@Query("token") String token);
 
     @GET("/feed")
-    Call<ArrayList<NewsItem>> getNewsItems();
+    Call<ArrayList<NewsItem>> getNewsItems(@Query("token") String token);
 
     @POST("user/login")
     Call<UserResponse> loginUser(LoginRequest loginRequest);
