@@ -71,18 +71,9 @@ public class FeedFragment extends ListFragment {
         createBroadcastReceiver();
         IntentFilter intentfilter = new IntentFilter();
         intentfilter.addAction(BackgroundSyncService.TRANSACTION_DONE);
+        registerReceiver(broadcastReceiver, intentfilter);
 
         return view;
-    }
-
-    private void createBroadcastReceiver() {
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.e("BackgroundSyncService", "Service recieved");
-                updateFragment();
-            }
-        };
     }
 
     public void showNewsItems() {
@@ -104,7 +95,6 @@ public class FeedFragment extends ListFragment {
 
             @Override
             public void onFailure(Call<ArrayList<NewsItem>> call, Throwable t) {
-
             }
         });
     }
@@ -130,7 +120,21 @@ public class FeedFragment extends ListFragment {
         myFragment.setArguments(args);
 
         return myFragment;
+    }
 
+    private void createBroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.e("BackgroundSyncService", "Service recieved");
+                updateFragment();
+            }
+        };
+    }
+
+    private void updateFragment() {
+        adapter.clear();
+        adapter.addAll();
     }
 }
 
