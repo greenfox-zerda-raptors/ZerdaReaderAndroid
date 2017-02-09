@@ -91,6 +91,8 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         });
     }
 
+
+
     public void showEditDialog(View view) {
         FragmentManager fm = getSupportFragmentManager();
         NewSubsDialogFragment newSubsDialogFragment = NewSubsDialogFragment.newInstance("Subscribe");

@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.rest;
 
+import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
@@ -42,7 +43,7 @@ public interface ReaderApiInterface {
     Call<ArrayList<SubscriptionModel>> getSubscriptions();
 
     @POST("/subscribe")
-    Call<SubscriptionModel> addNewSubscription();
+    Call<AddSubsResponse> addNewSubscription();
 
     @DELETE("/subsribe/{id}")
     Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, SubsDeleteRequest subsDeleteRequest);
