@@ -9,16 +9,16 @@ import com.google.gson.annotations.SerializedName;
 public class FavoriteRequest {
 
     @SerializedName("item_id")
-    private int itemId;
+    private long itemId;
 
     public FavoriteRequest() {
     }
 
-    public FavoriteRequest(int itemId) {
+    public FavoriteRequest(long itemId) {
         this.itemId = itemId;
     }
 
-    public int getItemId() {
+    public long getItemId() {
         return itemId;
     }
 
