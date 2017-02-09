@@ -135,6 +135,11 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
         return true;
     }
+
+    public void redirectToSignup(View view) {
+        Intent i = new Intent(LoginActivity.this, SignupActivity.class);
+        startActivity(i);
+    }
 }
 
 
