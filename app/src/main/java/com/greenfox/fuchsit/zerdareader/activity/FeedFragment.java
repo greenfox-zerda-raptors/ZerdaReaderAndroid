@@ -1,12 +1,16 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,7 @@ import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncService;
 
 import java.util.ArrayList;
 
@@ -43,6 +48,8 @@ public class FeedFragment extends ListFragment {
     UpdateRequest updateRequest;
     SharedPreferences sharedPreferences;
 
+    private BroadcastReceiver broadcastReceiver;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +68,21 @@ public class FeedFragment extends ListFragment {
 
         showNewsItems();
 
+        createBroadcastReceiver();
+        IntentFilter intentfilter = new IntentFilter();
+        intentfilter.addAction(BackgroundSyncService.TRANSACTION_DONE);
+
         return view;
+    }
+
+    private void createBroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.e("BackgroundSyncService", "Service recieved");
+                updateFragment();
+            }
+        };
     }
 
     public void showNewsItems() {
