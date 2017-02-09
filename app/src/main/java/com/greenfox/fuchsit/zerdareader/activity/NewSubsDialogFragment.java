@@ -2,8 +2,10 @@ package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -13,8 +15,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
+import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
+import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Zsuzska on 2017. 02. 09..
@@ -25,6 +35,10 @@ public class NewSubsDialogFragment extends DialogFragment {
     private TextView enterUrlTExView;
     private EditText urlEditText;
     private Button okButton;
+
+    AddSubsResponse addSubsResponse;
+    AddSubsRequest addSubsRequest;
+    ReaderApiInterface apiService;
 
     public NewSubsDialogFragment() {
     }
@@ -37,35 +51,13 @@ public class NewSubsDialogFragment extends DialogFragment {
         return fragment;
     }
 
-//    @Override
-//    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        String title = getArguments().getString("title");
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-//        alertDialogBuilder.setTitle(title);
-//        alertDialogBuilder.setMessage("Are you sure?");
-//        alertDialogBuilder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                // on success
-//            }
-//        });
-//        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        return alertDialogBuilder.create();
-//    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.new_subs_dialog, container);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB_MR1)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -81,4 +73,9 @@ public class NewSubsDialogFragment extends DialogFragment {
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
+
+
 }
+
+
+

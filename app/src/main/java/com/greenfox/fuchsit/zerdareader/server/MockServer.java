@@ -2,6 +2,8 @@ package com.greenfox.fuchsit.zerdareader.server;
 
 import android.support.annotation.NonNull;
 
+import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
+import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
@@ -16,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -111,9 +114,17 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public Call<SubscriptionModel> addNewSubscription() {
-        return null;
+    public Call<AddSubsResponse> addNewSubscription(final AddSubsRequest addSubsRequest) {
+        return new MockCall<AddSubsResponse>() {
+            @Override
+            public void enqueue(Callback<AddSubsResponse> callback) {
+
+                Response<AddSubsResponse> r = Response.success(checkSubsResponse(addSubsRequest));
+                callback.onResponse(this, r);
+            }
+        };
     }
+
 
     @Override
     public Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, SubsDeleteRequest subsDeleteRequest) {
@@ -141,6 +152,10 @@ public class MockServer implements ReaderApiInterface {
         return userResponse;
     }
 
+    private AddSubsResponse checkSubsResponse(AddSubsRequest addSubsRequest) {
+        AddSubsResponse addSubsResponse = new AddSubsResponse("success", 2587L);
+        return addSubsResponse;
+    }
 
     @NonNull
     private ArrayList<SubscriptionModel> addSubscriptions() throws ParseException {
