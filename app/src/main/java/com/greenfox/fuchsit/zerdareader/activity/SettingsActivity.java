@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncService;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -41,6 +43,11 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    public void startBackgroundSyncService() {
+        Intent intent = new Intent(this, BackgroundSyncService.class);
+        this.startService(intent);
     }
 
 }
