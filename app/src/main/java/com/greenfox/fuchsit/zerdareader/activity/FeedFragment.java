@@ -76,7 +76,6 @@ public class FeedFragment extends ListFragment {
             call = apiService.getFavouriteNewsItems(sharedPreferences.getString("token", null));
         }
 
-
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
             public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {
