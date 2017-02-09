@@ -47,7 +47,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void startBackgroundSyncService() {
         Intent intent = new Intent(this, BackgroundSyncService.class);
-        intent.putExtra("url", "https://www.asdasdasd.com/feed");
         this.startService(intent);
     }
 
