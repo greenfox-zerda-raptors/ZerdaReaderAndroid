@@ -27,5 +27,6 @@
         <activity android:name=".activity.DetailedPageActivity"/>
         <activity android:name=".activity.SettingsActivity"/>
         <activity android:name=".activity.ManageSubscriptionsActivity"/>
+        <service android:name=".syncService.BackgroundSyncService" android:exported="false" />
     </application>
 </manifest>
