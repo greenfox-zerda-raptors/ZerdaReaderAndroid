@@ -6,6 +6,9 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+
+import com.greenfox.fuchsit.zerdareader.R;
 
 /**
  * Created by regnisalram on 2/9/17.
@@ -26,8 +29,8 @@ public class FavoriteErrorDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(message)
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.dialog_favorite_error);
+        builder.setTitle(message)
                 .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         favoriteErrorListener.onDialogPositiveClick(FavoriteErrorDialog.this, isFavoriting);
