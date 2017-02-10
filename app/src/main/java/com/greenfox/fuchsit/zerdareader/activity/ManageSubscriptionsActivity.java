@@ -147,7 +147,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
 
     private void checkResultAndSubscribe(AddSubsResponse addSubsResponse) {
         if (addSubsResponse.getResult().equals("success")) {
-            Toast.makeText(ManageSubscriptionsActivity.this, "You have successfully subsribed", Toast.LENGTH_LONG).show();
+            Toast.makeText(ManageSubscriptionsActivity.this, "You have successfully subscribed to " + urlEditText.getText(), Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(ManageSubscriptionsActivity.this, addSubsResponse.getMessage(), Toast.LENGTH_LONG).show();
         }
