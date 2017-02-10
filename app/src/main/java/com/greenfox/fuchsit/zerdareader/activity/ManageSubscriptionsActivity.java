@@ -1,64 +1,159 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.adapter.SubscriptionsAdapter;
+import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
+import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
+import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ManageSubscriptionsActivity extends AppCompatActivity {
+
+    ListView subscriptionsList;
+    SubscriptionsAdapter subscriptionsAdapter;
+    @Inject
+    ReaderApiInterface apiService;
+    NewSubsDialogFragment newSubsDialogFragment;
+
+    private TextView enterUrlTExView;
+    private EditText urlEditText;
+    private Button okButton;
+
+    AddSubsResponse addSubsResponse;
+    AddSubsRequest addSubsRequest;
+
+    SubsDeleteRequest subsDeleteRequest;
+    SubsDeleteResponse subsDeleteResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_subscriptions);
 
-        TextView subscriptions = (TextView) findViewById(R.id.subscriptionsTextView);
-
+        subscriptionsList = (ListView) findViewById(R.id.subscriptions_list);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+
+
         myToolbar.setTitle("Feed");
         myToolbar.setSubtitle("Back to your feed");
         setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        newSubsDialogFragment = NewSubsDialogFragment.newInstance("Subscribe");
+
+        DaggerMockServerComponent.builder().build().inject(this);
+        subscriptionsAdapter = new SubscriptionsAdapter(this);
+        subscriptionsList.setAdapter(subscriptionsAdapter);
+
+        showSubscriptions();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.my_toolbar_menu, menu);
-        MenuItem refreshItem = menu.findItem(R.id.refresh);
-        refreshItem.setVisible(false);
-        MenuItem starItem = menu.findItem(R.id.favorite);
-        starItem.setVisible(false);
+        inflater.inflate(R.menu.short_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.refresh:
-                Toast.makeText(this, "Refreshed", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.favorite:
-                Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.back:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
-            case R.id.manage_subscriptions:
-                startActivity(new Intent(this, ManageSubscriptionsActivity.class));
-                break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+            case android.R.id.home:
+                finish();
                 break;
         }
         return true;
     }
+
+    public void showSubscriptions() {
+
+        Call<ArrayList<SubscriptionModel>> call;
+
+        call = apiService.getSubscriptions();
+
+        call.enqueue(new Callback<ArrayList<SubscriptionModel>>() {
+            @Override
+            public void onResponse(Call<ArrayList<SubscriptionModel>> call, Response<ArrayList<SubscriptionModel>> response) {
+                subscriptionsAdapter.addAll(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<SubscriptionModel>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    public void showEditDialog(View view) {
+        FragmentManager fm = getSupportFragmentManager();
+        newSubsDialogFragment.show(fm, "new_subs_dialog");
+    }
+
+    public void subscribe(View view) {
+
+        urlEditText = (EditText) newSubsDialogFragment.getView().findViewById(R.id.urlEditText);
+
+        addSubsRequest = new AddSubsRequest(urlEditText.getText().toString());
+        Call<AddSubsResponse> call = apiService.addNewSubscription(addSubsRequest);
+
+        call.enqueue(new Callback<AddSubsResponse>() {
+            @Override
+            public void onResponse(Call<AddSubsResponse> call, Response<AddSubsResponse> response) {
+                addSubsResponse = response.body();
+
+                checkResultAndSubscribe(addSubsResponse);
+            }
+
+            @Override
+            public void onFailure(Call<AddSubsResponse> call, Throwable t) {
+
+            }
+        });
+        newSubsDialogFragment.dismiss();
+        this.recreate();
+    }
+
+    public void unsubscribe(View view) {
+
+
+    }
+
+
+    private void checkResultAndSubscribe(AddSubsResponse addSubsResponse) {
+        if (addSubsResponse.getResult().equals("success")) {
+            Toast.makeText(ManageSubscriptionsActivity.this, "You have successfully subscribed to " + urlEditText.getText(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(ManageSubscriptionsActivity.this, addSubsResponse.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
 }
 

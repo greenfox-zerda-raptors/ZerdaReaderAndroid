@@ -22,12 +22,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        checkIfLoggedIn();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
+        setTabLayout();
+
+    }
+
+    private void setTabLayout() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Feed"));
         tabLayout.addTab(tabLayout.newTab().setText("Favorites"));
@@ -46,20 +55,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
-
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        checkIfLoggedIn();
-
     }
 
     private void checkIfLoggedIn() {
@@ -73,9 +74,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOut() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("userName", "");
+        editor.putString("token", "");
+        editor.putString("username", "");
         editor.putString("password", "");
+        editor.putBoolean("isLogin", false);
         editor.apply();
+        finish();
 
         Toast.makeText(this, "Successful logout", Toast.LENGTH_SHORT).show();
 
@@ -86,10 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_toolbar_menu, menu);
-        MenuItem starItem = menu.findItem(R.id.favorite);
-        starItem.setVisible(false);
-        MenuItem backItem = menu.findItem(R.id.back);
-        backItem.setVisible(false);
         return true;
     }
 
@@ -97,9 +97,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.refresh:
+                this.recreate();
                 Toast.makeText(this,"Refreshed",Toast.LENGTH_LONG).show();
-            case R.id.favorite:
-                Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
                 break;
             case R.id.logout:
                 logOut();

@@ -2,36 +2,43 @@ package com.greenfox.fuchsit.zerdareader.model;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Zsuzska on 2017. 01. 19..
- */
-public class UserResponse {
+import java.io.Serializable;
 
+/**
+ * Created by Zsuzska on 2017. 02. 08..
+ */
+
+public class SubscriptionModel implements Serializable {
     @SerializedName("id")
     private Long id;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("feed")
+    private String url;
     @SerializedName("result")
     private String result;
-    @SerializedName("token")
-    private String token;
     @SerializedName("message")
     private String message;
 
-    public UserResponse() {
+    public SubscriptionModel() {
     }
 
-    public UserResponse(String token, String result, Long id) {
+    public SubscriptionModel(String name, Long id) {
+        this.name = name;
         this.id = id;
-        this.result = result;
-        this.token = token;
     }
 
-    public UserResponse(String result, String message) {
+    public SubscriptionModel(String name) {
+        this.name = name;
+    }
+
+    public SubscriptionModel(String result, String message) {
         this.result = result;
         this.message = message;
     }
 
-    public UserResponse(String result) {
-        this.result = result;
+    public SubscriptionModel(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
@@ -42,12 +49,20 @@ public class UserResponse {
         this.id = id;
     }
 
-    public String getToken() {
-        return token;
+    public String getName() {
+        return name;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getResult() {
@@ -66,6 +81,3 @@ public class UserResponse {
         this.message = message;
     }
 }
-
-
-
