@@ -131,6 +131,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
             }
         });
         newSubsDialogFragment.dismiss();
+        this.recreate();
     }
 
 
