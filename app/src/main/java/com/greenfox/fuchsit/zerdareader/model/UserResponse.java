@@ -19,10 +19,15 @@ public class UserResponse {
     public UserResponse() {
     }
 
-    public UserResponse(Long id, String result, String token) {
+    public UserResponse(String token, String result, Long id) {
         this.id = id;
         this.result = result;
         this.token = token;
+    }
+
+    public UserResponse(String result, String message) {
+        this.result = result;
+        this.message = message;
     }
 
     public UserResponse(String result) {

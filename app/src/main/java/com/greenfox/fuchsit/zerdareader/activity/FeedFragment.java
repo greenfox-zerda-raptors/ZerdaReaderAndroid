@@ -1,7 +1,9 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.ListFragment;
@@ -39,6 +41,7 @@ public class FeedFragment extends ListFragment {
     ReaderApiInterface apiService;
 
     UpdateRequest updateRequest;
+    SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -52,6 +55,7 @@ public class FeedFragment extends ListFragment {
         feed.setAdapter(adapter);
 
         DaggerMockServerComponent.builder().build().inject(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         tabNumber = getArguments().getInt("tabNumber", 1);
 
@@ -65,9 +69,9 @@ public class FeedFragment extends ListFragment {
         Call<ArrayList<NewsItem>> call;
 
         if(tabNumber == 1) {
-            call = apiService.getNewsItems();
+            call = apiService.getNewsItems(sharedPreferences.getString("token", "default"));
         } else {
-            call = apiService.getFavouriteNewsItems();
+            call = apiService.getFavouriteNewsItems(sharedPreferences.getString("token", "default"));
         }
 
 
@@ -90,7 +94,7 @@ public class FeedFragment extends ListFragment {
 
         NewsItem item = (NewsItem) feed.getItemAtPosition(position);
         updateRequest = new UpdateRequest(item.getId(), 1);
-        apiService.updateOpened(item.getId(), updateRequest);
+        apiService.updateOpened(item.getId(), updateRequest, sharedPreferences.getString("token", "default"));
 
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);
