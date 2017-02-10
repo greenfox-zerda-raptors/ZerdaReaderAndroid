@@ -53,7 +53,6 @@ public class MainActivityTest {
         shadowActivity.onCreateOptionsMenu(toolbar.getMenu());
 
         assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.refresh).isVisible());
-        assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.favorite).isVisible());
         assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.manage_subscriptions).isVisible());
         assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.settings).isVisible());
         assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.logout).isVisible());
