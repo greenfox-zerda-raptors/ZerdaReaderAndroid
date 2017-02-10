@@ -14,16 +14,9 @@ import android.widget.Toast;
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.dialog.FavoriteErrorDialog;
+import com.greenfox.fuchsit.zerdareader.model.FavoriteHandler;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
-import com.greenfox.fuchsit.zerdareader.model.FavoriteResponse;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
-import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-
-import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by regnisalram on 1/30/17.
@@ -37,15 +30,11 @@ public class DetailedPageActivity extends AppCompatActivity implements FavoriteE
     MenuItem notFavoriteStar;
     boolean isItemFavorite;
 
-    @Inject
-    ReaderApiInterface apiService;
-
     FavoriteRequest favoriteRequest;
 
     SharedPreferences sharedPreferences;
 
-    Call<FavoriteResponse> createCall;
-    Call<FavoriteResponse> deleteCall;
+    FavoriteHandler favoriteHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,8 +56,7 @@ public class DetailedPageActivity extends AppCompatActivity implements FavoriteE
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        createCall = apiService.createFavoriteItem(sharedPreferences.getString("token", null), favoriteRequest);
-        deleteCall = apiService.deleteFavoriteItem(sharedPreferences.getString("token", null), favoriteRequest);
+        favoriteHandler = new FavoriteHandler(this);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,74 +92,52 @@ public class DetailedPageActivity extends AppCompatActivity implements FavoriteE
                 finish();
             break;
             case R.id.add_favorite:
-                createFavoriteCall();
+                addFavorite();
                 break;
             case R.id.remove_favorite:
-                deleteFavoriteCall();
+                removeFavorite();
                 break;
         }
         return true;
     }
 
+    private void removeFavorite() {
+        if (favoriteHandler.deleteFavoriteCall()) {
+            newsItem.setFavorite(false);
+            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Removed from Favorites",Toast.LENGTH_LONG).show();
+            invalidateOptionsMenu();
+        } else {
+            final String message = "Couldn't remove favorite at this time. Try again?";
+            final boolean isFavoriting = false;
+            FavoriteErrorDialog newFragment = new FavoriteErrorDialog(message, isFavoriting);
+            newFragment.show(getSupportFragmentManager(), "deleteFavoriteError");
+
+            invalidateOptionsMenu();
+        }
+    }
+
+    private void addFavorite() {
+        if (favoriteHandler.createFavoriteCall()) {
+            newsItem.setFavorite(true);
+            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Marked as Favorite",Toast.LENGTH_LONG).show();
+            invalidateOptionsMenu();
+        } else {
+            final String message = "Couldn't save favorite at this time. Try again?";
+            final boolean isFavoriting = true;
+            FavoriteErrorDialog newFragment = new FavoriteErrorDialog(message, isFavoriting);
+            newFragment.show(getSupportFragmentManager(), "createFavoriteError");
+            invalidateOptionsMenu();
+        }
+    }
+
     @Override
     public void onDialogPositiveClick(android.support.v4.app.DialogFragment dialog, boolean isFavoriting) {
         if (isFavoriting) {
-            createFavoriteCall();
+            addFavorite();
         } else {
-            deleteFavoriteCall();
+            removeFavorite();
         }
 
-    }
-
-    private void createFavoriteCall() {
-        final String message = "Couldn't save favorite at this time. Try again?";
-        final boolean isFavoriting = true;
-        createCall.enqueue(new Callback<FavoriteResponse>() {
-            @Override
-            public void onResponse(Call<FavoriteResponse> call, Response<FavoriteResponse> response) {
-                FavoriteResponse favoriteResponse = response.body();
-                if (favoriteResponse.getResponse().equals("success")) {
-                    newsItem.setFavorite(true);
-                    Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Marked as Favorite",Toast.LENGTH_LONG).show();
-                    invalidateOptionsMenu();
-                } else {
-                    FavoriteErrorDialog newFragment = new FavoriteErrorDialog(message, isFavoriting);
-                    newFragment.show(getSupportFragmentManager(), "createFavoriteError");
-                    invalidateOptionsMenu();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<FavoriteResponse> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void deleteFavoriteCall() {
-        final String message = "Couldn't remove favorite at this time. Try again?";
-        final boolean isFavoriting = false;
-        deleteCall.enqueue(new Callback<FavoriteResponse>() {
-            @Override
-            public void onResponse(Call<FavoriteResponse> call, Response<FavoriteResponse> response) {
-                FavoriteResponse favoriteResponse = response.body();
-                if (favoriteResponse.getResponse().equals("success")) {
-                    newsItem.setFavorite(false);
-                    Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Removed from Favorites",Toast.LENGTH_LONG).show();
-                    invalidateOptionsMenu();
-                } else {
-                    FavoriteErrorDialog newFragment = new FavoriteErrorDialog(message, isFavoriting);
-                    newFragment.show(getSupportFragmentManager(), "deleteFavoriteError");
-
-                    invalidateOptionsMenu();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<FavoriteResponse> call, Throwable t) {
-
-            }
-        });
     }
 }
 
