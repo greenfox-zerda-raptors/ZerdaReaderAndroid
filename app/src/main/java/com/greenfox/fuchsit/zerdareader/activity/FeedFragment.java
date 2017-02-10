@@ -71,7 +71,7 @@ public class FeedFragment extends ListFragment {
         createBroadcastReceiver();
         IntentFilter intentfilter = new IntentFilter();
         intentfilter.addAction(BackgroundSyncService.TRANSACTION_DONE);
-        registerReceiver(broadcastReceiver, intentfilter);
+        getActivity().registerReceiver(broadcastReceiver, intentfilter);
 
         return view;
     }
