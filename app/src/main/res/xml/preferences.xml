@@ -5,13 +5,11 @@
     <PreferenceCategory
         android:title="Basic Settings" >
 
-
-
         <CheckBoxPreference
             android:defaultValue="false"
             android:title="Enable background sync"
             android:key="check_box_preference_sync"
-            android:icon="@drawable/refresh" />
+            android:icon="@drawable/ic_sync_black_24dp" />
 
         <CheckBoxPreference
             android:defaultValue="false"
