@@ -4,8 +4,10 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
@@ -40,7 +42,7 @@ public class BackgroundSyncService extends IntentService {
         updateNewsItems();
         Log.e("BackgroundSyncService", "Service stopped");
         Intent i = new Intent(TRANSACTION_DONE);
-        BackgroundSyncService.this.sendBroadcast(i);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(i);
     }
 
     private void updateNewsItems() {
@@ -52,11 +54,13 @@ public class BackgroundSyncService extends IntentService {
             @Override
             public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {
                 ArrayList<NewsItem> news = response.body();
+                Intent redirectToFeedFragment = new Intent(getApplicationContext(), FeedFragment.class);
+                redirectToFeedFragment.putExtra("news", news);
+                startService(redirectToFeedFragment);
             }
 
             @Override
             public void onFailure(Call<ArrayList<NewsItem>> call, Throwable t) {
-
             }
         });
     }
