@@ -153,7 +153,13 @@ public class MockServer implements ReaderApiInterface {
     }
 
     private AddSubsResponse checkSubsResponse(AddSubsRequest addSubsRequest) {
-        AddSubsResponse addSubsResponse = new AddSubsResponse("success", 2587L);
+        AddSubsResponse addSubsResponse;
+        if (addSubsRequest.getUrl().equals("blabla.hu")) {
+            addSubsResponse = new AddSubsResponse("fail", "Failed to subscribe");
+        } else {
+            addSubsResponse = new AddSubsResponse("success", 2587L);
+        }
+
         return addSubsResponse;
     }
 

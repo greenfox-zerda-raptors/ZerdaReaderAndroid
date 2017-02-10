@@ -55,10 +55,13 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         subscriptionsList = (ListView) findViewById(R.id.subscriptions_list);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+
+
         myToolbar.setTitle("Feed");
         myToolbar.setSubtitle("Back to your feed");
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        newSubsDialogFragment = NewSubsDialogFragment.newInstance("Subscribe");
 
         DaggerMockServerComponent.builder().build().inject(this);
         subscriptionsAdapter = new SubscriptionsAdapter(this);
@@ -106,13 +109,13 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
 
     public void showEditDialog(View view) {
         FragmentManager fm = getSupportFragmentManager();
-        newSubsDialogFragment = NewSubsDialogFragment.newInstance("Subscribe");
         newSubsDialogFragment.show(fm, "new_subs_dialog");
     }
 
-    public void subscribe() {
+    public void subscribe(View view) {
 
-        //**** THIS IS NOT WORKING GONNA RIP MY HAIR OUT ****//
+
+        urlEditText = (EditText) newSubsDialogFragment.getView().findViewById(R.id.urlEditText);
 
         addSubsRequest = new AddSubsRequest(urlEditText.getText().toString());
         Call<AddSubsResponse> call = apiService.addNewSubscription(addSubsRequest);

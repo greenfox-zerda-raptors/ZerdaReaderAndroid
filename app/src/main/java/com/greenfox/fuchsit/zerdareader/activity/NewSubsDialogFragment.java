@@ -36,10 +36,6 @@ public class NewSubsDialogFragment extends DialogFragment {
     private EditText urlEditText;
     private Button okButton;
 
-    AddSubsResponse addSubsResponse;
-    AddSubsRequest addSubsRequest;
-    ReaderApiInterface apiService;
-
     public NewSubsDialogFragment() {
     }
 
