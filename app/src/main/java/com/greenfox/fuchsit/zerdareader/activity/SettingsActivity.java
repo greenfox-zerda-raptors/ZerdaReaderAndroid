@@ -1,49 +1,36 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 
 public class SettingsActivity extends PreferenceActivity {
 
-    SharedPreferences loginData;
+    private CheckBoxPreference checkbox_sync, checkbox_push;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-       super.onCreate(savedInstanceState);
-       addPreferencesFromResource(R.xml.preferences);
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.preferences);
+        checkbox_sync = (CheckBoxPreference) findPreference("isSyncEnabled");
+        checkbox_push = (CheckBoxPreference) findPreference("isPushEnabled");
 
-}
+        final Preference preference = findPreference("Preference");
+        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                final boolean value = (Boolean) newVal;
+                checkbox_sync.setChecked(value);
+                checkbox_push.setChecked(value);
+                return true;
+            }
 
-    public void onCheckboxClicked(View view) {
-        boolean checked = ((CheckBox) view).isChecked();
-
-        loginData = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
-        final SharedPreferences.Editor editor = loginData.edit();
-
-        switch(view.getId()) {
-            case R.id.checkbox_sync:
-                if (checked)
-                editor.putBoolean("isSyncEnabled", true);
-                editor.apply();
-                Toast.makeText(SettingsActivity.this, "Sync enabled", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.checkbox_push:
-                if (checked)
-                editor.putBoolean("isSyncEnabled", true);
-                editor.apply();
-                Toast.makeText(SettingsActivity.this, "Push enabled", Toast.LENGTH_LONG).show();
-                break;
-        }
+        });
     }
 
 }
-
-
