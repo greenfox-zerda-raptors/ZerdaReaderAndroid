@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.refresh:
+                this.recreate();
                 Toast.makeText(this,"Refreshed",Toast.LENGTH_LONG).show();
                 break;
             case R.id.logout:
