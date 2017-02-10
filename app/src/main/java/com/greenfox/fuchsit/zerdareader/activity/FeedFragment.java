@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,11 +44,10 @@ public class FeedFragment extends ListFragment {
     int tabNumber;
     SharedPreferences sharedPreferences;
     UpdateRequest updateRequest;
+    private BroadcastReceiver broadcastReceiver;
 
     @Inject
     ReaderApiInterface apiService;
-
-    private BroadcastReceiver broadcastReceiver;
 
     @Nullable
     @Override
@@ -62,11 +62,6 @@ public class FeedFragment extends ListFragment {
         DaggerMockServerComponent.builder().build().inject(this);
 
         showNewsItems();
-        createBroadcastReceiver();
-
-        IntentFilter intentfilter = new IntentFilter();
-        intentfilter.addAction(BackgroundSyncService.TRANSACTION_DONE);
-        getActivity().registerReceiver(broadcastReceiver, intentfilter);
 
         return view;
     }
@@ -115,23 +110,35 @@ public class FeedFragment extends ListFragment {
         startActivity(i);
     }
 
+    //this will be wired with Settings' respective field
+    public void launchBackgroundSyncService(View view) {
+        Intent i = new Intent(getActivity(), BackgroundSyncService.class);
+        getActivity().startService(i);
+
+        createBroadcastReceiver();
+        createIntentFilter();
+    }
+
     private void createBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.e("BackgroundSyncService", "Service recieved");
-                updateFragment();
+                Log.e("BackgroundSyncService", "Service received");
+                updateFragment(intent);
             }
         };
     }
 
-    public void onStartService() {
-
+    public void createIntentFilter() {
+        IntentFilter intentfilter = new IntentFilter();
+        intentfilter.addAction(BackgroundSyncService.TRANSACTION_DONE);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, intentfilter);
     }
 
-    private void updateFragment() {
+    private void updateFragment(Intent intent) {
         adapter.clear();
-        adapter.addAll();
+        ArrayList<NewsItem> list = (ArrayList<NewsItem>) intent.getExtras().getSerializable("bundle");
+        adapter.addAll(list);
     }
 }
 
