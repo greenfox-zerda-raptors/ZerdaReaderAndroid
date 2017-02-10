@@ -1,6 +1,7 @@
 package com.greenfox.fuchsit.zerdareader.server;
 
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
@@ -26,6 +27,7 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Zsuzska on 2017. 01. 20..
@@ -124,10 +126,15 @@ public class MockServer implements ReaderApiInterface {
         };
     }
 
-
     @Override
-    public Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, SubsDeleteRequest subsDeleteRequest) {
-        return null;
+    public Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, final SubsDeleteRequest subsDeleteRequest, @Query("token") String token) {
+        return new MockCall<SubsDeleteResponse>() {
+            @Override
+            public void enqueue(Callback<SubsDeleteResponse> callback) {
+                Response<SubsDeleteResponse> r = Response.success(checkDelResponse(subsDeleteRequest));
+                callback.onResponse(this, r);
+            }
+        };
     }
 
 
@@ -160,6 +167,16 @@ public class MockServer implements ReaderApiInterface {
         }
 
         return addSubsResponse;
+    }
+
+    private SubsDeleteResponse checkDelResponse(SubsDeleteRequest subsDeleteRequest) {
+        SubsDeleteResponse subsDeleteResponse;
+        if (subsDeleteRequest.getResult().equals("success")) {
+            subsDeleteResponse = new SubsDeleteResponse("success");
+        } else {
+            subsDeleteResponse = new SubsDeleteResponse("fail");
+        }
+        return subsDeleteResponse;
     }
 
     @NonNull

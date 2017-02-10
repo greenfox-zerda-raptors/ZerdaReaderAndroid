@@ -19,6 +19,8 @@ import com.greenfox.fuchsit.zerdareader.adapter.SubscriptionsAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
@@ -44,6 +46,9 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
 
     AddSubsResponse addSubsResponse;
     AddSubsRequest addSubsRequest;
+
+    SubsDeleteRequest subsDeleteRequest;
+    SubsDeleteResponse subsDeleteResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +137,11 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         });
         newSubsDialogFragment.dismiss();
         this.recreate();
+    }
+
+    public void unsubscribe(View view) {
+
+
     }
 
 

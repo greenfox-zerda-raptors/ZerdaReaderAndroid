@@ -20,9 +20,7 @@ import dagger.Component;
 public interface MockServerComponent {
     void inject (LoginActivity loginActivity);
     void inject (FeedFragment feedFragment);
-
     void inject (ManageSubscriptionsActivity manageSubscriptionsActivity);
-
     void inject (SignupActivity signupActivity);
 
 }

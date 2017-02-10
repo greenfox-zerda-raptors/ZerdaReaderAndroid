@@ -47,8 +47,8 @@ public interface ReaderApiInterface {
     @POST("/subscribe")
     Call<AddSubsResponse> addNewSubscription(AddSubsRequest addSubsRequest);
 
-    @DELETE("/subsribe/{id}")
-    Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, SubsDeleteRequest subsDeleteRequest);
+    @DELETE("/subscribe/{id}")
+    Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, SubsDeleteRequest subsDeleteRequest, @Query("token") String token);
 
 }
 
