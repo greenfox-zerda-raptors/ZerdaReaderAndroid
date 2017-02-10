@@ -1,6 +1,8 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -114,7 +116,6 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
 
     public void subscribe(View view) {
 
-
         urlEditText = (EditText) newSubsDialogFragment.getView().findViewById(R.id.urlEditText);
 
         addSubsRequest = new AddSubsRequest(urlEditText.getText().toString());
@@ -133,7 +134,9 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
 
             }
         });
+        newSubsDialogFragment.dismiss();
     }
+
 
     private void checkResultAndSubscribe(AddSubsResponse addSubsResponse) {
         if (addSubsResponse.getResult().equals("success")) {
