@@ -2,14 +2,10 @@ package com.greenfox.fuchsit.zerdareader.server;
 
 import android.support.annotation.NonNull;
 import android.widget.Toast;
-
-<<<<<<< HEAD
 import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
-=======
 import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteResponse;
->>>>>>> 0be86f70395b5cde75e2206290dfd01649e261da
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
@@ -237,9 +233,6 @@ public class MockServer implements ReaderApiInterface {
         return newsItems;
     }
 
-<<<<<<< HEAD
-
-=======
     private ArrayList<NewsItem> addFavoriteNewsItems() throws ParseException {
         ArrayList<NewsItem> newsItems = addNewsItems();
         ArrayList<NewsItem> favoriteNewsItems = new ArrayList<>();
@@ -261,7 +254,6 @@ public class MockServer implements ReaderApiInterface {
         int rnd = new Random().nextInt(array.length);
         return array[rnd];
     }
->>>>>>> 0be86f70395b5cde75e2206290dfd01649e261da
 }
 
 

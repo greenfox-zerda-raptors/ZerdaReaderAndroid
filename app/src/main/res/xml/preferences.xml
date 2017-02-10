@@ -9,7 +9,7 @@
             android:defaultValue="false"
             android:title="Enable background sync"
             android:key="checkbox_sync"
-            android:icon="@drawable/ic_sync_black_24dp"
+            android:icon="@drawable/refresh"
             android:onClick="onCheckboxClicked"/>
 
         <CheckBoxPreference android:id="@+id/checkbox_push"
