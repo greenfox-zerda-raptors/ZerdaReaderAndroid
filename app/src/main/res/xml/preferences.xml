@@ -5,17 +5,19 @@
     <PreferenceCategory
         android:title="Basic Settings" >
 
-        <CheckBoxPreference
+        <CheckBoxPreference android:id="@+id/checkbox_sync"
             android:defaultValue="false"
             android:title="Enable background sync"
             android:key="check_box_preference_sync"
-            android:icon="@drawable/ic_sync_black_24dp" />
+            android:icon="@drawable/ic_sync_black_24dp"
+            android:onClick="onCheckboxClicked"/>
 
-        <CheckBoxPreference
+        <CheckBoxPreference android:id="@+id/checkbox_push"
             android:defaultValue="false"
             android:title="Enable push notifications"
             android:icon="@drawable/ic_hankey"
-            android:key="check_box_preference_push" />
+            android:key="check_box_preference_push"
+            android:onClick="onCheckboxClicked"/>
 
     </PreferenceCategory>
 
