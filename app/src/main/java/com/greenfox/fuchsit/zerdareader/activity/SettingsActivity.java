@@ -1,36 +1,32 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 
 import com.greenfox.fuchsit.zerdareader.R;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     private CheckBoxPreference checkbox_sync, checkbox_push;
+    private SharedPreferences loginData;
+
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-        checkbox_sync = (CheckBoxPreference) findPreference("isSyncEnabled");
-        checkbox_push = (CheckBoxPreference) findPreference("isPushEnabled");
-
-        final Preference preference = findPreference("Preference");
-        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                final boolean value = (Boolean) newVal;
-                checkbox_sync.setChecked(value);
-                checkbox_push.setChecked(value);
-                return true;
-            }
-
-        });
+        loginData = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        loginData.registerOnSharedPreferenceChangeListener(this);
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences loginData, String s) {
+        setPreferenceScreen(null);
+        addPreferencesFromResource(R.xml.preferences);
+    }
 }
