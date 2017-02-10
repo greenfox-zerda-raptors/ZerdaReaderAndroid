@@ -2,6 +2,9 @@ package com.greenfox.fuchsit.zerdareader.rest;
 
 import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
+
+import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
+import com.greenfox.fuchsit.zerdareader.model.FavoriteResponse;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
@@ -26,11 +29,18 @@ import retrofit2.http.Query;
 
 public interface ReaderApiInterface {
 
+    @GET("/feed")
+    Call<ArrayList<NewsItem>> getNewsItems(@Query("token") String token);
+
+    //favourite cc anna
     @GET("/favorites")
     Call<ArrayList<NewsItem>> getFavouriteNewsItems(@Query("token") String token);
 
-    @GET("/feed")
-    Call<ArrayList<NewsItem>> getNewsItems(@Query("token") String token);
+    @POST("/favorites")
+    Call<FavoriteResponse> createFavoriteItem(@Query("token") String token, FavoriteRequest favoriteRequest);
+
+    @DELETE("/favorites")
+    Call<FavoriteResponse> deleteFavoriteItem(@Query("token") String token, FavoriteRequest favoriteRequest);
 
     @POST("user/login")
     Call<UserResponse> loginUser(LoginRequest loginRequest);

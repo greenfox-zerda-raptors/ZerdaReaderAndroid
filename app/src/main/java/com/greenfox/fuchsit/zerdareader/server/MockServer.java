@@ -3,8 +3,13 @@ package com.greenfox.fuchsit.zerdareader.server;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
+=======
+import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
+import com.greenfox.fuchsit.zerdareader.model.FavoriteResponse;
+>>>>>>> 0be86f70395b5cde75e2206290dfd01649e261da
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
@@ -34,23 +39,6 @@ import retrofit2.http.Query;
  */
 
 public class MockServer implements ReaderApiInterface {
-    @Override
-    public Call<ArrayList<NewsItem>> getFavouriteNewsItems(String token) {
-        return new MockCall<ArrayList<NewsItem>>() {
-            @Override
-            public void enqueue(Callback<ArrayList<NewsItem>> callback) {
-                ArrayList<NewsItem> newsItems = new ArrayList<>();
-                newsItems.add(new NewsItem("Favourite 1", "you are my favourite"));
-                newsItems.add(new NewsItem("Favourite 2", "you are my favourite"));
-                newsItems.add(new NewsItem("Favourite 3", "you are my favourite"));
-                newsItems.add(new NewsItem("Favourite 4", "you are my favourite"));
-                newsItems.add(new NewsItem("Favourite 5", "you are my favourite"));
-                newsItems.add(new NewsItem("Favourite 6", "you are my favourite"));
-                Response<ArrayList<NewsItem>> r = Response.success(newsItems);
-                callback.onResponse(this, r);
-            }
-        };
-    }
 
     @Override
     public MockCall<ArrayList<NewsItem>> getNewsItems(String token) {
@@ -64,6 +52,45 @@ public class MockServer implements ReaderApiInterface {
                     e.printStackTrace();
                 }
                 Response<ArrayList<NewsItem>> r = Response.success(newsItems);
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
+    @Override
+    public MockCall<ArrayList<NewsItem>> getFavouriteNewsItems(@Query("token") String token) {
+        return new MockCall<ArrayList<NewsItem>>() {
+            @Override
+            public void enqueue(Callback<ArrayList<NewsItem>> callback) {
+                ArrayList<NewsItem> favoriteNewsItems = null;
+                try {
+                    favoriteNewsItems = addFavoriteNewsItems();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Response<ArrayList<NewsItem>> r = Response.success(favoriteNewsItems);
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
+    @Override
+    public MockCall<FavoriteResponse> createFavoriteItem(@Query("token") String token, final FavoriteRequest favoriteRequest) {
+        return new MockCall<FavoriteResponse>() {
+            @Override
+            public void enqueue(Callback<FavoriteResponse> callback) {
+                Response<FavoriteResponse> r = Response.success(getFavoriteResponse());
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
+    @Override
+    public Call<FavoriteResponse> deleteFavoriteItem(@Query("token") String token, FavoriteRequest favoriteRequest) {
+        return new MockCall<FavoriteResponse>() {
+            @Override
+            public void enqueue(Callback<FavoriteResponse> callback) {
+                Response<FavoriteResponse> r = Response.success(getFavoriteResponse());
                 callback.onResponse(this, r);
             }
         };
@@ -210,7 +237,31 @@ public class MockServer implements ReaderApiInterface {
         return newsItems;
     }
 
+<<<<<<< HEAD
 
+=======
+    private ArrayList<NewsItem> addFavoriteNewsItems() throws ParseException {
+        ArrayList<NewsItem> newsItems = addNewsItems();
+        ArrayList<NewsItem> favoriteNewsItems = new ArrayList<>();
+        for (NewsItem newsItem : newsItems) {
+            if (newsItem.isFavorite()) {
+                favoriteNewsItems.add(newsItem);
+            }
+        }
+        return favoriteNewsItems;
+    }
+
+    private FavoriteResponse getFavoriteResponse() {
+        String[] responses = {"success", "error_message"};
+        FavoriteResponse favoriteResponse = new FavoriteResponse(getRandom(responses));
+        return favoriteResponse;
+    }
+
+    public static String getRandom(String[] array) {
+        int rnd = new Random().nextInt(array.length);
+        return array[rnd];
+    }
+>>>>>>> 0be86f70395b5cde75e2206290dfd01649e261da
 }
 
 

@@ -1,7 +1,8 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,19 +12,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.dialog.FavoriteErrorDialog;
+import com.greenfox.fuchsit.zerdareader.model.FavoriteHandler;
+import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
 /**
  * Created by regnisalram on 1/30/17.
  */
 
-public class DetailedPageActivity extends AppCompatActivity {
+public class DetailedPageActivity extends AppCompatActivity implements FavoriteErrorDialog.FavoriteErrorListener {
 
     TextView article;
     NewsItem newsItem;
     MenuItem favoriteStar;
     MenuItem notFavoriteStar;
     boolean isItemFavorite;
+
+    FavoriteRequest favoriteRequest;
+
+    SharedPreferences sharedPreferences;
+
+    FavoriteHandler favoriteHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +51,12 @@ public class DetailedPageActivity extends AppCompatActivity {
 
         article = (TextView) findViewById(R.id.description);
         article.setText(newsItem.getDescription());
+
+        DaggerMockServerComponent.builder().build().inject(this);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        favoriteHandler = new FavoriteHandler(this);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,29 +86,59 @@ public class DetailedPageActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        favoriteRequest = new FavoriteRequest(newsItem.getId());
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
             break;
-            case R.id.remove_favorite:
-                isItemFavorite = false;
-                newsItem.setFavorite(false);
-                Toast.makeText(this,"Removed from Favorites",Toast.LENGTH_LONG).show();
-                invalidateOptionsMenu();
-            break;
-
             case R.id.add_favorite:
-                isItemFavorite = true;
-                newsItem.setFavorite(true);
-                Toast.makeText(this,"Marked as Favorite",Toast.LENGTH_LONG).show();
-                invalidateOptionsMenu();
-            break;
-
+                addFavorite();
+                break;
+            case R.id.remove_favorite:
+                removeFavorite();
+                break;
         }
         return true;
     }
 
+    private void removeFavorite() {
+        if (favoriteHandler.deleteFavoriteCall()) {
+            newsItem.setFavorite(false);
+            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Removed from Favorites",Toast.LENGTH_LONG).show();
+            invalidateOptionsMenu();
+        } else {
+            final String message = "Couldn't remove favorite at this time. Try again?";
+            final boolean isFavoriting = false;
+            FavoriteErrorDialog newFragment = new FavoriteErrorDialog(message, isFavoriting);
+            newFragment.show(getSupportFragmentManager(), "deleteFavoriteError");
 
+            invalidateOptionsMenu();
+        }
+    }
+
+    private void addFavorite() {
+        if (favoriteHandler.createFavoriteCall()) {
+            newsItem.setFavorite(true);
+            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Marked as Favorite",Toast.LENGTH_LONG).show();
+            invalidateOptionsMenu();
+        } else {
+            final String message = "Couldn't save favorite at this time. Try again?";
+            final boolean isFavoriting = true;
+            FavoriteErrorDialog newFragment = new FavoriteErrorDialog(message, isFavoriting);
+            newFragment.show(getSupportFragmentManager(), "createFavoriteError");
+            invalidateOptionsMenu();
+        }
+    }
+
+    @Override
+    public void onDialogPositiveClick(android.support.v4.app.DialogFragment dialog, boolean isFavoriting) {
+        if (isFavoriting) {
+            addFavorite();
+        } else {
+            removeFavorite();
+        }
+
+    }
 }
 
 

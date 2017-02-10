@@ -66,6 +66,8 @@ public class FeedFragment extends ListFragment {
 
     public void showNewsItems() {
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(FeedFragment.super.getContext());
+
         Call<ArrayList<NewsItem>> call;
 
         if(tabNumber == 1) {
@@ -73,7 +75,6 @@ public class FeedFragment extends ListFragment {
         } else {
             call = apiService.getFavouriteNewsItems(sharedPreferences.getString("token", "default"));
         }
-
 
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
@@ -109,7 +110,6 @@ public class FeedFragment extends ListFragment {
         myFragment.setArguments(args);
 
         return myFragment;
-
     }
 }
 
