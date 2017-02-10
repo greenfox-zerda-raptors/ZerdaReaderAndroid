@@ -41,34 +41,29 @@ public class FeedFragment extends ListFragment {
     ListView feed;
     FeedAdapter adapter;
     int tabNumber;
+    SharedPreferences sharedPreferences;
+    UpdateRequest updateRequest;
 
     @Inject
     ReaderApiInterface apiService;
-
-    UpdateRequest updateRequest;
-    SharedPreferences sharedPreferences;
 
     private BroadcastReceiver broadcastReceiver;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.feed_fragment, container, false);
 
         feed = (ListView) view.findViewById(android.R.id.list);
-
         adapter = new FeedAdapter(getActivity());
         feed.setAdapter(adapter);
-
-        DaggerMockServerComponent.builder().build().inject(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-
         tabNumber = getArguments().getInt("tabNumber", 1);
+        DaggerMockServerComponent.builder().build().inject(this);
 
         showNewsItems();
-
         createBroadcastReceiver();
+
         IntentFilter intentfilter = new IntentFilter();
         intentfilter.addAction(BackgroundSyncService.TRANSACTION_DONE);
         getActivity().registerReceiver(broadcastReceiver, intentfilter);
@@ -76,8 +71,17 @@ public class FeedFragment extends ListFragment {
         return view;
     }
 
-    public void showNewsItems() {
+    public static FeedFragment newInstance(int tabNumber) {
+        FeedFragment myFragment = new FeedFragment();
 
+        Bundle args = new Bundle();
+        args.putInt("tabNumber", tabNumber);
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
+
+    public void showNewsItems() {
         Call<ArrayList<NewsItem>> call;
 
         if(tabNumber == 1) {
@@ -85,7 +89,6 @@ public class FeedFragment extends ListFragment {
         } else {
             call = apiService.getFavouriteNewsItems(sharedPreferences.getString("token", "default"));
         }
-
 
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
@@ -112,16 +115,6 @@ public class FeedFragment extends ListFragment {
         startActivity(i);
     }
 
-    public static FeedFragment newInstance(int tabNumber) {
-        FeedFragment myFragment = new FeedFragment();
-
-        Bundle args = new Bundle();
-        args.putInt("tabNumber", tabNumber);
-        myFragment.setArguments(args);
-
-        return myFragment;
-    }
-
     private void createBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -130,6 +123,10 @@ public class FeedFragment extends ListFragment {
                 updateFragment();
             }
         };
+    }
+
+    public void onStartService() {
+
     }
 
     private void updateFragment() {
