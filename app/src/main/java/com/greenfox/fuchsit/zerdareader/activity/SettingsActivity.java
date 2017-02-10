@@ -3,12 +3,13 @@ package com.greenfox.fuchsit.zerdareader.activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 
 import com.greenfox.fuchsit.zerdareader.R;
 
 public class SettingsActivity extends PreferenceActivity {
 
-    SharedPreferences sharedpreferences;
+    SharedPreferences settingsData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,14 +19,14 @@ public class SettingsActivity extends PreferenceActivity {
 
     }
 
-    public void enableBackgroundSync() {
+    private void saveDataToSharedPreferences() {
+        settingsData = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
+        final SharedPreferences.Editor editor = settingsData.edit();
 
+        editor.putBoolean("isPushEnabled", true);
+        editor.putBoolean("isSyncEnabled", true);
+        editor.apply();
     }
-
-    public void enablePushNotifications() {
-
-    }
-
 }
 
 
