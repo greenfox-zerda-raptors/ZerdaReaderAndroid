@@ -3,12 +3,15 @@ package com.greenfox.fuchsit.zerdareader.dialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
+import android.support.v4.app.Fragment;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
 /**
  * Created by regnisalram on 2/9/17.
@@ -33,7 +36,7 @@ public class FavoriteErrorDialog extends DialogFragment {
         builder.setTitle(message)
                 .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        favoriteErrorListener.onDialogPositiveClick(FavoriteErrorDialog.this, isFavoriting);
+                        favoriteErrorListener.onDialogPositiveClick(FavoriteErrorDialog.this, isFavoriting, null);
                     }
                 })
                 .setNegativeButton("Not right now", new DialogInterface.OnClickListener() {
@@ -46,16 +49,16 @@ public class FavoriteErrorDialog extends DialogFragment {
     }
 
     public interface FavoriteErrorListener {
-        void onDialogPositiveClick(DialogFragment dialog, boolean isFavoriting);
+        void onDialogPositiveClick(DialogFragment dialog, boolean isFavoriting, @Nullable NewsItem newsItem);
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            favoriteErrorListener = (FavoriteErrorListener) activity;
+            favoriteErrorListener = (FavoriteErrorListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString());
+            throw new ClassCastException(context.toString());
         }
     }
 }

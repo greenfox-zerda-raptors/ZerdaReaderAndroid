@@ -1,7 +1,10 @@
 package com.greenfox.fuchsit.zerdareader.model;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.greenfox.fuchsit.zerdareader.activity.DetailedPageActivity;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
@@ -31,11 +34,11 @@ public class FavoriteHandler {
 
     boolean reply;
 
-    public FavoriteHandler(DetailedPageActivity detailedPageActivity) {
+    public FavoriteHandler(Context context) {
 
         DaggerMockServerComponent.builder().build().inject(this);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(detailedPageActivity);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         createCall = apiService.createFavoriteItem(sharedPreferences.getString("token", null), favoriteRequest);
         deleteCall = apiService.deleteFavoriteItem(sharedPreferences.getString("token", null), favoriteRequest);

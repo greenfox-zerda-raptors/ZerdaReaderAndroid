@@ -131,13 +131,12 @@ public class DetailedPageActivity extends AppCompatActivity implements FavoriteE
     }
 
     @Override
-    public void onDialogPositiveClick(android.support.v4.app.DialogFragment dialog, boolean isFavoriting) {
+    public void onDialogPositiveClick(android.support.v4.app.DialogFragment dialog, boolean isFavoriting, NewsItem newsItem) {
         if (isFavoriting) {
             addFavorite();
         } else {
             removeFavorite();
         }
-
     }
 }
 
