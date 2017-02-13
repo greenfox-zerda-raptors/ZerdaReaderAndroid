@@ -9,7 +9,7 @@ import com.greenfox.fuchsit.zerdareader.R;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     
-    private SharedPreferences loginData;
+    private SharedPreferences preferences;
 
 
     @SuppressWarnings("deprecation")
@@ -17,13 +17,13 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-        loginData = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        loginData.registerOnSharedPreferenceChangeListener(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences loginData, String s) {
+    public void onSharedPreferenceChanged(SharedPreferences loginData, String key) {
         setPreferenceScreen(null);
         addPreferencesFromResource(R.xml.preferences);
     }
