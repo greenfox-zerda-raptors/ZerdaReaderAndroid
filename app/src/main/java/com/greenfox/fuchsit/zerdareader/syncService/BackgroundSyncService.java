@@ -26,7 +26,8 @@ import retrofit2.Response;
 
 public class BackgroundSyncService extends IntentService {
 
-    public static final String TRANSACTION_DONE = "com.geenfox.fuchsit.zerdareader.TRANSACTION_DONE";
+    public static final int REQUEST_CODE = 12345;
+    public static final String TRANSACTION_DONE = "com.greenfox.fuchsit.zerdareader.TRANSACTION_DONE";
 
     @Inject
     ReaderApiInterface apiService;
