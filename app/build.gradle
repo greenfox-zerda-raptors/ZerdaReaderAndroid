@@ -44,7 +44,6 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.8'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.1.0'
 }
 
 }
