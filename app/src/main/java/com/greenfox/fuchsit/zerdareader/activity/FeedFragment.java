@@ -1,5 +1,7 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -110,13 +112,17 @@ public class FeedFragment extends ListFragment {
         startActivity(i);
     }
 
-    //this will be wired with Settings' respective field
-    public void launchBackgroundSyncService(View view) {
-        Intent i = new Intent(getActivity(), BackgroundSyncService.class);
-        getActivity().startService(i);
-
+    // Setup a recurring alarm every 15 mins
+    public void scheduleAlarm() {
         createBroadcastReceiver();
         createIntentFilter();
+
+        Intent intent = new Intent(getContext(), BackgroundSyncService.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(getContext(), BackgroundSyncService.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        long firstMillis = System.currentTimeMillis();
+        AlarmManager alarm = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
     }
 
     private void createBroadcastReceiver() {
@@ -132,7 +138,7 @@ public class FeedFragment extends ListFragment {
     public void createIntentFilter() {
         IntentFilter intentfilter = new IntentFilter();
         intentfilter.addAction(BackgroundSyncService.TRANSACTION_DONE);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, intentfilter);
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(broadcastReceiver, intentfilter);
     }
 
     private void updateFragment(Intent intent) {
@@ -141,6 +147,3 @@ public class FeedFragment extends ListFragment {
         adapter.addAll(list);
     }
 }
-
-
-
