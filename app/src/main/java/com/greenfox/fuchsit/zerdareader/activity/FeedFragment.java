@@ -47,6 +47,7 @@ public class FeedFragment extends ListFragment {
     SharedPreferences sharedPreferences;
     UpdateRequest updateRequest;
     private BroadcastReceiver broadcastReceiver;
+    ArrayList<NewsItem> news;
 
     @Inject
     ReaderApiInterface apiService;
@@ -90,6 +91,9 @@ public class FeedFragment extends ListFragment {
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
             public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {
+                if(tabNumber == 1) {
+                    news = response.body();
+                }
                 adapter.addAll(response.body());
             }
 
@@ -120,9 +124,9 @@ public class FeedFragment extends ListFragment {
         Intent intent = new Intent(getContext(), BackgroundSyncService.class);
         final PendingIntent pIntent = PendingIntent.getBroadcast(getContext(), BackgroundSyncService.REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        long firstMillis = System.currentTimeMillis();
+
         AlarmManager alarm = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
     }
 
     private void createBroadcastReceiver() {
@@ -144,7 +148,12 @@ public class FeedFragment extends ListFragment {
     private void updateFragment(Intent intent) {
         adapter.clear();
         ArrayList<NewsItem> list = (ArrayList<NewsItem>) intent.getExtras().getSerializable("bundle");
+        calculateNumOfNewItems(list);
         adapter.addAll(list);
+    }
+
+    private int calculateNumOfNewItems(ArrayList<NewsItem> list) {
+        return news.size() - list.size();
     }
 
     //will be wired to settings' view
