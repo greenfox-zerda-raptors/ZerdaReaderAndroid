@@ -78,6 +78,7 @@ public class FeedFragment extends ListFragment {
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
             public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {
+                adapter.clear();
                 adapter.addAll(response.body());
             }
 

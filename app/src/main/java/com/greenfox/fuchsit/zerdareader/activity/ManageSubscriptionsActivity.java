@@ -40,9 +40,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
     ReaderApiInterface apiService;
     NewSubsDialogFragment newSubsDialogFragment;
 
-    private TextView enterUrlTExView;
     private EditText urlEditText;
-    private Button okButton;
 
     AddSubsResponse addSubsResponse;
     AddSubsRequest addSubsRequest;
@@ -99,6 +97,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         call.enqueue(new Callback<ArrayList<SubscriptionModel>>() {
             @Override
             public void onResponse(Call<ArrayList<SubscriptionModel>> call, Response<ArrayList<SubscriptionModel>> response) {
+                subscriptionsAdapter.clear();
                 subscriptionsAdapter.addAll(response.body());
             }
 
@@ -136,12 +135,13 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
             }
         });
         newSubsDialogFragment.dismiss();
-        this.recreate();
+        showSubscriptions();
     }
 
     public void unsubscribe(View view) {
 
 
+        showSubscriptions();
     }
 
 
