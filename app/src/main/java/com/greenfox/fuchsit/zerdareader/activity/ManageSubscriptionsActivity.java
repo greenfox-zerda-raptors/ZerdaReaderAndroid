@@ -39,6 +39,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
     @Inject
     ReaderApiInterface apiService;
     NewSubsDialogFragment newSubsDialogFragment;
+    DeleteDialogFragment deleteDialogFragment;
 
     private EditText urlEditText;
 
@@ -63,6 +64,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         newSubsDialogFragment = NewSubsDialogFragment.newInstance("Subscribe");
+        deleteDialogFragment = DeleteDialogFragment.newInstance("Unsubcribe");
 
         DaggerMockServerComponent.builder().build().inject(this);
         subscriptionsAdapter = new SubscriptionsAdapter(this);
@@ -108,6 +110,10 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         });
     }
 
+    public void showDeleteDialog(View view) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        deleteDialogFragment.show(fragmentManager, "new_delete_dialog");
+    }
 
     public void showEditDialog(View view) {
         FragmentManager fm = getSupportFragmentManager();
