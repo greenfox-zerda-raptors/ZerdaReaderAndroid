@@ -112,8 +112,8 @@ public class FeedFragment extends ListFragment {
         startActivity(i);
     }
 
-    // Setup a recurring alarm every 15 mins
-    public void scheduleAlarm() {
+    // Setup a recurring alarm every 15 mins, will be wired to settings' view
+    public void scheduleAlarm(View view) {
         createBroadcastReceiver();
         createIntentFilter();
 
@@ -145,5 +145,14 @@ public class FeedFragment extends ListFragment {
         adapter.clear();
         ArrayList<NewsItem> list = (ArrayList<NewsItem>) intent.getExtras().getSerializable("bundle");
         adapter.addAll(list);
+    }
+
+    //will be wired to settings' view
+    public void cancelAlarm() {
+        Intent intent = new Intent(getContext(), BackgroundSyncService.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(getContext(), BackgroundSyncService.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pIntent);
     }
 }
