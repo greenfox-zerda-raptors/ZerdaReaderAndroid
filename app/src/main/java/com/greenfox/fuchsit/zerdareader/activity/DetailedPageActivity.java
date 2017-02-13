@@ -1,6 +1,5 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +18,7 @@ import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
 public class DetailedPageActivity extends AppCompatActivity {
 
-    TextView article;
+    TextView title, feedName, date, article;
     NewsItem newsItem;
     MenuItem favoriteStar;
     MenuItem notFavoriteStar;
@@ -38,7 +37,16 @@ public class DetailedPageActivity extends AppCompatActivity {
         
         newsItem = (NewsItem) getIntent().getSerializableExtra("newsItem");
 
-        article = (TextView) findViewById(R.id.description);
+        title = (TextView) findViewById(R.id.title);
+        title.setText(newsItem.getTitle());
+
+        feedName = (TextView) findViewById(R.id.feed_name);
+        feedName.setText(newsItem.getFeedName());
+
+        date = (TextView) findViewById(R.id.date);
+        date.setText(R.string.posted_on + Instant.ofEpochSecond(newsItem.getCreated()));
+
+        article = (TextView) findViewById(R.id.article);
         article.setText(newsItem.getDescription());
     }
 
