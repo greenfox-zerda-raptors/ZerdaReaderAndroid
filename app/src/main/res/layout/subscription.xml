@@ -19,7 +19,7 @@
 
     <ImageView
         android:clickable="true"
-        android:onClick="showDeleteDialog"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/delete"
@@ -29,4 +29,5 @@
         android:layout_marginEnd="13dp"
         android:id="@+id/trashcan"
         android:layout_centerVertical="true"/>
+    <!--android:onClick="showDeleteDialog"-->
 </RelativeLayout>

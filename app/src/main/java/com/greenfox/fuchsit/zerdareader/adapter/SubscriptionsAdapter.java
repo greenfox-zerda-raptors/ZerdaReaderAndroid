@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.activity.ManageSubscriptionsActivity;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 
 import java.util.ArrayList;
@@ -19,14 +21,16 @@ import java.util.ArrayList;
 
 public class SubscriptionsAdapter extends ArrayAdapter<SubscriptionModel> {
 
+    ManageSubscriptionsActivity manageSubscriptionsActivity;
+
     public SubscriptionsAdapter(Context context) {
         super(context, 0, new ArrayList<SubscriptionModel>());
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         // Get the data item for this position
-        SubscriptionModel subscriptionModel = getItem(position);
+        final SubscriptionModel subscriptionModel = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.subscription, parent, false);
@@ -34,6 +38,16 @@ public class SubscriptionsAdapter extends ArrayAdapter<SubscriptionModel> {
         // Lookup view for data population
         TextView subsName = (TextView) convertView.findViewById(R.id.subscription_name);
         ImageView trashCan = (ImageView) convertView.findViewById(R.id.trashcan);
+        trashCan.setTag(new Integer(position));
+        trashCan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: FIX THIS!!!
+//                manageSubscriptionsActivity.showDeleteDialog(v, Integer.valueOf(v.getTag().toString()));
+                Toast.makeText(getContext(), "Trashcan clicked: " + v.getTag().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         // Populate the data into the template view using the data object
         subsName.setText(subscriptionModel.getName());

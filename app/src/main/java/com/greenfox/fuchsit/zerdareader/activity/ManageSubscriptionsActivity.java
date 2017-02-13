@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -110,9 +111,12 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         });
     }
 
-    public void showDeleteDialog(View view) {
+    public void showDeleteDialog(View view, Integer tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        Toast.makeText(getApplicationContext(), "klfdjhfkj" + view.getTag(), Toast.LENGTH_SHORT);
+
         deleteDialogFragment.show(fragmentManager, "new_delete_dialog");
+
     }
 
     public void showEditDialog(View view) {
