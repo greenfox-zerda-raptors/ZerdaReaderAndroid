@@ -70,6 +70,4 @@ captures/
 # built native files (uncomment if you build your own)
 *.o
 *.so
-app/src/main/res/drawable/ic_info_black_24dp.xml
-app/src/main/res/drawable/ic_notifications_black_24dp.xml
-app/src/main/res/drawable/ic_sync_black_24dp.xml
+
