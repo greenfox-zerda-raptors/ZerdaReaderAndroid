@@ -49,6 +49,19 @@ public class NewsItem implements Serializable{
         this.url = url;
     }
 
+    public NewsItem(String title, String description, Date created, String feedName, boolean favorite, boolean opened) {
+        this.title = title;
+        this.description = description;
+        this.created = created;
+        this.feedName = feedName;
+        this.favorite = favorite;
+        this.opened = opened;
+    }
+
+    public long getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }

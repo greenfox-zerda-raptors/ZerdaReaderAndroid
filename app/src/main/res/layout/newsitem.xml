@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:padding="10dp"
+        android:paddingTop="15dp"/>
 
     <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/title" />
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_toEndOf="@+id/thumbnail"
+        android:layout_toLeftOf="@+id/favorite"
+        android:layout_toStartOf="@+id/favorite"
+        android:paddingTop="5dp"
+        android:textColor="@color/black"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="RelativeOverlap"
+        android:text="Title 1" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/rss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_toEndOf="@+id/thumbnail"
+        app:srcCompat="@drawable/rss"
+        android:contentDescription="@string/rss"/>
+
+    <TextView
+        android:id="@+id/feed_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_toRightOf="@+id/rss"
+        android:layout_toEndOf="@+id/rss"
+        android:textColor="@color/aluminium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="RelativeOverlap"
+        android:paddingBottom="5dp"
+        android:text="Feed Name" />
+
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/favorite_star" />
+
+</RelativeLayout>
 
 

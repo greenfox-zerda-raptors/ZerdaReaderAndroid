@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,9 @@ public class DetailedPageActivity extends AppCompatActivity {
 
     TextView article;
     NewsItem newsItem;
+    MenuItem favoriteStar;
+    MenuItem notFavoriteStar;
+    boolean isItemFavorite;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,7 @@ public class DetailedPageActivity extends AppCompatActivity {
         myToolbar.setSubtitle("Back to your feed");
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
+
         newsItem = (NewsItem) getIntent().getSerializableExtra("newsItem");
 
         article = (TextView) findViewById(R.id.description);
@@ -42,11 +46,25 @@ public class DetailedPageActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detailed_view_toolbar_menu, menu);
+
+        favoriteStar = menu.findItem(R.id.remove_favorite);
+        notFavoriteStar = menu.findItem(R.id.add_favorite);
+
         return true;
     }
 
-    public void markAsFavorite(NewsItem newsItem) {
-        newsItem.setFavorite(true);
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        isItemFavorite = newsItem.isFavorite();
+        if (isItemFavorite) {
+            menu.findItem(R.id.add_favorite).setVisible(false);
+            menu.findItem(R.id.remove_favorite).setVisible(true);
+        } else {
+            menu.findItem(R.id.add_favorite).setVisible(true);
+            menu.findItem(R.id.remove_favorite).setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -54,14 +72,23 @@ public class DetailedPageActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-            break;
-            case R.id.favorite:
-                markAsFavorite(newsItem);
+                break;
+            case R.id.remove_favorite:
+                isItemFavorite = false;
+                newsItem.setFavorite(false);
+                Toast.makeText(this,"Removed from Favorites",Toast.LENGTH_LONG).show();
+                invalidateOptionsMenu();
+                break;
+
+            case R.id.add_favorite:
+                isItemFavorite = true;
+                newsItem.setFavorite(true);
                 Toast.makeText(this,"Marked as Favorite",Toast.LENGTH_LONG).show();
-            break;
+                invalidateOptionsMenu();
+                break;
+
         }
         return true;
     }
 }
-
 
