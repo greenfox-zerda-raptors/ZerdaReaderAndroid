@@ -21,11 +21,14 @@
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DetailedPageActivity"/>
-        <activity android:name=".activity.SettingsActivity"/>
-        <activity android:name=".activity.ManageSubscriptionsActivity"/>
+        <activity android:name=".activity.DetailedPageActivity" />
+        <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.ManageSubscriptionsActivity" />
+        <activity android:name=".activity.BaseActivity"></activity>
     </application>
+
 </manifest>

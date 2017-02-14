@@ -1,8 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +15,7 @@ import com.greenfox.fuchsit.zerdareader.model.NewsItem;
  * Created by regnisalram on 1/30/17.
  */
 
-public class DetailedPageActivity extends AppCompatActivity {
+public class DetailedPageActivity extends BaseActivity {
 
     TextView article;
     NewsItem newsItem;
