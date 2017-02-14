@@ -13,24 +13,24 @@ import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
-import com.greenfox.fuchsit.zerdareader.dialog.FavoriteErrorDialog;
+import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteHandler;
-import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by regnisalram on 1/30/17.
  */
 
-public class DetailedPageActivity extends AppCompatActivity implements FavoriteErrorDialog.FavoriteErrorListener {
+public class DetailedPageActivity extends AppCompatActivity {
 
     TextView article;
     NewsItem newsItem;
     MenuItem favoriteStar;
     MenuItem notFavoriteStar;
     boolean isItemFavorite;
-
-    FavoriteRequest favoriteRequest;
 
     SharedPreferences sharedPreferences;
 
@@ -57,6 +57,18 @@ public class DetailedPageActivity extends AppCompatActivity implements FavoriteE
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         favoriteHandler = new FavoriteHandler(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,57 +98,29 @@ public class DetailedPageActivity extends AppCompatActivity implements FavoriteE
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        favoriteRequest = new FavoriteRequest(newsItem.getId());
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
             break;
             case R.id.add_favorite:
-                addFavorite();
+                favoriteHandler.createFavoriteCall(newsItem.getId());
                 break;
             case R.id.remove_favorite:
-                removeFavorite();
+                favoriteHandler.deleteFavoriteCall(newsItem.getId());
                 break;
         }
         return true;
     }
 
-    private void removeFavorite() {
-        if (favoriteHandler.deleteFavoriteCall()) {
-            newsItem.setFavorite(false);
-            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Removed from Favorites",Toast.LENGTH_LONG).show();
-            invalidateOptionsMenu();
-        } else {
-            final String message = "Couldn't remove favorite at this time. Try again?";
-            final boolean isFavoriting = false;
-            FavoriteErrorDialog newFragment = new FavoriteErrorDialog(message, isFavoriting);
-            newFragment.show(getSupportFragmentManager(), "deleteFavoriteError");
-
-            invalidateOptionsMenu();
-        }
-    }
-
-    private void addFavorite() {
-        if (favoriteHandler.createFavoriteCall()) {
-            newsItem.setFavorite(true);
+    @Subscribe
+    public void onFavoriteSavedEvent(FavoriteSavedEvent favoriteSavedEvent) {
+        newsItem.setFavorite(!newsItem.isFavorite());
+        if (newsItem.isFavorite()) {
             Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Marked as Favorite",Toast.LENGTH_LONG).show();
-            invalidateOptionsMenu();
         } else {
-            final String message = "Couldn't save favorite at this time. Try again?";
-            final boolean isFavoriting = true;
-            FavoriteErrorDialog newFragment = new FavoriteErrorDialog(message, isFavoriting);
-            newFragment.show(getSupportFragmentManager(), "createFavoriteError");
-            invalidateOptionsMenu();
+            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Removed from Favorites",Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public void onDialogPositiveClick(android.support.v4.app.DialogFragment dialog, boolean isFavoriting, NewsItem newsItem) {
-        if (isFavoriting) {
-            addFavorite();
-        } else {
-            removeFavorite();
-        }
+        invalidateOptionsMenu();
     }
 }
 
