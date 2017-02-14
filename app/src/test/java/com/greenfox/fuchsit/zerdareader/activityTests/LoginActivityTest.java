@@ -1,7 +1,10 @@
 package com.greenfox.fuchsit.zerdareader.activityTests;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.widget.EditText;
 
@@ -17,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
@@ -25,6 +29,7 @@ import org.robolectric.shadows.ShadowToast;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.robolectric.Shadows.shadowOf;
 
@@ -69,6 +74,19 @@ public class LoginActivityTest {
         loginActivity.findViewById(R.id.loginButton).performClick();
 
         Assert.assertEquals(MainActivity.class.getName(), shadowOf(loginActivity).getNextStartedActivity().getComponent().getClassName());
+    }
+
+    @Test
+    public void testUserDataIsSavedToSharedPref() throws Exception {
+        editEmail.setText("admin");
+        editPassword.setText("fuchsit");
+        loginActivity.findViewById(R.id.loginButton).performClick();
+
+        Context context = RuntimeEnvironment.application.getApplicationContext();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        assertEquals("admin", sharedPreferences.getString("username", "admin"));
+        assertEquals("fuchsit", sharedPreferences.getString("password", "fuchsit"));
     }
 
 }
