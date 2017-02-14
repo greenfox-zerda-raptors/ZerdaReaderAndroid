@@ -20,10 +20,6 @@ import java.util.Random;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 /**
  * Created by Zsuzska on 2017. 01. 20..
@@ -49,7 +45,7 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public MockCall<ArrayList<NewsItem>> getFavouriteNewsItems(@Query("token") String token) {
+    public MockCall<ArrayList<NewsItem>> getFavouriteNewsItems(String token) {
         return new MockCall<ArrayList<NewsItem>>() {
             @Override
             public void enqueue(Callback<ArrayList<NewsItem>> callback) {
@@ -66,7 +62,7 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public MockCall<FavoriteResponse> createFavoriteItem(@Query("token") String token, final FavoriteRequest favoriteRequest) {
+    public MockCall<FavoriteResponse> createFavoriteItem(String token, final FavoriteRequest favoriteRequest) {
         return new MockCall<FavoriteResponse>() {
             @Override
             public void enqueue(Callback<FavoriteResponse> callback) {
@@ -77,7 +73,7 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public Call<FavoriteResponse> deleteFavoriteItem(@Query("token") String token, FavoriteRequest favoriteRequest) {
+    public Call<FavoriteResponse> deleteFavoriteItem(String token, FavoriteRequest favoriteRequest) {
         return new MockCall<FavoriteResponse>() {
             @Override
             public void enqueue(Callback<FavoriteResponse> callback) {
