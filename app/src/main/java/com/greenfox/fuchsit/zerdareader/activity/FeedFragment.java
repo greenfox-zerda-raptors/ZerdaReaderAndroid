@@ -131,12 +131,6 @@ public class FeedFragment extends ListFragment {
     @Subscribe
     public void onFavoriteSavedEvent(FavoriteSavedEvent favoriteSavedEvent) {
         adapter.toggleFavoriteById(favoriteSavedEvent.getItem_id());
-//        if (newsItem.isFavorite()) {
-//            Toast.makeText(getActivity().getBaseContext(),"Marked as Favorite",Toast.LENGTH_LONG).show();
-//        } else {
-//            Toast.makeText(getActivity().getBaseContext(),"Removed from Favorites",Toast.LENGTH_LONG).show();
-//        }
-
     }
 }
 
