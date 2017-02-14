@@ -14,22 +14,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.activity.DetailedPageActivity;
+import com.greenfox.fuchsit.zerdareader.activity.MainActivity;
 import com.greenfox.fuchsit.zerdareader.dialog.FavoriteErrorDialog;
+import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteHandler;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
 /**
  * Created by regnisalram on 1/24/17.
  */
-public class FeedAdapter extends ArrayAdapter<NewsItem> implements FavoriteErrorDialog.FavoriteErrorListener{
+public class FeedAdapter extends ArrayAdapter<NewsItem> {
 
     FavoriteHandler favoriteHandler;
+    AppCompatActivity activity;
     Context context;
 
     public FeedAdapter(Context context) {
         super(context, 0, new ArrayList<NewsItem>());
+        this.activity = (AppCompatActivity) context;
         this.context = context;
     }
 
@@ -63,13 +70,15 @@ public class FeedAdapter extends ArrayAdapter<NewsItem> implements FavoriteError
         title.setText(newsItem.getTitle());
         feedName.setText(newsItem.getFeedName());
 
+        favoriteHandler = new FavoriteHandler((AppCompatActivity) context);
+
         star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (newsItem.isFavorite()) {
-                    removeFavorite(newsItem);
+                    favoriteHandler.deleteFavoriteCall(newsItem.getId());
                 } else {
-                    addFavorite(newsItem);
+                    favoriteHandler.createFavoriteCall(newsItem.getId());
                 }
             }
         });
@@ -77,44 +86,16 @@ public class FeedAdapter extends ArrayAdapter<NewsItem> implements FavoriteError
         return convertView;
     }
 
-
-    private void addFavorite(NewsItem newsItem) {
-        favoriteHandler = new FavoriteHandler(context);
-        if (favoriteHandler.createFavoriteCall()) {
-            newsItem.setFavorite(true);
-            Toast.makeText(context,"Marked as Favorite",Toast.LENGTH_LONG).show();
-            notifyDataSetChanged();
-        } else {
-            final String message = "Couldn't save favorite at this time. Try again?";
-            final boolean isFavoriting = true;
-            FavoriteErrorDialog errorDialog = new FavoriteErrorDialog(message, isFavoriting);
-//            errorDialog.show(, "createFavoriteError");
+    public void toggleFavoriteById(long itemId) {
+        NewsItem newsItem;
+        for (int i = 0; i < this.getCount(); i++) {
+            newsItem = this.getItem(i);
+            if (newsItem.getId() == itemId) {
+                newsItem.setFavorite(!newsItem.isFavorite());
+                break;
+            }
         }
-    }
-
-    private void removeFavorite(NewsItem newsItem) {
-        favoriteHandler = new FavoriteHandler(context);
-        if (favoriteHandler.deleteFavoriteCall()) {
-            newsItem.setFavorite(false);
-            Toast.makeText(context,"Removed from Favorites",Toast.LENGTH_LONG).show();
-            notifyDataSetChanged();        }
-        else {
-            final String message = "Couldn't remove favorite at this time. Try again?";
-            final boolean isFavoriting = false;
-            FavoriteErrorDialog errorDialog = new FavoriteErrorDialog(message, isFavoriting);
-//            errorDialog.show(, "deleteFavoriteError");
-        }
-
-    }
-
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog, boolean isFavoriting, @Nullable NewsItem newsItem) {
-        if (isFavoriting) {
-            addFavorite(newsItem);
-        } else {
-            removeFavorite(newsItem);
-        }
+        notifyDataSetChanged();
     }
 }
 

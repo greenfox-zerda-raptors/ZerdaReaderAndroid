@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.PagerAdapter;
+import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends AppCompatActivity {
 
