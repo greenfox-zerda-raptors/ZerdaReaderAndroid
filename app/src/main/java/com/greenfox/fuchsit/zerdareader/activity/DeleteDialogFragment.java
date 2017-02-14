@@ -16,8 +16,6 @@ import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 
 public class DeleteDialogFragment extends DialogFragment {
 
-    SubscriptionModel subscriptionModel;
-
     public DeleteDialogFragment() {
     }
 

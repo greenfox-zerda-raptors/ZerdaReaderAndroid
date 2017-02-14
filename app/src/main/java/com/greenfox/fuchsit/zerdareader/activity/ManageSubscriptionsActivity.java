@@ -58,7 +58,16 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         subscriptionsList = (ListView) findViewById(R.id.subscriptions_list);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        subscriptionsAdapter = new SubscriptionsAdapter(this);
+        subscriptionsList.setAdapter(subscriptionsAdapter);
 
+
+        subscriptionsAdapter.setOnTrashcanClickListenerInterface(new SubscriptionsAdapter.OnTrashcanClickListenerInterface() {
+            @Override
+            public void onTrashcanClicked(SubscriptionModel subscriptionModel) {
+                showDeleteDialog(subscriptionModel);
+            }
+        });
 
         myToolbar.setTitle("Feed");
         myToolbar.setSubtitle("Back to your feed");
@@ -68,8 +77,6 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         deleteDialogFragment = DeleteDialogFragment.newInstance("Unsubcribe");
 
         DaggerMockServerComponent.builder().build().inject(this);
-        subscriptionsAdapter = new SubscriptionsAdapter(this);
-        subscriptionsList.setAdapter(subscriptionsAdapter);
 
         showSubscriptions();
     }
@@ -111,9 +118,8 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         });
     }
 
-    public void showDeleteDialog(View view, Integer tag) {
+    public void showDeleteDialog(SubscriptionModel view) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Toast.makeText(getApplicationContext(), "klfdjhfkj" + view.getTag(), Toast.LENGTH_SHORT);
 
         deleteDialogFragment.show(fragmentManager, "new_delete_dialog");
 

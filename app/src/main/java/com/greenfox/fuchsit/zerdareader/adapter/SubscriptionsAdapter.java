@@ -21,7 +21,11 @@ import java.util.ArrayList;
 
 public class SubscriptionsAdapter extends ArrayAdapter<SubscriptionModel> {
 
-    ManageSubscriptionsActivity manageSubscriptionsActivity;
+    OnTrashcanClickListenerInterface onTrashcanClickListenerInterface;
+
+    public void setOnTrashcanClickListenerInterface(OnTrashcanClickListenerInterface onTrashcanClickListenerInterface) {
+        this.onTrashcanClickListenerInterface = onTrashcanClickListenerInterface;
+    }
 
     public SubscriptionsAdapter(Context context) {
         super(context, 0, new ArrayList<SubscriptionModel>());
@@ -37,14 +41,15 @@ public class SubscriptionsAdapter extends ArrayAdapter<SubscriptionModel> {
         }
         // Lookup view for data population
         TextView subsName = (TextView) convertView.findViewById(R.id.subscription_name);
-        ImageView trashCan = (ImageView) convertView.findViewById(R.id.trashcan);
-        trashCan.setTag(new Integer(position));
+        final ImageView trashCan = (ImageView) convertView.findViewById(R.id.trashcan);
+        trashCan.setTag(subscriptionModel);
         trashCan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: FIX THIS!!!
-//                manageSubscriptionsActivity.showDeleteDialog(v, Integer.valueOf(v.getTag().toString()));
-                Toast.makeText(getContext(), "Trashcan clicked: " + v.getTag().toString(), Toast.LENGTH_SHORT).show();
+                if (onTrashcanClickListenerInterface != null) {
+                    onTrashcanClickListenerInterface.onTrashcanClicked((SubscriptionModel) v.getTag());
+                }
+                Toast.makeText(getContext(), "Trashcan clicked: " , Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -57,4 +62,9 @@ public class SubscriptionsAdapter extends ArrayAdapter<SubscriptionModel> {
         // Return the completed view to render on screen
         return convertView;
     }
+
+    public interface OnTrashcanClickListenerInterface{
+        void onTrashcanClicked(SubscriptionModel subscriptionModel);
+    }
+
 }
