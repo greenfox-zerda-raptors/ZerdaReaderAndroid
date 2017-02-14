@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import de.greenrobot.event.EventBus;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,6 +42,7 @@ public class BackgroundSyncService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.e("BackgroundSyncService", "Service started");
+        EventBus.getDefault().post(new Event("Service started"));
         updateNewsItems();
         Log.e("BackgroundSyncService", "Service stopped");
 
