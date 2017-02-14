@@ -33,11 +33,6 @@ public class NewsItem implements Serializable{
     public NewsItem() {
     }
 
-    public NewsItem(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
-
     public NewsItem(String title, String description, Date created, String feedName, long feedId, boolean favorite, boolean opened, String url) {
         this.title = title;
         this.description = description;
@@ -49,7 +44,8 @@ public class NewsItem implements Serializable{
         this.url = url;
     }
 
-    public NewsItem(String title, String description, Date created, String feedName, boolean favorite, boolean opened) {
+    public NewsItem(long itemId, String title, String description, Date created, String feedName, boolean favorite, boolean opened) {
+        this.id = itemId;
         this.title = title;
         this.description = description;
         this.created = created;
