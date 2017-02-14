@@ -1,10 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-<<<<<<< HEAD
 import android.content.SharedPreferences;
-=======
-import android.net.Uri;
->>>>>>> 2cc9d57ab24b52dd4f1b6fbb260f794aa5b70aaa
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -21,12 +17,9 @@ import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteHandler;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
-<<<<<<< HEAD
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-=======
 import org.joda.time.LocalDate;
->>>>>>> 2cc9d57ab24b52dd4f1b6fbb260f794aa5b70aaa
 
 /**
  * Created by regnisalram on 1/30/17.
@@ -119,7 +112,6 @@ public class DetailedPageActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-<<<<<<< HEAD
             break;
             case R.id.add_favorite:
                 favoriteHandler.createFavoriteCall(newsItem.getId());
@@ -127,28 +119,10 @@ public class DetailedPageActivity extends AppCompatActivity {
             case R.id.remove_favorite:
                 favoriteHandler.deleteFavoriteCall(newsItem.getId());
                 break;
-=======
-                break;
-            case R.id.remove_favorite:
-                isItemFavorite = false;
-                newsItem.setFavorite(false);
-                Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_LONG).show();
-                invalidateOptionsMenu();
-                break;
-
-            case R.id.add_favorite:
-                isItemFavorite = true;
-                newsItem.setFavorite(true);
-                Toast.makeText(this, "Marked as Favorite", Toast.LENGTH_LONG).show();
-                invalidateOptionsMenu();
-                break;
-
->>>>>>> 2cc9d57ab24b52dd4f1b6fbb260f794aa5b70aaa
         }
         return true;
     }
 
-<<<<<<< HEAD
     @Subscribe
     public void onFavoriteSavedEvent(FavoriteSavedEvent favoriteSavedEvent) {
         newsItem.setFavorite(!newsItem.isFavorite());
@@ -158,21 +132,11 @@ public class DetailedPageActivity extends AppCompatActivity {
             Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Removed from Favorites",Toast.LENGTH_LONG).show();
         }
         invalidateOptionsMenu();
-=======
+    }
+
     private String getDate(long unixTimeStamp) {
         LocalDate localDate = new LocalDate(unixTimeStamp * 1000);
         return localDate.toString("YYYY. MM. DD");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
->>>>>>> 2cc9d57ab24b52dd4f1b6fbb260f794aa5b70aaa
     }
 }
 
