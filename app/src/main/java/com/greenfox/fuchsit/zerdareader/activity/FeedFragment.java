@@ -125,8 +125,17 @@ public class FeedFragment extends ListFragment {
         final PendingIntent pIntent = PendingIntent.getBroadcast(getContext(), BackgroundSyncService.REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        long interval = defineInterval();
         AlarmManager alarm = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pIntent);
+    }
+
+    private long defineInterval() {
+        if(isVisible()) {
+            return 60000L;
+        } else {
+            return 600000L;
+        }
     }
 
     private void createBroadcastReceiver() {
