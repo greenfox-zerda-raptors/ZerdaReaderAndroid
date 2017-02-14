@@ -112,8 +112,9 @@ public class MockServer implements ReaderApiInterface {
     @NonNull
     private ArrayList<NewsItem> addNewsItems() throws ParseException {
         ArrayList<NewsItem> newsItems = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        Date d1 = dateFormat.parse("2016-11-20");
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+//        Date d1 = dateFormat.parse("2016-11-20");
+        int d1 = 1487079219;
         newsItems.add(new NewsItem("Pofont nem, maximum orrpöckölést kap az európai elit a francia elnökválasztáson",
                 "Candy canes danish marzipan cookie caramels jelly beans. Sweet roll lemon drops marzipan cake jelly soufflé tart halvah jujubes. Jelly jelly gummies. Sweet roll pie topping croissant topping gingerbread chocolate cake. Sweet roll macaroon candy canes tart caramels. Tart gummies carrot cake muffin cupcake caramels chocolate bar. Jelly sugar plum chocolate macaroon candy croissant. Soufflé icing apple pie. Dragée fruitcake tart lollipop dessert cupcake lemon drops jelly beans macaroon. Caramels jelly-o soufflé sweet roll halvah cheesecake bear claw bear claw. Candy canes cotton candy cheesecake. Donut cupcake marshmallow. Caramels bonbon sweet.",
                 d1, "Fox Crunch", false, false));

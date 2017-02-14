@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+
+import org.joda.time.LocalDate;
 
 /**
  * Created by regnisalram on 1/30/17.
@@ -34,7 +37,7 @@ public class DetailedPageActivity extends AppCompatActivity {
         myToolbar.setSubtitle("Back to your feed");
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
+
         newsItem = (NewsItem) getIntent().getSerializableExtra("newsItem");
 
         title = (TextView) findViewById(R.id.title);
@@ -43,8 +46,9 @@ public class DetailedPageActivity extends AppCompatActivity {
         feedName = (TextView) findViewById(R.id.feed_name);
         feedName.setText(newsItem.getFeedName());
 
+        String dateString = getDate(newsItem.getCreated());
         date = (TextView) findViewById(R.id.date);
-        date.setText(R.string.posted_on + Instant.ofEpochSecond(newsItem.getCreated()));
+        date.setText(String.format("posted on %s", dateString));
 
         article = (TextView) findViewById(R.id.article);
         article.setText(newsItem.getDescription());
@@ -80,26 +84,39 @@ public class DetailedPageActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-            break;
+                break;
             case R.id.remove_favorite:
                 isItemFavorite = false;
                 newsItem.setFavorite(false);
-                Toast.makeText(this,"Removed from Favorites",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_LONG).show();
                 invalidateOptionsMenu();
-            break;
+                break;
 
             case R.id.add_favorite:
                 isItemFavorite = true;
                 newsItem.setFavorite(true);
-                Toast.makeText(this,"Marked as Favorite",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Marked as Favorite", Toast.LENGTH_LONG).show();
                 invalidateOptionsMenu();
-            break;
+                break;
 
         }
         return true;
     }
 
+    private String getDate(long unixTimeStamp) {
+        LocalDate localDate = new LocalDate(unixTimeStamp * 1000);
+        return localDate.toString("YYYY. MM. DD");
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 }
 
 
