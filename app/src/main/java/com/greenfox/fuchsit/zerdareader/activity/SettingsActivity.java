@@ -1,48 +1,31 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.TextView;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 
 import com.greenfox.fuchsit.zerdareader.R;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+    
+    private SharedPreferences preferences;
 
+
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-
-        TextView settingsBack = (TextView) findViewById(R.id.settingsTextView);
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        myToolbar.setTitle("Feed");
-        myToolbar.setSubtitle("Back to your feed");
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        addPreferencesFromResource(R.xml.preferences);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.short_menu, menu);
-        return true;
-    }
-
+    @SuppressWarnings("deprecation")
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
+    public void onSharedPreferenceChanged(SharedPreferences loginData, String key) {
+        setPreferenceScreen(null);
+        addPreferencesFromResource(R.xml.preferences);
     }
-
 }
-
 

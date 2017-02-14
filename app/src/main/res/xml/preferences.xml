@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <PreferenceCategory
+        android:title="Basic Settings" >
+
+        <CheckBoxPreference android:id="@+id/checkbox_sync"
+            android:defaultValue="false"
+            android:title="Enable background sync"
+            android:key="checkbox_sync"
+            android:icon="@drawable/ic_sync_black_24dp"
+            android:onClick="onCheckboxClicked"/>
+
+        <CheckBoxPreference android:id="@+id/checkbox_push"
+            android:defaultValue="false"
+            android:title="Enable push notifications"
+            android:icon="@drawable/ic_hankey"
+            android:key="checkbox_push"
+            android:onClick="onCheckboxClicked"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
