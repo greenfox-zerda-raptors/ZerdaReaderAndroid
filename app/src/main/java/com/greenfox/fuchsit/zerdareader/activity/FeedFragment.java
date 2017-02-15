@@ -11,13 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -64,7 +69,21 @@ public class FeedFragment extends ListFragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
     public void showNewsItems() {
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(FeedFragment.super.getContext());
 
         Call<ArrayList<NewsItem>> call;
 
@@ -73,7 +92,6 @@ public class FeedFragment extends ListFragment {
         } else {
             call = apiService.getFavouriteNewsItems(sharedPreferences.getString("token", "default"));
         }
-
 
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
@@ -110,7 +128,10 @@ public class FeedFragment extends ListFragment {
         myFragment.setArguments(args);
 
         return myFragment;
-
+    }
+    @Subscribe
+    public void onFavoriteSavedEvent(FavoriteSavedEvent favoriteSavedEvent) {
+        adapter.toggleFavoriteById(favoriteSavedEvent.getItem_id());
     }
 }
 
