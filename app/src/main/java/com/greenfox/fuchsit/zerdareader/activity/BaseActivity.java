@@ -10,7 +10,7 @@ import com.greenfox.fuchsit.zerdareader.R;
 public abstract class BaseActivity extends AppCompatActivity {
 
     SharedPreferences timePreferences;
-    Long timestamp = System.currentTimeMillis()/1000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
 
+        Long timestamp = System.currentTimeMillis()/1000;
         timePreferences = PreferenceManager.getDefaultSharedPreferences(BaseActivity.this);
         final SharedPreferences.Editor editor = timePreferences.edit();
         editor.putLong("timestamp", timestamp);
