@@ -1,15 +1,12 @@
 package com.greenfox.fuchsit.zerdareader.activityTests;
 
+import android.content.Intent;
 import android.os.Build;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
-import android.widget.EditText;
 
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.activity.DetailedPageActivity;
-import com.greenfox.fuchsit.zerdareader.activity.MainActivity;
-import com.greenfox.fuchsit.zerdareader.activity.SignupActivity;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
 import org.junit.Before;
@@ -17,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
@@ -42,17 +40,20 @@ public class DetailedPageActivityTest {
 
     @Test
     public void testMenu() throws Exception {
-        DetailedPageActivity detailedPageActivity = Robolectric.buildActivity(DetailedPageActivity.class).create().visible().get();
-        Toolbar toolbar = (Toolbar) detailedPageActivity.findViewById(R.id.my_toolbar);
-        ShadowActivity shadowActivity = shadowOf(detailedPageActivity);
+        Intent i = new Intent(RuntimeEnvironment.application, DetailedPageActivity.class);
+        i.putExtra("newsItem", newsItem);
 
+        DetailedPageActivity detailedPageActivity = Robolectric.buildActivity(DetailedPageActivity.class).withIntent(i).create().get();
+
+        ShadowActivity shadowActivity = shadowOf(detailedPageActivity);
+        Toolbar toolbar = (Toolbar) detailedPageActivity.findViewById(R.id.my_toolbar);
         shadowActivity.onCreateOptionsMenu(toolbar.getMenu());
 
-        if (newsItem.isFavorite()) {
-            assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.remove_favorite).isVisible());
-        } else {
-            assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.add_favorite).isVisible());
-        }
+        newsItem = (NewsItem) detailedPageActivity.getIntent().getSerializableExtra("newsItem");
+        assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.add_favorite).isVisible());
+        newsItem.setFavorite(true);
+        assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.remove_favorite).isVisible());
+
     }
 
 
