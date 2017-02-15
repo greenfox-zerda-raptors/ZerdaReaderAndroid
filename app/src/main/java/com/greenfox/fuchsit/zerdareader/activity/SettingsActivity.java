@@ -1,13 +1,11 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.content.SharedPreferences;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
 import com.greenfox.fuchsit.zerdareader.R;
-import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncService;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     
@@ -30,9 +28,5 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         addPreferencesFromResource(R.xml.preferences);
     }
 
-    public void startBackgroundSyncService() {
-        Intent intent = new Intent(this, BackgroundSyncService.class);
-        this.startService(intent);
-    }
 }
 
