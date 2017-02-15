@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -118,26 +115,12 @@ public class LoginActivity extends BaseActivity {
             loginWithCorrectData();
         }
     }
-    
-    // toolbar methods:
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.my_toolbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
-        return true;
-    }
 
     public void redirectToSignup(View view) {
         Intent i = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(i);
     }
+
 }
 
 
