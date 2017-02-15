@@ -29,8 +29,6 @@ public class DetailedPageActivity extends AppCompatActivity {
 
     TextView title, feedName, date, article;
     NewsItem newsItem;
-    MenuItem favoriteStar;
-    MenuItem notFavoriteStar;
     boolean isItemFavorite;
 
     SharedPreferences sharedPreferences;
@@ -86,9 +84,6 @@ public class DetailedPageActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detailed_view_toolbar_menu, menu);
-
-        favoriteStar = menu.findItem(R.id.remove_favorite);
-        notFavoriteStar = menu.findItem(R.id.add_favorite);
 
         return true;
     }
