@@ -34,4 +34,5 @@
     <string name="rss">rss</string>
     <string name="notfavorite">notFavorite</string>
     <string name="favorite_star">favorite_star</string>
+    <string name="posted_on">posted on </string>
 </resources>
