@@ -162,8 +162,7 @@ public class MockServer implements ReaderApiInterface {
 
     private FavoriteResponse getFavoriteResponse() {
         String[] responses = {"success", "error_message"};
-        FavoriteResponse favoriteResponse = new FavoriteResponse(getRandom(responses));
-        return favoriteResponse;
+        return new FavoriteResponse(getRandom(responses));
     }
 
     public static String getRandom(String[] array) {
