@@ -8,8 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.CheckBox;
+import android.util.Log;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncService;
@@ -33,13 +32,15 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     public void onSharedPreferenceChanged(SharedPreferences loginData, String key) {
         setPreferenceScreen(null);
         addPreferencesFromResource(R.xml.preferences);
+        enableBackgroundSync(preferences.getBoolean("checkbox_sync", true));
     }
 
-    public void enableBackgroundSync(View view) {
-        CheckBox checkBoxPreference = (CheckBox) view.findViewById(R.id.checkbox_sync);
-        if(checkBoxPreference.isChecked()) {
+    public void enableBackgroundSync(boolean checkboxChecked) {
+        if(checkboxChecked) {
+            Log.e("SettingsActivity", "background sync started");
             scheduleAlarm();
         } else {
+            Log.e("SettingsActivity", "background sync stopped");
             cancelAlarm();
         }
     }
