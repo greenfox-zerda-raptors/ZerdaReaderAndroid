@@ -1,8 +1,10 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -49,6 +51,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
 
     SubsDeleteRequest subsDeleteRequest;
     SubsDeleteResponse subsDeleteResponse;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,9 +123,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
 
     public void showDeleteDialog(SubscriptionModel view) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-
         deleteDialogFragment.show(fragmentManager, "new_delete_dialog");
-
     }
 
     public void showEditDialog(View view) {
@@ -154,10 +155,31 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         showSubscriptions();
     }
 
-    public void unsubscribe(View view) {
+    public void unsubscribe(SubscriptionModel subscriptionModel) {
+        subsDeleteRequest = new SubsDeleteRequest(subscriptionModel.getUrl());
+        Call<SubsDeleteResponse> call = apiService.deleteSubscription(subscriptionModel.getId(), subsDeleteRequest, sharedPreferences.getString("token", "default"));
 
+        call.enqueue(new Callback<SubsDeleteResponse>() {
+            @Override
+            public void onResponse(Call<SubsDeleteResponse> call, Response<SubsDeleteResponse> response) {
+                subsDeleteResponse = response.body();
+                checkDeleteResult(subsDeleteResponse);
+            }
 
+            @Override
+            public void onFailure(Call<SubsDeleteResponse> call, Throwable t) {
+
+            }
+        });
         showSubscriptions();
+    }
+
+    private void checkDeleteResult(SubsDeleteResponse subsDeleteResponse) {
+        if (subsDeleteResponse.getResult().equals("success")) {
+            Toast.makeText(ManageSubscriptionsActivity.this, "You have successfully unsubscribed.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(ManageSubscriptionsActivity.this, subsDeleteResponse.getResult(), Toast.LENGTH_LONG).show();
+        }
     }
 
 

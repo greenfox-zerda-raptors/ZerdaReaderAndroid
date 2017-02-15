@@ -7,31 +7,21 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class SubsDeleteRequest {
-    @SerializedName("id")
-    private Long id;
-    @SerializedName("result")
-    private String result;
+    @SerializedName("feed")
+    private String url;
 
     public SubsDeleteRequest() {
     }
 
-    public SubsDeleteRequest(Long id) {
-        this.id = id;
+    public SubsDeleteRequest(String url) {
+        this.url = url;
     }
 
-    public SubsDeleteRequest(String result) {
-        this.result = result;
+    public String getUrl() {
+        return url;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

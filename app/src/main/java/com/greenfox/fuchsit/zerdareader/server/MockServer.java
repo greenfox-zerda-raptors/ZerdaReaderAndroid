@@ -170,12 +170,7 @@ public class MockServer implements ReaderApiInterface {
     }
 
     private SubsDeleteResponse checkDelResponse(SubsDeleteRequest subsDeleteRequest) {
-        SubsDeleteResponse subsDeleteResponse;
-        if (subsDeleteRequest.getResult().equals("success")) {
-            subsDeleteResponse = new SubsDeleteResponse("success");
-        } else {
-            subsDeleteResponse = new SubsDeleteResponse("fail");
-        }
+        SubsDeleteResponse subsDeleteResponse = new SubsDeleteResponse("success");
         return subsDeleteResponse;
     }
 

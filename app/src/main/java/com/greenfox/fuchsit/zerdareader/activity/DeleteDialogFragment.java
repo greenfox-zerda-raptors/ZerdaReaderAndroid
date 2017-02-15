@@ -15,6 +15,8 @@ import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
  */
 
 public class DeleteDialogFragment extends DialogFragment {
+    ManageSubscriptionsActivity manageSubscriptionsActivity;
+    SubscriptionModel subscriptionModel;
 
     public DeleteDialogFragment() {
     }
@@ -36,7 +38,8 @@ public class DeleteDialogFragment extends DialogFragment {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO: create method
+
+                manageSubscriptionsActivity.unsubscribe(subscriptionModel);
 
                 dismiss();
             }
