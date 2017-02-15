@@ -26,4 +26,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor = timePreferences.edit();
         editor.putLong("timestamp", timestamp);
     }
+
 }
+
+
+
+
+
