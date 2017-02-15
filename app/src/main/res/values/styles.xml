@@ -24,4 +24,8 @@
         <item name="tabIndicatorHeight">2dp</item>
     </style>
 
+    <style name="dialog_favorite_error" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 </resources>
