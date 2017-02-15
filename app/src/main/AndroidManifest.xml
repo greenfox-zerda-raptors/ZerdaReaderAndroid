@@ -28,7 +28,6 @@
         <activity android:name=".activity.DetailedPageActivity" />
         <activity android:name=".activity.SettingsActivity" />
         <activity android:name=".activity.ManageSubscriptionsActivity" />
-        <activity android:name=".activity.BaseActivity"></activity>
     </application>
 
 </manifest>
