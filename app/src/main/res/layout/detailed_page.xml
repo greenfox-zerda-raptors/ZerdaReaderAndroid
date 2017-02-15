@@ -14,52 +14,71 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:transcriptMode="alwaysScroll"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:text="Title 1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/title" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:transcriptMode="alwaysScroll">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/rss"
-            android:id="@+id/rss"
-            android:layout_below="@+id/title"
-            android:contentDescription="@string/rss"/>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title 1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/black" />
 
-        <TextView
-            android:text="Feed Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/feed_name"
-            android:layout_below="@+id/title"
-            android:layout_toRightOf="@+id/rss"
-            android:layout_toEndOf="@+id/rss"
-            android:textColor="@color/aluminium"/>
+            <ImageView
+                android:id="@+id/rss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:contentDescription="@string/rss"
+                app:srcCompat="@drawable/rss" />
 
-        <TextView
-            android:text="posted on 2017.02.13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/date"
-            android:layout_below="@+id/title"
-            android:layout_toRightOf="@+id/feed_name"
-            android:layout_toEndOf="@+id/feed_name"
-            android:textColor="@color/aluminium"/>
+            <TextView
+                android:id="@+id/feed_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/rss"
+                android:layout_alignTop="@+id/rss"
+                android:layout_below="@+id/title"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/rss"
+                android:layout_toRightOf="@+id/rss"
+                android:text="Feed Name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/aluminium" />
 
-        <TextView
-            android:text="blablablabla"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/article"
-            android:layout_below="@+id/rss"/>
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/feed_name"
+                android:layout_alignTop="@+id/feed_name"
+                android:layout_below="@+id/title"
+                android:layout_toEndOf="@+id/feed_name"
+                android:layout_toRightOf="@+id/feed_name"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingStart="15dp"
+                android:text="posted on 2017.02.13"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/aluminium" />
+
+            <TextView
+                android:id="@+id/article"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rss"
+                android:paddingTop="10dp"
+                android:text="blablablabla"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        </RelativeLayout>
+    </ScrollView>
 
 </LinearLayout>
