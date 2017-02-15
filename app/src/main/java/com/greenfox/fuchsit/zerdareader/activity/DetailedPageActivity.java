@@ -1,7 +1,8 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,8 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
+import com.greenfox.fuchsit.zerdareader.model.FavoriteHandler;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.joda.time.LocalDate;
 
 /**
@@ -23,9 +29,11 @@ public class DetailedPageActivity extends AppCompatActivity {
 
     TextView title, feedName, date, article;
     NewsItem newsItem;
-    MenuItem favoriteStar;
-    MenuItem notFavoriteStar;
     boolean isItemFavorite;
+
+    SharedPreferences sharedPreferences;
+
+    FavoriteHandler favoriteHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,15 +60,30 @@ public class DetailedPageActivity extends AppCompatActivity {
 
         article = (TextView) findViewById(R.id.article);
         article.setText(newsItem.getDescription());
+
+        DaggerMockServerComponent.builder().build().inject(this);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        favoriteHandler = new FavoriteHandler(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.detailed_view_toolbar_menu, menu);
-
-        favoriteStar = menu.findItem(R.id.remove_favorite);
-        notFavoriteStar = menu.findItem(R.id.add_favorite);
 
         return true;
     }
@@ -84,38 +107,31 @@ public class DetailedPageActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+            break;
+            case R.id.add_favorite:
+                favoriteHandler.createFavoriteCall(newsItem.getId());
                 break;
             case R.id.remove_favorite:
-                isItemFavorite = false;
-                newsItem.setFavorite(false);
-                Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_LONG).show();
-                invalidateOptionsMenu();
+                favoriteHandler.deleteFavoriteCall(newsItem.getId());
                 break;
-
-            case R.id.add_favorite:
-                isItemFavorite = true;
-                newsItem.setFavorite(true);
-                Toast.makeText(this, "Marked as Favorite", Toast.LENGTH_LONG).show();
-                invalidateOptionsMenu();
-                break;
-
         }
         return true;
+    }
+
+    @Subscribe
+    public void onFavoriteSavedEvent(FavoriteSavedEvent favoriteSavedEvent) {
+        newsItem.setFavorite(!newsItem.isFavorite());
+        if (newsItem.isFavorite()) {
+            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Marked as Favorite",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(DetailedPageActivity.this.getBaseContext(),"Removed from Favorites",Toast.LENGTH_LONG).show();
+        }
+        invalidateOptionsMenu();
     }
 
     private String getDate(long unixTimeStamp) {
         LocalDate localDate = new LocalDate(unixTimeStamp * 1000);
         return localDate.toString("YYYY. MM. DD");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 }
 
