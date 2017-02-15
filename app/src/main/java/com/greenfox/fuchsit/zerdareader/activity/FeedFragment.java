@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.R;
@@ -63,6 +64,9 @@ public class FeedFragment extends ListFragment {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         tabNumber = getArguments().getInt("tabNumber", 1);
         DaggerMockServerComponent.builder().build().inject(this);
+
+        createBroadcastReceiver();
+        createIntentFilter();
 
         showNewsItems();
 
@@ -116,19 +120,6 @@ public class FeedFragment extends ListFragment {
         startActivity(i);
     }
 
-    // Setup a recurring alarm every 15 mins, will be wired to settings' view
-    public void scheduleAlarm(View view) {
-        createBroadcastReceiver();
-        createIntentFilter();
-
-        Intent intent = new Intent(getContext(), BackgroundSyncService.class);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(getContext(), BackgroundSyncService.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        AlarmManager alarm = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
-    }
-
     private void createBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -154,14 +145,5 @@ public class FeedFragment extends ListFragment {
 
     private int calculateNumOfNewItems(ArrayList<NewsItem> list) {
         return news.size() - list.size();
-    }
-
-    //will be wired to settings' view
-    public void cancelAlarm() {
-        Intent intent = new Intent(getContext(), BackgroundSyncService.class);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(getContext(), BackgroundSyncService.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarm = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-        alarm.cancel(pIntent);
     }
 }
