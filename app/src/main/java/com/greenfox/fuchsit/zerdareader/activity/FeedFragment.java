@@ -107,10 +107,4 @@ public class FeedFragment extends ListFragment {
         startActivity(i);
     }
 
-    private void updateFragment(Intent intent) {
-        adapter.clear();
-        ArrayList<NewsItem> list = (ArrayList<NewsItem>) intent.getExtras().getSerializable("bundle");
-        adapter.addAll(list);
-    }
-
 }
