@@ -23,6 +23,9 @@ public class FavoriteErrorDialog extends DialogFragment {
 
     FavoriteErrorListener favoriteErrorListener;
 
+    public FavoriteErrorDialog() {
+    }
+
     public FavoriteErrorDialog(String message, boolean isFavoriting, long itemId) {
         this.message = message;
         this.isFavoriting = isFavoriting;

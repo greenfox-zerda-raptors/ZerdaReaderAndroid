@@ -1,25 +1,22 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.SubscriptionsAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.dialog.DeleteDialogFragment;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
@@ -53,6 +50,8 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
     SubsDeleteResponse subsDeleteResponse;
     SharedPreferences sharedPreferences;
 
+    SubscriptionsAdapter.OnTrashcanClickListenerInterface onTrashcanClickListenerInterface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +68,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
             @Override
             public void onTrashcanClicked(SubscriptionModel subscriptionModel) {
                 showDeleteDialog(subscriptionModel);
+
             }
         });
 
@@ -121,12 +121,13 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         });
     }
 
-    public void showDeleteDialog(SubscriptionModel view) {
+    public void showDeleteDialog(SubscriptionModel subscriptionModel) {
+        deleteDialogFragment.getArguments().putSerializable("subscriptionModel", subscriptionModel);
         FragmentManager fragmentManager = getSupportFragmentManager();
         deleteDialogFragment.show(fragmentManager, "new_delete_dialog");
     }
 
-    public void showEditDialog(View view) {
+    public void showNewSubsDialog(View view) {
         FragmentManager fm = getSupportFragmentManager();
         newSubsDialogFragment.show(fm, "new_subs_dialog");
     }
