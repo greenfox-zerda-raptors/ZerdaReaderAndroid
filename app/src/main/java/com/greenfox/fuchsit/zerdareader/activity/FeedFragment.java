@@ -64,8 +64,7 @@ public class FeedFragment extends ListFragment {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         tabNumber = getArguments().getInt("tabNumber", 1);
         DaggerMockServerComponent.builder().build().inject(this);
-
-        createBroadcastReceiver();
+        
         createIntentFilter();
 
         showNewsItems();
@@ -118,16 +117,6 @@ public class FeedFragment extends ListFragment {
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);
         startActivity(i);
-    }
-
-    private void createBroadcastReceiver() {
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.e("BackgroundSyncService", "Service received");
-                updateFragment(intent);
-            }
-        };
     }
 
     public void createIntentFilter() {
