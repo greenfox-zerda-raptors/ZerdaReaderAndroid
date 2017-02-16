@@ -27,9 +27,7 @@
         <activity android:name=".activity.DetailedPageActivity"/>
         <activity android:name=".activity.SettingsActivity"/>
         <activity android:name=".activity.ManageSubscriptionsActivity"/>
-        <service
-            android:name=".backgroundSync.BackgroundSyncService"
-            android:exported="false" />
+
         <receiver
             android:name=".backgroundSync.BackgroundSyncReceiver"
             android:process=":remote" >
