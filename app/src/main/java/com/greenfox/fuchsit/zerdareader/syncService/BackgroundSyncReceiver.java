@@ -16,7 +16,7 @@ public class BackgroundSyncReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e("BackgroundSyncService", "Service triggered");
+        Log.e("BackgroundSyncReceiver", "Service triggered");
         Intent i = new Intent(context, BackgroundSyncService.class);
         context.startService(i);
     }
