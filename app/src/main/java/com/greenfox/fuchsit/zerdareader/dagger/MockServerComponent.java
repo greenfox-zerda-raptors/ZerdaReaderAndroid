@@ -3,7 +3,7 @@ package com.greenfox.fuchsit.zerdareader.dagger;
 import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 import com.greenfox.fuchsit.zerdareader.activity.SignupActivity;
-import com.greenfox.fuchsit.zerdareader.backgroundSync.BackgroundSyncService;
+import com.greenfox.fuchsit.zerdareader.backgroundSync.BackgroundSyncReceiver;
 
 import javax.inject.Singleton;
 
@@ -18,5 +18,5 @@ public interface MockServerComponent {
     void inject(LoginActivity loginActivity);
     void inject(FeedFragment feedFragment);
     void inject(SignupActivity signupActivity);
-    void inject(BackgroundSyncService backgroundSyncService);
+    void inject(BackgroundSyncReceiver backgroundSyncReceiver);
 }
