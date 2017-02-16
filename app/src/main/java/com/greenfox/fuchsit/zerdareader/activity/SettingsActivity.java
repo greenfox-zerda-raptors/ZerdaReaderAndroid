@@ -37,27 +37,27 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     public void enableBackgroundSync(boolean checkboxChecked) {
         if(checkboxChecked) {
-            Log.e("SettingsActivity", "background sync started");
+            Log.e("SettingsActivity", "background sync enabled");
             scheduleAlarm();
         } else {
-            Log.e("SettingsActivity", "background sync stopped");
+            Log.e("SettingsActivity", "background sync disabled");
             cancelAlarm();
         }
     }
 
     public void scheduleAlarm() {
         Intent intent = new Intent(this, BackgroundSyncService.class);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this, BackgroundSyncService.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 10000L, pIntent);
     }
 
     public void cancelAlarm() {
         Intent intent = new Intent(this, BackgroundSyncService.class);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this, BackgroundSyncService.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarm.cancel(pIntent);
     }
