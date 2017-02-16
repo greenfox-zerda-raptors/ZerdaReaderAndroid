@@ -139,11 +139,7 @@ public class FeedFragment extends ListFragment {
     private void updateFragment(Intent intent) {
         adapter.clear();
         ArrayList<NewsItem> list = (ArrayList<NewsItem>) intent.getExtras().getSerializable("bundle");
-        calculateNumOfNewItems(list);
         adapter.addAll(list);
     }
 
-    private int calculateNumOfNewItems(ArrayList<NewsItem> list) {
-        return news.size() - list.size();
-    }
 }
