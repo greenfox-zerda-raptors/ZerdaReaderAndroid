@@ -6,11 +6,11 @@ import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
  * Created by Zsuzska on 2017. 02. 16..
  */
 
-public class TrashcanClickedEvent {
+public class OkDeleteSubscriptionEvent {
 
     SubscriptionModel subscriptionModel;
 
-    public TrashcanClickedEvent(SubscriptionModel subscriptionModel) {
+    public OkDeleteSubscriptionEvent(SubscriptionModel subscriptionModel) {
 
         this.subscriptionModel = subscriptionModel;
     }
