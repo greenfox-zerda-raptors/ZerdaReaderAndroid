@@ -26,8 +26,6 @@ import retrofit2.Response;
 
 public class BackgroundSyncService extends IntentService {
 
-    public static final String TRANSACTION_DONE = "com.greenfox.fuchsit.zerdareader.TRANSACTION_DONE";
-
     @Inject
     ReaderApiInterface apiService;
     SharedPreferences sharedPreferences;
@@ -46,7 +44,7 @@ public class BackgroundSyncService extends IntentService {
         Bundle bundle = new Bundle();
         bundle.putSerializable("newsList", news);
 
-        Intent i = new Intent(TRANSACTION_DONE);
+        Intent i = new Intent();
         i.putExtra("bundle", bundle.getSerializable("newsList"));
         LocalBroadcastManager.getInstance(this).sendBroadcast(i);
         Log.e("BackgroundSyncService", "Broadcasting");
