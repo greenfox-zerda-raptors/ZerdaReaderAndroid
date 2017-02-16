@@ -34,6 +34,7 @@ android {
         compile 'org.greenrobot:eventbus:3.0.0'
         compile 'joda-time:joda-time:2.9.4'
         compile 'com.github.blocoio:faker:1.2.5'
+        compile 'com.github.thiagokimo:faker:1.4.3'
         testCompile 'junit:junit:4.12'
         testCompile 'org.robolectric:robolectric:3.2.2'
 //Retrofit
