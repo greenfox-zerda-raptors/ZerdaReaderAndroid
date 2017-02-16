@@ -62,7 +62,7 @@ public class FeedFragment extends ListFragment {
 
         tabNumber = getArguments().getInt("tabNumber", 1);
 
-        showNewsItems();
+        downloadNewsItems();
 
         return view;
     }
@@ -79,7 +79,7 @@ public class FeedFragment extends ListFragment {
         super.onStop();
     }
 
-    public void showNewsItems() {
+    public void downloadNewsItems() {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(FeedFragment.super.getContext());
 
@@ -102,6 +102,11 @@ public class FeedFragment extends ListFragment {
 
             }
         });
+    }
+
+    public void showNewsItems(Response<ArrayList<NewsItem>> response) {
+        adapter.clear();
+        adapter.addAll(response.body());
     }
 
     @Override

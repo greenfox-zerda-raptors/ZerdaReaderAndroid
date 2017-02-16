@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -56,7 +59,7 @@ public class SignupActivity extends BaseActivity {
     public void register(View view) {
         if (areTextfieldsEmpty()) {
             textInputLayout.setError("Please fill in your email and password");
-        } else if (!isEmailValid()){
+        } else if (!isEmailAddressValid()){
             textInputLayout.setError("Please fill in a valid email address");
         } else if (!arePasswordsMatching()){
             textInputLayout.setError("Passwords do not match");
@@ -95,8 +98,10 @@ public class SignupActivity extends BaseActivity {
                 || passwordAgain.getText().toString().equals("");
     }
 
-    private boolean isEmailValid() {
-        return emailToReg.getText().toString().contains("@") && emailToReg.getText().toString().contains(".");
+    private boolean isEmailAddressValid() {
+        String email = emailToReg.getText().toString();
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 
     private void saveDataToSharedPreferences() {
