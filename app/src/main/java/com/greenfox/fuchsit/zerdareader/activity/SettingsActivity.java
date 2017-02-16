@@ -11,8 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.greenfox.fuchsit.zerdareader.R;
-import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncReceiver;
-import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncService;
+import com.greenfox.fuchsit.zerdareader.backgroundSync.BackgroundSyncReceiver;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     

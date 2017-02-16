@@ -1,23 +1,15 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.ListFragment;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.R;
@@ -26,7 +18,6 @@ import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncService;
 
 import java.util.ArrayList;
 

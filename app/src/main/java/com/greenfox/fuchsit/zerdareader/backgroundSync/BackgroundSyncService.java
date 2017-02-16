@@ -1,4 +1,4 @@
-package com.greenfox.fuchsit.zerdareader.syncService;
+package com.greenfox.fuchsit.zerdareader.backgroundSync;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -32,7 +32,7 @@ public class BackgroundSyncService extends IntentService {
     ArrayList<NewsItem> news;
 
     public BackgroundSyncService() {
-        super(BackgroundSyncService.class.getName());
+        super("BackgroundSyncService");
     }
 
     @Override

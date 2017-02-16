@@ -3,7 +3,7 @@ package com.greenfox.fuchsit.zerdareader.dagger;
 import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 import com.greenfox.fuchsit.zerdareader.activity.SignupActivity;
-import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncService;
+import com.greenfox.fuchsit.zerdareader.backgroundSync.BackgroundSyncService;
 
 import javax.inject.Singleton;
 

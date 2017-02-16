@@ -1,4 +1,4 @@
-package com.greenfox.fuchsit.zerdareader.syncService;
+package com.greenfox.fuchsit.zerdareader.backgroundSync;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.util.Log;
 public class BackgroundSyncReceiver extends BroadcastReceiver {
 
     public static final String TRANSACTION_DONE = "com.greenfox.fuchsit.zerdareader.TRANSACTION_DONE";
-
 
     @Override
     public void onReceive(Context context, Intent intent) {

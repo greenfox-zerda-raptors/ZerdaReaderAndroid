@@ -28,10 +28,10 @@
         <activity android:name=".activity.SettingsActivity"/>
         <activity android:name=".activity.ManageSubscriptionsActivity"/>
         <service
-            android:name=".syncService.BackgroundSyncService"
+            android:name=".backgroundSync.BackgroundSyncService"
             android:exported="false" />
         <receiver
-            android:name=".syncService.BackgroundSyncReceiver"
+            android:name=".backgroundSync.BackgroundSyncReceiver"
             android:process=":remote" >
         </receiver>
         <!--<intent-filter>-->
