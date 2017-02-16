@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncReceiver;
 import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncService;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -46,7 +47,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     }
 
     public void scheduleAlarm() {
-        Intent intent = new Intent(this, BackgroundSyncService.class);
+        Intent intent = new Intent(this, BackgroundSyncReceiver.class);
         final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -55,7 +56,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     }
 
     public void cancelAlarm() {
-        Intent intent = new Intent(this, BackgroundSyncService.class);
+        Intent intent = new Intent(this, BackgroundSyncReceiver.class);
         final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
