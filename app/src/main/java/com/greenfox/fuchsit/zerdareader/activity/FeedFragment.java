@@ -47,7 +47,6 @@ public class FeedFragment extends ListFragment {
     int tabNumber;
     SharedPreferences sharedPreferences;
     UpdateRequest updateRequest;
-    private BroadcastReceiver broadcastReceiver;
     ArrayList<NewsItem> news;
 
     @Inject
@@ -64,8 +63,6 @@ public class FeedFragment extends ListFragment {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         tabNumber = getArguments().getInt("tabNumber", 1);
         DaggerMockServerComponent.builder().build().inject(this);
-
-//        createIntentFilter();
 
         showNewsItems();
 
@@ -118,12 +115,6 @@ public class FeedFragment extends ListFragment {
         i.putExtra("newsItem", item);
         startActivity(i);
     }
-
-//    public void createIntentFilter() {
-//        IntentFilter intentfilter = new IntentFilter();
-//        intentfilter.addAction(BackgroundSyncService.TRANSACTION_DONE);
-//        LocalBroadcastManager.getInstance(getContext()).registerReceiver(broadcastReceiver, intentfilter);
-//    }
 
     private void updateFragment(Intent intent) {
         adapter.clear();
