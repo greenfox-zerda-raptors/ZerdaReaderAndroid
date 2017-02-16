@@ -11,9 +11,13 @@ import android.util.Log;
 
 public class BackgroundSyncReceiver extends BroadcastReceiver {
 
+    public static final String TRANSACTION_DONE = "com.greenfox.fuchsit.zerdareader.TRANSACTION_DONE";
+
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e("BackgroundSyncService", "Service received");
-        updateFragment(intent);
+        Log.e("BackgroundSyncService", "Service triggered");
+        Intent i = new Intent(context, BackgroundSyncService.class);
+        context.startService(i);
     }
 }
