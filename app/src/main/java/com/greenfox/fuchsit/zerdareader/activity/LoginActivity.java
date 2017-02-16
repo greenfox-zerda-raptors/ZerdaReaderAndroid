@@ -58,7 +58,9 @@ public class LoginActivity extends BaseActivity {
     public void login(View view){
 
         if (isTextfieldsEmpty()) {
-            til.setError("Please fill in username and password");
+            til.setError("Please fill in your email and password");
+        } else if (!isEmailValid()){
+            til.setError("Please fill in a valid email address");
         } else {
             loginRequest = new LoginRequest(editEmail.getText().toString(), editPassword.getText().toString());
             Call<UserResponse> call = apiService.loginUser(loginRequest);
@@ -98,6 +100,10 @@ public class LoginActivity extends BaseActivity {
 
     private boolean isTextfieldsEmpty() {
         return editEmail.getText().toString().equals("") || editPassword.getText().toString().equals("");
+    }
+
+    private boolean isEmailValid() {
+        return editEmail.getText().toString().contains("@") &&  editEmail.getText().toString().contains(".");
     }
 
     private boolean isLoginDataCorrect(String result) {

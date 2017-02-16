@@ -55,7 +55,9 @@ public class SignupActivity extends BaseActivity {
 
     public void register(View view) {
         if (areTextfieldsEmpty()) {
-            textInputLayout.setError("Please fill in username and password");
+            textInputLayout.setError("Please fill in your email and password");
+        } else if (!isEmailValid()){
+            textInputLayout.setError("Please fill in a valid email address");
         } else if (!arePasswordsMatching()){
             textInputLayout.setError("Passwords do not match");
         } else {
@@ -91,6 +93,10 @@ public class SignupActivity extends BaseActivity {
     private boolean areTextfieldsEmpty() {
         return emailToReg.getText().toString().equals("") || passwordToReg.getText().toString().equals("")
                 || passwordAgain.getText().toString().equals("");
+    }
+
+    private boolean isEmailValid() {
+        return emailToReg.getText().toString().contains("@") && emailToReg.getText().toString().contains(".");
     }
 
     private void saveDataToSharedPreferences() {
