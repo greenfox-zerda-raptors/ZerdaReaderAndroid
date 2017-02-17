@@ -9,7 +9,7 @@ import com.greenfox.fuchsit.zerdareader.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    SharedPreferences timePreferences;
+    SharedPreferences sharedPreferences;
 
 
     @Override
@@ -22,10 +22,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
 
-        Long timestamp = System.currentTimeMillis()/1000;
-        timePreferences = PreferenceManager.getDefaultSharedPreferences(BaseActivity.this);
-        final SharedPreferences.Editor editor = timePreferences.edit();
-        editor.putLong("timestamp", timestamp);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(BaseActivity.this);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("timestamp", System.currentTimeMillis());
     }
 
 }
