@@ -107,7 +107,7 @@ public class DetailedPageActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-            break;
+                break;            
             case R.id.add_favorite:
                 favoriteHandler.createFavoriteCall(newsItem.getId());
                 break;
@@ -133,6 +133,6 @@ public class DetailedPageActivity extends AppCompatActivity {
         LocalDate localDate = new LocalDate(unixTimeStamp * 1000);
         return localDate.toString("YYYY. MM. DD");
     }
-}
 
+}
 

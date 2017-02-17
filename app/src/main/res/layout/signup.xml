@@ -34,7 +34,7 @@
         app:layout_widthPercent="50%"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:hint="@string/username"
+        android:hint="@string/email"
         android:ems="10"
         android:id="@+id/userName"
         android:textAlignment="center"
