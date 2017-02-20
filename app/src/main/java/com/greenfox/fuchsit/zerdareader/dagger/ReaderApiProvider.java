@@ -24,7 +24,6 @@ public class ReaderApiProvider {
 
     @Provides
     public ReaderApiInterface provideApiInterface() {
-        Log.d("asd", "application is null? " + (application == null));
         if(BuildConfig.DEBUG) {
             return new MockServer();
         } else {

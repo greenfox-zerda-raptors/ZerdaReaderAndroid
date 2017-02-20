@@ -130,7 +130,7 @@ public class DetailedPageActivity extends AppCompatActivity {
     }
 
     private String getDate(long unixTimeStamp) {
-        LocalDate localDate = new LocalDate(unixTimeStamp * 1000);
+        LocalDate localDate = new LocalDate(unixTimeStamp);
         return localDate.toString("YYYY. MM. DD");
     }
 }
