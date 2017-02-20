@@ -1,31 +1,30 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
 import android.support.v4.app.ListFragment;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncEvent;
+import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncService;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -46,7 +45,6 @@ public class FeedFragment extends ListFragment {
     int tabNumber;
     SharedPreferences sharedPreferences;
     UpdateRequest updateRequest;
-    private BroadcastReceiver broadcastReceiver;
     ArrayList<NewsItem> news;
 
     @Inject
@@ -69,17 +67,20 @@ public class FeedFragment extends ListFragment {
         return view;
     }
 
-    public static FeedFragment newInstance(int tabNumber) {
-        FeedFragment myFragment = new FeedFragment();
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
-        Bundle args = new Bundle();
-        args.putInt("tabNumber", tabNumber);
-        myFragment.setArguments(args);
-
-        return myFragment;
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     public void showNewsItems() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(FeedFragment.super.getContext());
         Call<ArrayList<NewsItem>> call;
 
         if(tabNumber == 1) {
@@ -116,61 +117,23 @@ public class FeedFragment extends ListFragment {
         startActivity(i);
     }
 
-    // Setup a recurring alarm every 15 mins, will be wired to settings' view
-    public void scheduleAlarm(View view) {
-        createBroadcastReceiver();
-        createIntentFilter();
+    public static FeedFragment newInstance(int tabNumber) {
+        FeedFragment myFragment = new FeedFragment();
+        Bundle args = new Bundle();
+        args.putInt("tabNumber", tabNumber);
+        myFragment.setArguments(args);
 
-        Intent intent = new Intent(getContext(), BackgroundSyncService.class);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(getContext(), BackgroundSyncService.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        long interval = defineInterval();
-        AlarmManager alarm = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pIntent);
+        return myFragment;
     }
 
-    private long defineInterval() {
-        if(isVisible()) {
-            return 60000L;
-        } else {
-            return 600000L;
-        }
+    @Subscribe
+    public void onFavoriteSavedEvent(FavoriteSavedEvent favoriteSavedEvent) {
+        adapter.toggleFavoriteById(favoriteSavedEvent.getItem_id());
     }
 
-    private void createBroadcastReceiver() {
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.e("BackgroundSyncService", "Service received");
-                updateFragment(intent);
-            }
-        };
-    }
-
-    public void createIntentFilter() {
-        IntentFilter intentfilter = new IntentFilter();
-        intentfilter.addAction(BackgroundSyncService.TRANSACTION_DONE);
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(broadcastReceiver, intentfilter);
-    }
-
-    private void updateFragment(Intent intent) {
+    @Subscribe
+    public void onBackgroundSyncEvent (BackgroundSyncEvent backgroundSyncEvent) {
         adapter.clear();
-        ArrayList<NewsItem> list = (ArrayList<NewsItem>) intent.getExtras().getSerializable("bundle");
-        calculateNumOfNewItems(list);
-        adapter.addAll(list);
-    }
-
-    private int calculateNumOfNewItems(ArrayList<NewsItem> list) {
-        return news.size() - list.size();
-    }
-
-    //will be wired to settings' view
-    public void cancelAlarm() {
-        Intent intent = new Intent(getContext(), BackgroundSyncService.class);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(getContext(), BackgroundSyncService.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarm = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-        alarm.cancel(pIntent);
+        adapter.addAll(backgroundSyncEvent.getNewsList());
     }
 }

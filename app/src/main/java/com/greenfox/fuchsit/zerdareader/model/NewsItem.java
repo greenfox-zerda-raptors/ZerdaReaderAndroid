@@ -3,7 +3,6 @@ package com.greenfox.fuchsit.zerdareader.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by Zsuzska on 2017. 01. 24..
@@ -17,7 +16,7 @@ public class NewsItem implements Serializable{
     @SerializedName("description")
     private String description;
     @SerializedName("created")
-    private Date created;
+    private long created;
     @SerializedName("feed_name")
     private String feedName;
     @SerializedName("feed_id")
@@ -33,12 +32,7 @@ public class NewsItem implements Serializable{
     public NewsItem() {
     }
 
-    public NewsItem(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
-
-    public NewsItem(String title, String description, Date created, String feedName, long feedId, boolean favorite, boolean opened, String url) {
+    public NewsItem(String title, String description, long created, String feedName, long feedId, boolean favorite, boolean opened, String url) {
         this.title = title;
         this.description = description;
         this.created = created;
@@ -49,7 +43,8 @@ public class NewsItem implements Serializable{
         this.url = url;
     }
 
-    public NewsItem(String title, String description, Date created, String feedName, boolean favorite, boolean opened) {
+    public NewsItem(long itemId, String title, String description, long created, String feedName, boolean favorite, boolean opened) {
+        this.id = itemId;
         this.title = title;
         this.description = description;
         this.created = created;
@@ -78,11 +73,11 @@ public class NewsItem implements Serializable{
         this.description = description;
     }
 
-    public Date getCreated() {
+    public long getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(int created) {
         this.created = created;
     }
 

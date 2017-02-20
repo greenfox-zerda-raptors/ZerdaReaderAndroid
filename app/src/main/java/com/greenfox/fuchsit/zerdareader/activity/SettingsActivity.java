@@ -1,55 +1,65 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.TextView;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.greenfox.fuchsit.zerdareader.R;
-import com.greenfox.fuchsit.zerdareader.syncService.BackgroundSyncService;
+import com.greenfox.fuchsit.zerdareader.backgroundSync.BackgroundSyncReceiver;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+    
+    private SharedPreferences preferences;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-
-        TextView settingsBack = (TextView) findViewById(R.id.settingsTextView);
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        myToolbar.setTitle("Feed");
-        myToolbar.setSubtitle("Back to your feed");
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        addPreferencesFromResource(R.xml.preferences);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.short_menu, menu);
-        return true;
-    }
-
+    @SuppressWarnings("deprecation")
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
+    public void onSharedPreferenceChanged(SharedPreferences loginData, String key) {
+        setPreferenceScreen(null);
+        addPreferencesFromResource(R.xml.preferences);
+        enableBackgroundSync(preferences.getBoolean("checkbox_sync", true));
     }
 
-    public void startBackgroundSyncService() {
-        Intent intent = new Intent(this, BackgroundSyncService.class);
-        this.startService(intent);
+    public void enableBackgroundSync(boolean checkboxChecked) {
+        if(checkboxChecked) {
+            Log.e("SettingsActivity", "background sync enabled");
+            scheduleAlarm();
+        } else {
+            Log.e("SettingsActivity", "background sync disabled");
+            cancelAlarm();
+        }
+    }
+
+    public void scheduleAlarm() {
+        Intent intent = new Intent(this, BackgroundSyncReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 10000L, pIntent);
+    }
+
+    public void cancelAlarm() {
+        Intent intent = new Intent(this, BackgroundSyncReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pIntent);
     }
 
 }
-
 

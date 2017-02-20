@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +16,6 @@ import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
-import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
 import javax.inject.Inject;
@@ -52,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         textView = (TextView) findViewById(R.id.loginTitle);
-        editEmail = (EditText) findViewById(R.id.userName);
+        editEmail = (EditText) findViewById(R.id.email);
         editPassword = (EditText) findViewById(R.id.password);
         button = (Button) findViewById(R.id.loginButton);
         til = (TextInputLayout) findViewById(R.id.error_text);
@@ -65,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         if (isTextfieldsEmpty()) {
             til.setError("Please fill in username and password");
         } else {
-
             loginRequest = new LoginRequest(editEmail.getText().toString(), editPassword.getText().toString());
             Call<UserResponse> call = apiService.loginUser(loginRequest);
 
@@ -120,26 +115,12 @@ public class LoginActivity extends AppCompatActivity {
             loginWithCorrectData();
         }
     }
-    
-    // toolbar methods:
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.my_toolbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this, "You must be my lucky star", Toast.LENGTH_LONG).show();
-        return true;
-    }
 
     public void redirectToSignup(View view) {
         Intent i = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(i);
     }
+
 }
 
 

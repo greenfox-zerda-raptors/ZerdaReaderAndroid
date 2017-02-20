@@ -72,6 +72,7 @@ public class SignupActivityTest {
     public void testUserDataIsSavedInSharedPref() throws Exception {
         userName.setText("username");
         password.setText("password");
+        passwordAgain.setText("password");
         signupActivity.findViewById(R.id.registerButton).performClick();
 
         Context context = RuntimeEnvironment.application.getApplicationContext();
@@ -81,3 +82,4 @@ public class SignupActivityTest {
         assertEquals("password", sharedPreferences.getString("password", "default"));
     }
 }
+

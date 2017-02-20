@@ -14,11 +14,52 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:transcriptMode="alwaysScroll"
-        android:id="@+id/description"
-        android:background="@color/colorAccent"/>
+        android:padding="10dp">
+
+        <TextView
+            android:text="Title 1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/title" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/rss"
+            android:id="@+id/rss"
+            android:layout_below="@+id/title"
+            android:contentDescription="@string/rss"/>
+
+        <TextView
+            android:text="Feed Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/feed_name"
+            android:layout_below="@+id/title"
+            android:layout_toRightOf="@+id/rss"
+            android:layout_toEndOf="@+id/rss"
+            android:textColor="@color/aluminium"/>
+
+        <TextView
+            android:text="posted on 2017.02.13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/date"
+            android:layout_below="@+id/title"
+            android:layout_toRightOf="@+id/feed_name"
+            android:layout_toEndOf="@+id/feed_name"
+            android:textColor="@color/aluminium"/>
+
+        <TextView
+            android:text="blablablabla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/article"
+            android:layout_below="@+id/rss"/>
+    </RelativeLayout>
 
 </LinearLayout>
