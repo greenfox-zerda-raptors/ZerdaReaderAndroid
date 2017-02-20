@@ -2,6 +2,9 @@ package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import com.greenfox.fuchsit.zerdareader.R;
+
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
@@ -10,7 +13,6 @@ import com.greenfox.fuchsit.zerdareader.R;
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     
     private SharedPreferences preferences;
-
 
     @SuppressWarnings("deprecation")
     @Override

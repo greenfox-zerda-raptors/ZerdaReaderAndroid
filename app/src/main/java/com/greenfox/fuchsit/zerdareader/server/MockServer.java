@@ -21,6 +21,8 @@ import io.kimo.lib.faker.component.text.LoremComponent;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Zsuzska on 2017. 01. 20..
@@ -95,7 +97,8 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public void updateOpened(long id, UpdateRequest updateRequest, String token) {
+    public void updateOpened(long id, String token, UpdateRequest updateRequest) {
+
     }
 
     public MockCall<UserResponse> signUpUser(final LoginRequest loginRequest) {

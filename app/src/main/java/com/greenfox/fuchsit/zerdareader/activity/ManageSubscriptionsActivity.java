@@ -1,7 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import com.greenfox.fuchsit.zerdareader.R;
 
-public class ManageSubscriptionsActivity extends AppCompatActivity {
+public class ManageSubscriptionsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

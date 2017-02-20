@@ -5,13 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
@@ -112,8 +110,8 @@ public class FeedFragment extends ListFragment {
         super.onListItemClick(feed, view, position, id);
 
         NewsItem item = (NewsItem) feed.getItemAtPosition(position);
-        updateRequest = new UpdateRequest(item.getId(), 1);
-        apiService.updateOpened(item.getId(), updateRequest, sharedPreferences.getString("token", "default"));
+        updateRequest = new UpdateRequest(1);
+        apiService.updateOpened(item.getId(), sharedPreferences.getString("token", "default"), updateRequest);
 
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);
