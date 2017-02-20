@@ -109,8 +109,8 @@ public class FeedFragment extends ListFragment {
         super.onListItemClick(feed, view, position, id);
 
         NewsItem item = (NewsItem) feed.getItemAtPosition(position);
-        updateRequest = new UpdateRequest(item.getId(), 1);
-        apiService.updateOpened(item.getId(), updateRequest, sharedPreferences.getString("token", "default"));
+        updateRequest = new UpdateRequest(1);
+        apiService.updateOpened(item.getId(), sharedPreferences.getString("token", "default"), updateRequest);
 
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);

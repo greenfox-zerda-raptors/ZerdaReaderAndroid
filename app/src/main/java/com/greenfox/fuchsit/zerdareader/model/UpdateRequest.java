@@ -8,21 +8,14 @@ import com.google.gson.annotations.SerializedName;
 
 public class UpdateRequest {
 
-    @SerializedName("item_id")
-    private long item_id;
     @SerializedName("opened")
     private int opened;
 
     public UpdateRequest() {
     }
 
-    public UpdateRequest(long item_id, int opened) {
-        this.item_id = item_id;
+    public UpdateRequest(int opened) {
         this.opened = opened;
-    }
-
-    public long getItem_id() {
-        return item_id;
     }
 
     public int getOpened() {
