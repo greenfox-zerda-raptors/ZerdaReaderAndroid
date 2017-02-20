@@ -60,4 +60,3 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 }
-
