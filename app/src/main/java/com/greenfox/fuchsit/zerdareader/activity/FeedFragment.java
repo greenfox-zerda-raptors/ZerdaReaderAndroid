@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncEvent;
 import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
@@ -25,6 +26,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.inject.Inject;
 
@@ -124,8 +126,15 @@ public class FeedFragment extends ListFragment {
 
         return myFragment;
     }
+
     @Subscribe
     public void onFavoriteSavedEvent(FavoriteSavedEvent favoriteSavedEvent) {
         adapter.toggleFavoriteById(favoriteSavedEvent.getItem_id());
+    }
+
+    @Subscribe
+    public void onBackgroundSyncEvent (BackgroundSyncEvent backgroundSyncEvent) {
+        adapter.clear();
+        adapter.addAll((Collection<? extends NewsItem>) backgroundSyncEvent.getNewsList());
     }
 }
