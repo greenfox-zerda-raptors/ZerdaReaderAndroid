@@ -3,7 +3,6 @@ package com.greenfox.fuchsit.zerdareader.activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +24,7 @@ import org.joda.time.LocalDate;
  * Created by regnisalram on 1/30/17.
  */
 
-public class DetailedPageActivity extends AppCompatActivity {
+public class DetailedPageActivity extends BaseActivity {
 
     TextView title, feedName, date, article;
     NewsItem newsItem;
