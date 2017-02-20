@@ -16,8 +16,6 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_subscriptions);
 
-        TextView subscriptions = (TextView) findViewById(R.id.subscriptionsTextView);
-
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setTitle("Feed");

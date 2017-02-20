@@ -21,10 +21,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
 
-        Long timestamp = System.currentTimeMillis()/1000;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(BaseActivity.this);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong("timestamp", timestamp);
+        editor.putLong("timestamp", System.currentTimeMillis());
+
     }
 
 }

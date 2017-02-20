@@ -50,7 +50,7 @@ public class LoginActivity extends BaseActivity {
 
 
         textView = (TextView) findViewById(R.id.loginTitle);
-        editEmail = (EditText) findViewById(R.id.userName);
+        editEmail = (EditText) findViewById(R.id.email);
         editPassword = (EditText) findViewById(R.id.password);
         button = (Button) findViewById(R.id.loginButton);
         til = (TextInputLayout) findViewById(R.id.error_text);
