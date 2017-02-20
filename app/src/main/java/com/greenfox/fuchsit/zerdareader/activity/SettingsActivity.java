@@ -17,7 +17,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     
     private SharedPreferences preferences;
 
-
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

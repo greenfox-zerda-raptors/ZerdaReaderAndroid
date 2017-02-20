@@ -8,8 +8,11 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncEvent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -34,7 +37,7 @@ public class BackgroundSyncReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.e("BackgroundSyncReceiver", "Service triggered");
         updateNewsItems(context);
-
+        EventBus.getDefault().post(new BackgroundSyncEvent(news));
     }
 
     private void updateNewsItems(Context context) {
