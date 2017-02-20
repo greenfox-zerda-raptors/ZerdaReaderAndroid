@@ -21,7 +21,7 @@
         android:inputType="textUri" />
 
     <Button
-        android:onClick="subscribe"
+        android:onClick="subscribeToFeed"
         android:text="Button"
         android:layout_width="105dp"
         android:layout_height="wrap_content"

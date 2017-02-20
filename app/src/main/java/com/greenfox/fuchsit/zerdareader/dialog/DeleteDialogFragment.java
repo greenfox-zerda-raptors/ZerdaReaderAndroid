@@ -9,7 +9,10 @@ import android.support.v7.app.AlertDialog;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.activity.ManageSubscriptionsActivity;
+import com.greenfox.fuchsit.zerdareader.event.OkDeleteSubscriptionEvent;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Zsuzska on 2017. 02. 13..
@@ -35,12 +38,12 @@ public class DeleteDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.dialog_favorite_error);
         builder.setTitle("Unsubscribe");
         builder.setMessage("Are you sure, you want to unsubscribe?");
-        subscriptionModel = (SubscriptionModel) getArguments().getSerializable("subscriptionModel");
+
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                manageSubscriptionsActivity.unsubscribe(subscriptionModel);
+                subscriptionModel = (SubscriptionModel) getArguments().getSerializable("subscriptionModel");
+                EventBus.getDefault().post(new OkDeleteSubscriptionEvent(subscriptionModel));
 
                 dismiss();
             }

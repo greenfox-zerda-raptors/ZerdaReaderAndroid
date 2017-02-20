@@ -1,13 +1,10 @@
-package com.greenfox.fuchsit.zerdareader.activity;
+package com.greenfox.fuchsit.zerdareader.dialog;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +12,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
-import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
-import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
-import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Zsuzska on 2017. 02. 09..

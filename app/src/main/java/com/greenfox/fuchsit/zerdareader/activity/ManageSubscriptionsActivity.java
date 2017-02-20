@@ -17,12 +17,17 @@ import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.SubscriptionsAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.dialog.DeleteDialogFragment;
+import com.greenfox.fuchsit.zerdareader.dialog.NewSubsDialogFragment;
+import com.greenfox.fuchsit.zerdareader.event.OkDeleteSubscriptionEvent;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -33,7 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ManageSubscriptionsActivity extends AppCompatActivity {
-
+    SubscriptionModel subscriptionModel;
     ListView subscriptionsList;
     SubscriptionsAdapter subscriptionsAdapter;
     @Inject
@@ -132,7 +137,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         newSubsDialogFragment.show(fm, "new_subs_dialog");
     }
 
-    public void subscribe(View view) {
+    public void subscribeToFeed(View view) {
 
         urlEditText = (EditText) newSubsDialogFragment.getView().findViewById(R.id.urlEditText);
 
@@ -192,6 +197,22 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe
+    public void onOkDeleteSubscriptionEvent(OkDeleteSubscriptionEvent okDeleteSubscriptionEvent) {
+        unsubscribe(okDeleteSubscriptionEvent.getSubscriptionModel());
+    }
 
 
 }
