@@ -135,6 +135,6 @@ public class FeedFragment extends ListFragment {
     @Subscribe
     public void onBackgroundSyncEvent (BackgroundSyncEvent backgroundSyncEvent) {
         adapter.clear();
-        adapter.addAll((Collection<? extends NewsItem>) backgroundSyncEvent.getNewsList());
+        adapter.addAll(backgroundSyncEvent.getNewsList());
     }
 }

@@ -16,7 +16,7 @@ public class BackgroundSyncEvent {
         this.newsList = newsList;
     }
 
-    public Object getNewsList() {
+    public ArrayList<NewsItem> getNewsList() {
         return newsList;
     }
 }
