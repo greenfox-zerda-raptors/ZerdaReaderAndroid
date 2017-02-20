@@ -153,6 +153,7 @@ public class MockServer implements ReaderApiInterface {
     private ArrayList<NewsItem> addNewsItems() throws ParseException {
         ArrayList<NewsItem> newsItems = new ArrayList<>();
         int d1 = 1487079219;
+        //kimo faker
 //        for (int i = 0; i < 5; i++) {
 //            newsItems.add(new NewsItem(i,
 //                    loremComponent.sentence(),
@@ -162,6 +163,7 @@ public class MockServer implements ReaderApiInterface {
 //                    getRandomBoolean(),
 //                    getRandomBoolean()));
 //        }
+        //bloko faker
 //        for (int i = 0; i < 5; i++) {
 //            newsItems.add(new NewsItem(i,
 //                    faker.lorem.sentence(),
@@ -171,6 +173,7 @@ public class MockServer implements ReaderApiInterface {
 //                    faker.bool.bool(),
 //                    faker.bool.bool()));
 //        }
+        //hardcoded
         newsItems.add(new NewsItem(1, "Pofont nem, maximum orrpöckölést kap az európai elit a francia elnökválasztáson",
                 "Ice cream soufflé tart marshmallow. Dragée tiramisu wafer danish candy canes croissant gummi bears. Toffee chocolate apple pie cupcake. Cupcake muffin macaroon tootsie roll pastry macaroon pastry toffee jelly. Sugar plum gingerbread dessert chocolate liquorice jelly beans wafer. Cheesecake fruitcake candy canes caramels marzipan fruitcake cotton candy gummies wafer. Tootsie roll tart jujubes chupa chups gummi bears bonbon. Gingerbread caramels cake cotton candy. Gummies pie gummi bears biscuit. Bear claw chocolate cake marshmallow muffin brownie chocolate bar carrot cake oat cake. Topping sesame snaps brownie jelly-o. Jelly-o bonbon donut chupa chups dessert. Muffin gummies tart. Sweet roll marzipan cake apple pie pie.\n\n" +
                         "Oat cake icing carrot cake cake soufflé croissant. Jelly fruitcake sugar plum brownie biscuit sweet roll cotton candy. Cookie jujubes cheesecake danish chocolate cake dessert. Liquorice bonbon ice cream liquorice carrot cake. Bear claw halvah cookie wafer. Caramels caramels candy canes tart powder gummies. Jujubes soufflé ice cream sesame snaps chocolate cake tiramisu soufflé jelly-o. Caramels topping macaroon croissant chupa chups sweet toffee chocolate bar. Cupcake toffee danish croissant. Bonbon pastry pie tart croissant powder candy canes. Liquorice sesame snaps tart donut tootsie roll gummi bears chocolate bar croissant soufflé. Sesame snaps dessert brownie fruitcake chupa chups sugar plum dragée oat cake chupa chups. Tiramisu biscuit toffee chocolate jelly candy jelly-o apple pie cotton candy.\n" +
@@ -189,6 +192,7 @@ public class MockServer implements ReaderApiInterface {
                 d1, "Fox Lunch", true, true));
         newsItems.add(new NewsItem(5, "Title 5", "Pastry candy canes oat cake icing sugar plum jelly-o biscuit danish. Dessert icing cookie bear claw jelly. Carrot cake icing sweet. Croissant jelly-o cheesecake biscuit dessert caramels wafer dragée tootsie roll. Lollipop pastry soufflé. Wafer cotton candy caramels apple pie sugar plum pie sesame snaps candy. Jelly-o tootsie roll ice cream croissant dessert. Jujubes cheesecake toffee pudding. Carrot cake bear claw gingerbread jelly chupa chups. Candy canes jelly beans candy canes soufflé. Liquorice donut donut. Sweet apple pie carrot cake pastry biscuit marshmallow.",
                 d1, "Fox Crunch", false, true));
+
         return newsItems;
     }
 
