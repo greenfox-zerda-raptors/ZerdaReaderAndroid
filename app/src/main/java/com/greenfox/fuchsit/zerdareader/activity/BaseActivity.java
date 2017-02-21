@@ -11,7 +11,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(BaseActivity.this);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong("timestamp", System.currentTimeMillis());
+
     }
 
 }

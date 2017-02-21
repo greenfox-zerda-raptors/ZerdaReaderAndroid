@@ -2,9 +2,6 @@ package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.greenfox.fuchsit.zerdareader.R;
-
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
@@ -30,4 +27,6 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         addPreferencesFromResource(R.xml.preferences);
     }
 }
+
+
 
