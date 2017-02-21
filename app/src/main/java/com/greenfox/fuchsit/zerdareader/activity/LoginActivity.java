@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,13 +18,15 @@ import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     Button button;
 
@@ -59,7 +61,9 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view){
 
         if (isTextfieldsEmpty()) {
-            til.setError("Please fill in username and password");
+            til.setError("Please fill in your email and password");
+        } else if (!isEmailAddressValid()){
+            til.setError("Please fill in a valid email address");
         } else {
             loginRequest = new LoginRequest(editEmail.getText().toString(), editPassword.getText().toString());
             Call<UserResponse> call = apiService.loginUser(loginRequest);
@@ -99,6 +103,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isTextfieldsEmpty() {
         return editEmail.getText().toString().equals("") || editPassword.getText().toString().equals("");
+    }
+
+    private boolean isEmailAddressValid() {
+        String email = editEmail.getText().toString();
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 
     private boolean isLoginDataCorrect(String result) {
