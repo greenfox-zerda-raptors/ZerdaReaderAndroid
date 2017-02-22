@@ -16,6 +16,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+import org.robolectric.fakes.RoboMenu;
 import org.robolectric.shadows.ShadowActivity;
 
 import static org.junit.Assert.assertTrue;
@@ -39,24 +40,32 @@ public class DetailedPageActivityTest {
     }
 
     @Test
-    public void testMenu() throws Exception {
+    public void testMenuWithNonFavoriteNewsItem() throws Exception {
         Intent i = new Intent(RuntimeEnvironment.application, DetailedPageActivity.class);
+        i.putExtra("newsItem", newsItem);
+        DetailedPageActivity detailedPageActivity = Robolectric.buildActivity(DetailedPageActivity.class).withIntent(i).create().get();
+        RoboMenu menu = new RoboMenu();
+        detailedPageActivity.onCreateOptionsMenu(menu);
+        detailedPageActivity.onPrepareOptionsMenu(menu);
+
+        newsItem = (NewsItem) detailedPageActivity.getIntent().getSerializableExtra("newsItem");
+        assertTrue(menu.findItem(R.id.add_favorite).isVisible());
+    }
+
+    @Test
+    public void testMenuWithFavoriteNewsItem() throws Exception {
+        Intent i = new Intent(RuntimeEnvironment.application, DetailedPageActivity.class);
+        newsItem.setFavorite(true);
         i.putExtra("newsItem", newsItem);
 
         DetailedPageActivity detailedPageActivity = Robolectric.buildActivity(DetailedPageActivity.class).withIntent(i).create().get();
-
-        ShadowActivity shadowActivity = shadowOf(detailedPageActivity);
-        Toolbar toolbar = (Toolbar) detailedPageActivity.findViewById(R.id.my_toolbar);
-        shadowActivity.onCreateOptionsMenu(toolbar.getMenu());
+        RoboMenu menu = new RoboMenu();
+        detailedPageActivity.onCreateOptionsMenu(menu);
+        detailedPageActivity.onPrepareOptionsMenu(menu);
 
         newsItem = (NewsItem) detailedPageActivity.getIntent().getSerializableExtra("newsItem");
-        assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.add_favorite).isVisible());
-        newsItem.setFavorite(true);
-        assertTrue(shadowActivity.getOptionsMenu().findItem(R.id.remove_favorite).isVisible());
-
+        assertTrue(menu.findItem(R.id.remove_favorite).isVisible());
     }
-
-
 }
 
 
