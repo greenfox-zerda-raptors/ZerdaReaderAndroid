@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncEvent;
+import com.greenfox.fuchsit.zerdareader.model.FeedResponse;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
@@ -42,16 +43,19 @@ public class BackgroundSyncReceiver extends BroadcastReceiver {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         DaggerMockServerComponent.builder().build().inject(this);
 
-        Call<ArrayList<NewsItem>> call = apiService.getNewsItems(sharedPreferences.getString("token", ""));
-        call.enqueue(new Callback<ArrayList<NewsItem>>() {
+        Call<FeedResponse> call = apiService.getNewsItems(sharedPreferences.getString("token", ""));
+
+        call.enqueue(new Callback<FeedResponse>() {
             @Override
-            public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {
-                EventBus.getDefault().post(new BackgroundSyncEvent(response.body()));
+            public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
+                EventBus.getDefault().post(new BackgroundSyncEvent(response.body().feed));
             }
 
             @Override
-            public void onFailure(Call<ArrayList<NewsItem>> call, Throwable t) {
+            public void onFailure(Call<FeedResponse> call, Throwable t) {
+
             }
         });
+
     }
 }
