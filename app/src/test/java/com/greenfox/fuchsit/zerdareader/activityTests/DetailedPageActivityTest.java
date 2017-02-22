@@ -2,7 +2,6 @@ package com.greenfox.fuchsit.zerdareader.activityTests;
 
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.widget.Toolbar;
 
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
 import com.greenfox.fuchsit.zerdareader.R;
@@ -17,10 +16,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenu;
-import org.robolectric.shadows.ShadowActivity;
 
 import static org.junit.Assert.assertTrue;
-import static org.robolectric.Shadows.shadowOf;
 
 /**
  * Created by regnisalram on 2/14/17.

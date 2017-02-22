@@ -38,6 +38,7 @@ android {
         compile 'org.greenrobot:eventbus:3.0.0'
         testCompile 'junit:junit:4.12'
         testCompile 'org.robolectric:robolectric:3.2.2'
+        testCompile "org.robolectric:shadows-support-v4:3.0"
 //Retrofit
         compile 'com.google.code.gson:gson:2.6.2'
         compile 'com.squareup.retrofit2:retrofit:2.0.2'
