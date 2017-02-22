@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.PagerAdapter;
+import com.greenfox.fuchsit.zerdareader.event.RefreshEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends BaseActivity {
 
@@ -49,6 +52,7 @@ public class MainActivity extends BaseActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                sendRefreshEvent();
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -95,6 +99,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.refresh:
+                sendRefreshEvent();
                 Toast.makeText(this,"Refreshed",Toast.LENGTH_LONG).show();
                 break;
             case R.id.logout:
@@ -110,6 +115,15 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    private void sendRefreshEvent() {
+        EventBus.getDefault().post(new RefreshEvent());
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        sendRefreshEvent();
+    }
 }
 
 
