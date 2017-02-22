@@ -26,8 +26,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.DetailedPageActivity"/>
-        <activity android:name=".activity.SettingsActivity" />
-        <activity android:name=".activity.ManageSubscriptionsActivity" />
+        <activity android:name=".activity.SettingsActivity"/>
+        <activity android:name=".activity.ManageSubscriptionsActivity"/>
+
+        <receiver
+            android:name=".backgroundSync.BackgroundSyncReceiver"
+            android:process=":remote" >
+        </receiver>
+        <!--<intent-filter>-->
+            <!--<action android:name="BackgroundSyncService.TRANSACTION_DONE" />-->
+        <!--</intent-filter>-->
     </application>
 
 </manifest>

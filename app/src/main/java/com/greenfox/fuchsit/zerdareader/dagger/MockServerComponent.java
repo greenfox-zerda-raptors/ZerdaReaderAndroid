@@ -4,6 +4,7 @@ import com.greenfox.fuchsit.zerdareader.activity.DetailedPageActivity;
 import com.greenfox.fuchsit.zerdareader.activity.FeedFragment;
 import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 import com.greenfox.fuchsit.zerdareader.activity.SignupActivity;
+import com.greenfox.fuchsit.zerdareader.backgroundSync.BackgroundSyncReceiver;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteHandler;
 
 import javax.inject.Singleton;
@@ -21,4 +22,5 @@ public interface MockServerComponent {
     void inject (DetailedPageActivity detailedPageActivity);
     void inject (SignupActivity signupActivity);
     void inject (FavoriteHandler favoriteHandler);
+    void inject(BackgroundSyncReceiver backgroundSyncReceiver);
 }
