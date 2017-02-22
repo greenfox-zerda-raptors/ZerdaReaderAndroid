@@ -34,6 +34,7 @@ import retrofit2.http.Query;
  */
 
 public class MockServer implements ReaderApiInterface {
+    ArrayList<SubscriptionModel> subscriptionModels = new ArrayList<>();
 
     @Override
     public MockCall<ArrayList<NewsItem>> getNewsItems(String token) {
@@ -198,7 +199,7 @@ public class MockServer implements ReaderApiInterface {
 
     @NonNull
     private ArrayList<SubscriptionModel> addSubscriptions() throws ParseException {
-        ArrayList<SubscriptionModel> subscriptionModels = new ArrayList<>();
+
         subscriptionModels.add(new SubscriptionModel("www.index.hu/feed", 1L));
         subscriptionModels.add(new SubscriptionModel("www.hvg.hu/feed", 2L));
         subscriptionModels.add(new SubscriptionModel("www.origo.hu/feed", 3L));
@@ -206,7 +207,6 @@ public class MockServer implements ReaderApiInterface {
         subscriptionModels.add(new SubscriptionModel("www.444.hu/feed", 5L));
         return subscriptionModels;
     }
-
 
     @NonNull
     private ArrayList<NewsItem> addNewsItems() throws ParseException {

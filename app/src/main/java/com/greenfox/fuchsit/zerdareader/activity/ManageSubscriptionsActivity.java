@@ -25,11 +25,13 @@ import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
+import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -55,6 +57,8 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
     SubsDeleteResponse subsDeleteResponse;
     SharedPreferences sharedPreferences;
 
+    MockServer mockServer;
+
     SubscriptionsAdapter.OnTrashcanClickListenerInterface onTrashcanClickListenerInterface;
 
     @Override
@@ -67,7 +71,6 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         subscriptionsAdapter = new SubscriptionsAdapter(this);
         subscriptionsList.setAdapter(subscriptionsAdapter);
-
 
         subscriptionsAdapter.setOnTrashcanClickListenerInterface(new SubscriptionsAdapter.OnTrashcanClickListenerInterface() {
             @Override
@@ -157,8 +160,7 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
 
             }
         });
-        newSubsDialogFragment.dismiss();
-        showSubscriptions();
+
     }
 
     public void unsubscribe(SubscriptionModel subscriptionModel) {
@@ -191,6 +193,8 @@ public class ManageSubscriptionsActivity extends AppCompatActivity {
 
     private void checkResultAndSubscribe(AddSubsResponse addSubsResponse) {
         if (addSubsResponse.getResult().equals("success")) {
+            newSubsDialogFragment.dismiss();
+            subscriptionsAdapter.notifyDataSetChanged();
             Toast.makeText(ManageSubscriptionsActivity.this, "You have successfully subscribed to " + urlEditText.getText(), Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(ManageSubscriptionsActivity.this, addSubsResponse.getMessage(), Toast.LENGTH_LONG).show();
