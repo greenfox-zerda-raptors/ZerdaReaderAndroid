@@ -129,8 +129,8 @@ public class DetailedPageActivity extends BaseActivity {
     }
 
     private String getDate(long unixTimeStamp) {
-        LocalDate localDate = new LocalDate(unixTimeStamp * 1000);
-        return localDate.toString("YYYY. MM. DD");
+        LocalDate localDate = new LocalDate(unixTimeStamp);
+        return localDate.toString("yyyy. MM. dd");
     }
 
 }
