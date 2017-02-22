@@ -7,6 +7,7 @@ import com.greenfox.fuchsit.zerdareader.activity.LoginActivity;
 import com.greenfox.fuchsit.zerdareader.activity.ManageSubscriptionsActivity;
 
 import com.greenfox.fuchsit.zerdareader.activity.SignupActivity;
+import com.greenfox.fuchsit.zerdareader.backgroundSync.BackgroundSyncReceiver;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteHandler;
 
 
@@ -26,4 +27,5 @@ public interface MockServerComponent {
     void inject (SignupActivity signupActivity);
     void inject (DetailedPageActivity detailedPageActivity);
     void inject (FavoriteHandler favoriteHandler);
+    void inject(BackgroundSyncReceiver backgroundSyncReceiver);
 }

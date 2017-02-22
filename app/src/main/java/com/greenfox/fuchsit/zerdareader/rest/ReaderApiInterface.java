@@ -45,7 +45,7 @@ public interface ReaderApiInterface {
     Call<UserResponse> loginUser(LoginRequest loginRequest);
 
     @PUT("/feed/{item_id}")
-    void updateOpened(@Path("item_id") long id, UpdateRequest updateRequest, @Query("token") String token);
+    void updateOpened(@Path("item_id") long id, @Query("token") String token, UpdateRequest updateRequest);
 
     @POST("user/signup")
     Call<UserResponse> signUpUser(LoginRequest loginRequest);

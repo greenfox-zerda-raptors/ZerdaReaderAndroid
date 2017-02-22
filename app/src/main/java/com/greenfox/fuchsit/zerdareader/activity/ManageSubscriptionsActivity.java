@@ -3,7 +3,6 @@ package com.greenfox.fuchsit.zerdareader.activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +30,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -39,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ManageSubscriptionsActivity extends AppCompatActivity {
+public class ManageSubscriptionsActivity extends BaseActivity {
     SubscriptionModel subscriptionModel;
     ListView subscriptionsList;
     SubscriptionsAdapter subscriptionsAdapter;

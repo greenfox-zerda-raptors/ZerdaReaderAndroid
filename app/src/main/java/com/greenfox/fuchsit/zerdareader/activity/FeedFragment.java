@@ -5,17 +5,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
+import com.greenfox.fuchsit.zerdareader.dagger.DaggerAppComponent;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
+import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncEvent;
 import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.inject.Inject;
 
@@ -41,30 +42,26 @@ public class FeedFragment extends ListFragment {
     ListView feed;
     FeedAdapter adapter;
     int tabNumber;
+    SharedPreferences sharedPreferences;
+    UpdateRequest updateRequest;
+    ArrayList<NewsItem> news;
 
     @Inject
     ReaderApiInterface apiService;
 
-    UpdateRequest updateRequest;
-    SharedPreferences sharedPreferences;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.feed_fragment, container, false);
 
         feed = (ListView) view.findViewById(android.R.id.list);
-
         adapter = new FeedAdapter(getActivity());
         feed.setAdapter(adapter);
-
-        DaggerMockServerComponent.builder().build().inject(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-
         tabNumber = getArguments().getInt("tabNumber", 1);
+        DaggerMockServerComponent.builder().build().inject(this);
 
-        showNewsItems();
+        downloadNewsItems();
 
         return view;
     }
@@ -81,10 +78,8 @@ public class FeedFragment extends ListFragment {
         super.onStop();
     }
 
-    public void showNewsItems() {
-
+    public void downloadNewsItems() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(FeedFragment.super.getContext());
-
         Call<ArrayList<NewsItem>> call;
 
         if(tabNumber == 1) {
@@ -102,9 +97,13 @@ public class FeedFragment extends ListFragment {
 
             @Override
             public void onFailure(Call<ArrayList<NewsItem>> call, Throwable t) {
-
             }
         });
+    }
+
+    public void showNewsItems(Response<ArrayList<NewsItem>> response) {
+        adapter.clear();
+        adapter.addAll(response.body());
     }
 
     @Override
@@ -112,8 +111,8 @@ public class FeedFragment extends ListFragment {
         super.onListItemClick(feed, view, position, id);
 
         NewsItem item = (NewsItem) feed.getItemAtPosition(position);
-        updateRequest = new UpdateRequest(item.getId(), 1);
-        apiService.updateOpened(item.getId(), updateRequest, sharedPreferences.getString("token", "default"));
+        updateRequest = new UpdateRequest(1);
+        apiService.updateOpened(item.getId(), sharedPreferences.getString("token", "default"), updateRequest);
 
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);
@@ -129,11 +128,15 @@ public class FeedFragment extends ListFragment {
 
         return myFragment;
     }
+
     @Subscribe
     public void onFavoriteSavedEvent(FavoriteSavedEvent favoriteSavedEvent) {
         adapter.toggleFavoriteById(favoriteSavedEvent.getItem_id());
     }
+
+    @Subscribe
+    public void onBackgroundSyncEvent (BackgroundSyncEvent backgroundSyncEvent) {
+        adapter.clear();
+        adapter.addAll(backgroundSyncEvent.getNewsList());
+    }
 }
-
-
-

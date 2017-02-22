@@ -3,7 +3,6 @@ package com.greenfox.fuchsit.zerdareader.activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +24,7 @@ import org.joda.time.LocalDate;
  * Created by regnisalram on 1/30/17.
  */
 
-public class DetailedPageActivity extends AppCompatActivity {
+public class DetailedPageActivity extends BaseActivity {
 
     TextView title, feedName, date, article;
     NewsItem newsItem;
@@ -107,7 +106,7 @@ public class DetailedPageActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-            break;
+                break;            
             case R.id.add_favorite:
                 favoriteHandler.createFavoriteCall(newsItem.getId());
                 break;
@@ -130,9 +129,9 @@ public class DetailedPageActivity extends AppCompatActivity {
     }
 
     private String getDate(long unixTimeStamp) {
-        LocalDate localDate = new LocalDate(unixTimeStamp * 1000);
-        return localDate.toString("YYYY. MM. DD");
+        LocalDate localDate = new LocalDate(unixTimeStamp);
+        return localDate.toString("yyyy. MM. dd");
     }
-}
 
+}
 
