@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-
 import android.support.v4.app.ListFragment;
 
 import android.view.LayoutInflater;
@@ -62,7 +61,7 @@ public class FeedFragment extends ListFragment {
         tabNumber = getArguments().getInt("tabNumber", 1);
         DaggerMockServerComponent.builder().build().inject(this);
 
-        showNewsItems();
+        downloadNewsItems();
 
         return view;
     }
@@ -79,7 +78,7 @@ public class FeedFragment extends ListFragment {
         super.onStop();
     }
 
-    public void showNewsItems() {
+    public void downloadNewsItems() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(FeedFragment.super.getContext());
         Call<ArrayList<NewsItem>> call;
 
@@ -92,9 +91,6 @@ public class FeedFragment extends ListFragment {
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
             public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {
-                if(tabNumber == 1) {
-                    news = response.body();
-                }
                 adapter.addAll(response.body());
             }
 
@@ -104,13 +100,18 @@ public class FeedFragment extends ListFragment {
         });
     }
 
+    public void showNewsItems(Response<ArrayList<NewsItem>> response) {
+        adapter.clear();
+        adapter.addAll(response.body());
+    }
+
     @Override
     public void onListItemClick(ListView feed, View view, int position, long id) {
         super.onListItemClick(feed, view, position, id);
 
         NewsItem item = (NewsItem) feed.getItemAtPosition(position);
-        updateRequest = new UpdateRequest(item.getId(), 1);
-        apiService.updateOpened(item.getId(), updateRequest, sharedPreferences.getString("token", "default"));
+        updateRequest = new UpdateRequest(1);
+        apiService.updateOpened(item.getId(), sharedPreferences.getString("token", "default"), updateRequest);
 
         Intent i = new Intent(getActivity(), DetailedPageActivity.class);
         i.putExtra("newsItem", item);

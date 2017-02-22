@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +17,8 @@ import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
+import java.util.regex.Pattern;
+
 import javax.inject.Inject;
 
 import retrofit2.Call;
@@ -27,7 +29,7 @@ import retrofit2.Response;
  * Created by Anna on 17/02/06.
  */
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends BaseActivity {
 
     Button registerButton;
     EditText emailToReg, passwordToReg, passwordAgain;
@@ -56,7 +58,9 @@ public class SignupActivity extends AppCompatActivity {
 
     public void register(View view) {
         if (areTextfieldsEmpty()) {
-            textInputLayout.setError("Please fill in username and password");
+            textInputLayout.setError("Please fill in your email and password");
+        } else if (!isEmailAddressValid()){
+            textInputLayout.setError("Please fill in a valid email address");
         } else if (!arePasswordsMatching()){
             textInputLayout.setError("Passwords do not match");
         } else {
@@ -92,6 +96,12 @@ public class SignupActivity extends AppCompatActivity {
     private boolean areTextfieldsEmpty() {
         return emailToReg.getText().toString().equals("") || passwordToReg.getText().toString().equals("")
                 || passwordAgain.getText().toString().equals("");
+    }
+
+    private boolean isEmailAddressValid() {
+        String email = emailToReg.getText().toString();
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 
     private void saveDataToSharedPreferences() {

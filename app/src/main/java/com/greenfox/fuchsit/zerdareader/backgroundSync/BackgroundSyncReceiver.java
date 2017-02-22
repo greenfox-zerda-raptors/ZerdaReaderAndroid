@@ -31,13 +31,11 @@ public class BackgroundSyncReceiver extends BroadcastReceiver {
     @Inject
     ReaderApiInterface apiService;
     SharedPreferences sharedPreferences;
-    ArrayList<NewsItem> news;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.e("BackgroundSyncReceiver", "Service triggered");
         updateNewsItems(context);
-        EventBus.getDefault().post(new BackgroundSyncEvent(news));
     }
 
     private void updateNewsItems(Context context) {
@@ -48,7 +46,7 @@ public class BackgroundSyncReceiver extends BroadcastReceiver {
         call.enqueue(new Callback<ArrayList<NewsItem>>() {
             @Override
             public void onResponse(Call<ArrayList<NewsItem>> call, Response<ArrayList<NewsItem>> response) {
-                news = response.body();
+                EventBus.getDefault().post(new BackgroundSyncEvent(response.body()));
             }
 
             @Override

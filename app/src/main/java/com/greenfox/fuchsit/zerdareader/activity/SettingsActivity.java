@@ -45,21 +45,18 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     }
 
     public void scheduleAlarm() {
-        Intent intent = new Intent(this, BackgroundSyncReceiver.class);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
+        final PendingIntent pIntent = setupPendingIntent();
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 10000L, pIntent);
     }
 
     public void cancelAlarm() {
-        Intent intent = new Intent(this, BackgroundSyncReceiver.class);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.cancel(pIntent);
+        alarm.cancel(setupPendingIntent());
     }
 
+    public PendingIntent setupPendingIntent() {
+        Intent intent = new Intent(this, BackgroundSyncReceiver.class);
+        return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
 }
-

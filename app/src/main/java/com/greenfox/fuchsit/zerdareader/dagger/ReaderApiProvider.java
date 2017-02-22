@@ -1,9 +1,14 @@
 package com.greenfox.fuchsit.zerdareader.dagger;
 
+import android.app.Application;
+import android.util.Log;
+
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 import com.greenfox.fuchsit.zerdareader.server.MockServer;
+
+import javax.inject.Inject;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,6 +18,9 @@ import dagger.Provides;
  */
 @Module
 public class ReaderApiProvider {
+
+    @Inject
+    Application application;
 
     @Provides
     public ReaderApiInterface provideApiInterface() {
