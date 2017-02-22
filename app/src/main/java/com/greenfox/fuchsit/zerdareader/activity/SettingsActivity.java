@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.greenfox.fuchsit.zerdareader.R;
+import com.greenfox.fuchsit.zerdareader.ZerdaReaderApp;
 import com.greenfox.fuchsit.zerdareader.backgroundSync.BackgroundSyncReceiver;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -47,7 +48,15 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     public void scheduleAlarm() {
         final PendingIntent pIntent = setupPendingIntent();
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 10000L, pIntent);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), defineInterval(), pIntent);
+    }
+
+    private long defineInterval() {
+        if(ZerdaReaderApp.inForeground) {
+            return 120000L;
+        } else {
+            return 600000L;
+        }
     }
 
     public void cancelAlarm() {
