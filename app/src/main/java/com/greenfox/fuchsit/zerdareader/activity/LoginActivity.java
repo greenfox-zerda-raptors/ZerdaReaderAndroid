@@ -62,8 +62,6 @@ public class LoginActivity extends BaseActivity {
 
         if (isTextfieldsEmpty()) {
             til.setError("Please fill in your email and password");
-        } else if (!isEmailAddressValid()){
-            til.setError("Please fill in a valid email address");
         } else {
             loginRequest = new LoginRequest(editEmail.getText().toString(), editPassword.getText().toString());
             Call<UserResponse> call = apiService.loginUser(loginRequest);
