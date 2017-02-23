@@ -5,14 +5,20 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.greenfox.fuchsit.zerdareader.backgroundSync.BackgroundSyncReceiver;
 import com.greenfox.fuchsit.zerdareader.event.BackSyncSettingEvent;
+import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncEvent;
 import com.greenfox.fuchsit.zerdareader.event.LeavingApplicationEvent;
+import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 /**
  * Created by regnisalram on 2/16/17.
@@ -86,5 +92,24 @@ public class ZerdaReaderApp extends Application{
     public void cancelAlarm() {
         alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarm.cancel(setupPendingIntent());
+    }
+
+    @Subscribe
+    public void onBackgroundSyncEvent(BackgroundSyncEvent event) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        Long exitTimeInMillis = sharedPref.getLong("timestamp", 0L);
+        ArrayList<NewsItem> newNewsList = event.getNewsList();
+
+        getNumOfNewNewsItems(exitTimeInMillis, newNewsList);
+    }
+
+    private int getNumOfNewNewsItems(Long exitTimeInMillis, ArrayList<NewsItem> newNewsList) {
+        int count = 0;
+        for (NewsItem temp : newNewsList) {
+            if(temp.getCreated() > exitTimeInMillis) {
+                count++;
+            }
+        }
+        return count;
     }
 }
