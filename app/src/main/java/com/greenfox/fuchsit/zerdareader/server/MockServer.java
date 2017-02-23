@@ -127,7 +127,7 @@ public class MockServer implements ReaderApiInterface {
 
     private UserResponse checkUser(LoginRequest loginRequest) {
         UserResponse userResponse;
-        if (loginRequest.getEmail().equals("admin") && loginRequest.getPassword().equals("fuchsit")) {
+        if (loginRequest.getEmail().equals("admin@admin.com") && loginRequest.getPassword().equals("fuchsit")) {
             userResponse = new UserResponse("success");
         } else {
             userResponse = new UserResponse("fail");

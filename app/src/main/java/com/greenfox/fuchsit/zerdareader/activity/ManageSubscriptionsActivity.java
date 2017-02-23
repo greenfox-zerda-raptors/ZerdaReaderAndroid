@@ -41,4 +41,3 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         return true;
     }
 }
-

@@ -124,7 +124,5 @@ public class MainActivity extends BaseActivity {
         super.onRestart();
         sendRefreshEvent();
     }
+
 }
-
-
-

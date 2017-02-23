@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.R;
@@ -132,7 +134,6 @@ public class FeedFragment extends ListFragment {
 
     public static FeedFragment newInstance(int tabNumber) {
         FeedFragment myFragment = new FeedFragment();
-
         Bundle args = new Bundle();
         args.putInt("tabNumber", tabNumber);
         myFragment.setArguments(args);
