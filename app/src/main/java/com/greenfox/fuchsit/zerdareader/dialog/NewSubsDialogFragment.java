@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ public class NewSubsDialogFragment extends DialogFragment {
 
     private TextView enterUrlTExView;
     private EditText urlEditText;
+    public TextInputLayout notValidUrlError;
     private Button okButton;
 
     public NewSubsDialogFragment() {
@@ -50,6 +52,8 @@ public class NewSubsDialogFragment extends DialogFragment {
         enterUrlTExView = (TextView) view.findViewById(R.id.enterUrlTextView);
         urlEditText = (EditText) view.findViewById(R.id.urlEditText);
         okButton = (Button) view.findViewById(R.id.okButton);
+        notValidUrlError = (TextInputLayout) view.findViewById(R.id.not_valid_url);
+
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Subscribe");
         getDialog().setTitle(title);

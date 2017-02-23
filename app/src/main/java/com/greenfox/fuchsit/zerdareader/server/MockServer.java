@@ -13,6 +13,7 @@ import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionResponse;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
@@ -120,17 +121,17 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public Call<ArrayList<SubscriptionModel>> getSubscriptions() {
-        return new MockCall<ArrayList<SubscriptionModel>>() {
+    public Call<SubscriptionResponse> getSubscriptions() {
+        return new MockCall<SubscriptionResponse>() {
             @Override
-            public void enqueue(Callback<ArrayList<SubscriptionModel>> callback) {
+            public void enqueue(Callback<SubscriptionResponse> callback) {
                 ArrayList<SubscriptionModel> subscriptionModels = null;
                 try {
                     subscriptionModels = addSubscriptions();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                Response<ArrayList<SubscriptionModel>> r = Response.success(subscriptionModels);
+                Response<SubscriptionResponse> r = Response.success(new SubscriptionResponse(subscriptionModels));
                 callback.onResponse(this, r);
             }
         };

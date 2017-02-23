@@ -38,7 +38,7 @@ public class SubsServerErrorDialog extends DialogFragment {
         builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                ((ManageSubscriptionsActivity)getActivity()).subscribeToFeed(null);
                 dismiss();
             }
         });

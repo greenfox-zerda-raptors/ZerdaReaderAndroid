@@ -9,6 +9,7 @@ import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionResponse;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 
@@ -51,7 +52,7 @@ public interface ReaderApiInterface {
     Call<UserResponse> signUpUser(LoginRequest loginRequest);
 
     @GET("/subscriptions")
-    Call<ArrayList<SubscriptionModel>> getSubscriptions();
+    Call<SubscriptionResponse> getSubscriptions();
 
     @POST("/subscribe")
     Call<AddSubsResponse> addNewSubscription(AddSubsRequest addSubsRequest);

@@ -2,12 +2,15 @@ package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,6 +26,7 @@ import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
 import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
@@ -30,6 +34,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -38,7 +43,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ManageSubscriptionsActivity extends BaseActivity {
-    SubscriptionModel subscriptionModel;
     ListView subscriptionsList;
     SubscriptionsAdapter subscriptionsAdapter;
     @Inject
@@ -47,6 +51,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     DeleteDialogFragment deleteDialogFragment;
 
     private EditText urlEditText;
+    TextInputLayout notValidUrlError;
 
     AddSubsResponse addSubsResponse;
     AddSubsRequest addSubsRequest;
@@ -55,9 +60,8 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     SubsDeleteResponse subsDeleteResponse;
     SharedPreferences sharedPreferences;
 
-    MockServer mockServer;
-
     SubscriptionsAdapter.OnTrashcanClickListenerInterface onTrashcanClickListenerInterface;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,19 +113,15 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
     public void showSubscriptions() {
 
-        Call<ArrayList<SubscriptionModel>> call;
-
-        call = apiService.getSubscriptions();
-
-        call.enqueue(new Callback<ArrayList<SubscriptionModel>>() {
+        apiService.getSubscriptions().enqueue(new Callback<SubscriptionResponse>() {
             @Override
-            public void onResponse(Call<ArrayList<SubscriptionModel>> call, Response<ArrayList<SubscriptionModel>> response) {
+            public void onResponse(Call<SubscriptionResponse> call, Response<SubscriptionResponse> response) {
                 subscriptionsAdapter.clear();
-                subscriptionsAdapter.addAll(response.body());
+                subscriptionsAdapter.addAll(response.body().subscriptions);
             }
 
             @Override
-            public void onFailure(Call<ArrayList<SubscriptionModel>> call, Throwable t) {
+            public void onFailure(Call<SubscriptionResponse> call, Throwable t) {
 
             }
         });
@@ -141,25 +141,34 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     public void subscribeToFeed(View view) {
 
         urlEditText = (EditText) newSubsDialogFragment.getView().findViewById(R.id.urlEditText);
+        notValidUrlError = (TextInputLayout) newSubsDialogFragment.getView().findViewById(R.id.not_valid_url);
 
-        addSubsRequest = new AddSubsRequest(urlEditText.getText().toString());
-        Call<AddSubsResponse> call = apiService.addNewSubscription(addSubsRequest);
+        url = urlEditText.getText().toString();
+        if (isUrlValid(url)) {
+            addSubsRequest = new AddSubsRequest(url);
+            apiService.addNewSubscription(addSubsRequest).enqueue(new Callback<AddSubsResponse>() {
+                @Override
+                public void onResponse(Call<AddSubsResponse> call, Response<AddSubsResponse> response) {
+                    addSubsResponse = response.body();
+                    checkResultAndSubscribe(addSubsResponse);
+                }
 
-        call.enqueue(new Callback<AddSubsResponse>() {
-            @Override
-            public void onResponse(Call<AddSubsResponse> call, Response<AddSubsResponse> response) {
-                addSubsResponse = response.body();
+                @Override
+                public void onFailure(Call<AddSubsResponse> call, Throwable t) {
 
-                checkResultAndSubscribe(addSubsResponse);
-            }
-
-            @Override
-            public void onFailure(Call<AddSubsResponse> call, Throwable t) {
-
-            }
-        });
+                }
+            });
+        } else {
+            notValidUrlError.setError("Please enter a valid URL.");
+        }
 
     }
+
+    public boolean isUrlValid(String url) {
+        Pattern pattern = Patterns.WEB_URL;
+        return pattern.matcher(url).matches();
+    }
+
 
     public void unsubscribe(SubscriptionModel subscriptionModel) {
         subsDeleteRequest = new SubsDeleteRequest(subscriptionModel.getUrl());
@@ -191,9 +200,9 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
     private void checkResultAndSubscribe(AddSubsResponse addSubsResponse) {
         if (addSubsResponse.getResult().equals("success")) {
-            newSubsDialogFragment.dismiss();
-            subscriptionsAdapter.notifyDataSetChanged();
+            subscriptionsAdapter.add(new SubscriptionModel(urlEditText.getText().toString(), addSubsResponse.getId()));
             Toast.makeText(ManageSubscriptionsActivity.this, "You have successfully subscribed to " + urlEditText.getText(), Toast.LENGTH_LONG).show();
+            newSubsDialogFragment.dismiss();
         } else {
             Toast.makeText(ManageSubscriptionsActivity.this, addSubsResponse.getMessage(), Toast.LENGTH_LONG).show();
         }
