@@ -100,6 +100,7 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()){
             case R.id.refresh:
                 sendRefreshEvent();
+                Toast.makeText(this,"Refreshed",Toast.LENGTH_LONG).show();
                 break;
             case R.id.logout:
                 logOut();

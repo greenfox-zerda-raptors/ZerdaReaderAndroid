@@ -1,13 +1,20 @@
 package com.greenfox.fuchsit.zerdareader.server;
 
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
+import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
+import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
 import com.greenfox.fuchsit.zerdareader.ZerdaReaderApp;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteResponse;
 import com.greenfox.fuchsit.zerdareader.model.FeedResponse;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionResponse;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
@@ -28,6 +35,7 @@ import retrofit2.Response;
  */
 @Module
 public class MockServer implements ReaderApiInterface {
+    ArrayList<SubscriptionModel> subscriptionModels = new ArrayList<>();
 
     LoremComponent loremComponent;
     NumberComponent numberComponent;
@@ -95,6 +103,7 @@ public class MockServer implements ReaderApiInterface {
         };
     }
 
+
     @Override
     public MockCall<okhttp3.ResponseBody> updateOpened(long id, String token, UpdateRequest updateRequest) {
         return new MockCall<ResponseBody>() {
@@ -114,6 +123,47 @@ public class MockServer implements ReaderApiInterface {
             }
         };
     }
+
+    @Override
+    public Call<SubscriptionResponse> getSubscriptions() {
+        return new MockCall<SubscriptionResponse>() {
+            @Override
+            public void enqueue(Callback<SubscriptionResponse> callback) {
+                ArrayList<SubscriptionModel> subscriptionModels = null;
+                try {
+                    subscriptionModels = addSubscriptions();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Response<SubscriptionResponse> r = Response.success(new SubscriptionResponse(subscriptionModels));
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
+    @Override
+    public Call<AddSubsResponse> addNewSubscription(final AddSubsRequest addSubsRequest) {
+        return new MockCall<AddSubsResponse>() {
+            @Override
+            public void enqueue(Callback<AddSubsResponse> callback) {
+
+                Response<AddSubsResponse> r = Response.success(checkSubsResponse(addSubsRequest));
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
+    @Override
+    public Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, final SubsDeleteRequest subsDeleteRequest, @Query("token") String token) {
+        return new MockCall<SubsDeleteResponse>() {
+            @Override
+            public void enqueue(Callback<SubsDeleteResponse> callback) {
+                Response<SubsDeleteResponse> r = Response.success(checkDelResponse(subsDeleteRequest));
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
 
     private UserResponse checkUsername(LoginRequest loginRequest) {
         UserResponse userResponse;
@@ -135,6 +185,32 @@ public class MockServer implements ReaderApiInterface {
         return userResponse;
     }
 
+    private AddSubsResponse checkSubsResponse(AddSubsRequest addSubsRequest) {
+        AddSubsResponse addSubsResponse;
+        if (addSubsRequest.getUrl().equals("blabla.hu")) {
+            addSubsResponse = new AddSubsResponse("fail", "Failed to subscribe");
+        } else {
+            addSubsResponse = new AddSubsResponse("success", 2587L);
+        }
+
+        return addSubsResponse;
+    }
+
+    private SubsDeleteResponse checkDelResponse(SubsDeleteRequest subsDeleteRequest) {
+        SubsDeleteResponse subsDeleteResponse = new SubsDeleteResponse("success");
+        return subsDeleteResponse;
+    }
+
+    @NonNull
+    private ArrayList<SubscriptionModel> addSubscriptions() throws ParseException {
+
+        subscriptionModels.add(new SubscriptionModel("www.index.hu/feed", 1L));
+        subscriptionModels.add(new SubscriptionModel("www.hvg.hu/feed", 2L));
+        subscriptionModels.add(new SubscriptionModel("www.origo.hu/feed", 3L));
+        subscriptionModels.add(new SubscriptionModel("www.444.hu/feed", 4L));
+        subscriptionModels.add(new SubscriptionModel("www.444.hu/feed", 5L));
+        return subscriptionModels;
+    }
 
     @NonNull
     private ArrayList<NewsItem> addNewsItems() {

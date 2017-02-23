@@ -1,14 +1,21 @@
 package com.greenfox.fuchsit.zerdareader.rest;
 
+import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
+import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteResponse;
 import com.greenfox.fuchsit.zerdareader.model.FeedResponse;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
+
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionResponse;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
@@ -44,6 +51,14 @@ public interface ReaderApiInterface {
     @POST("user/signup")
     Call<UserResponse> signUpUser(@Body LoginRequest loginRequest);
 
+    @GET("/subscriptions")
+    Call<SubscriptionResponse> getSubscriptions();
+
+    @POST("/subscribe")
+    Call<AddSubsResponse> addNewSubscription(AddSubsRequest addSubsRequest);
+
+    @DELETE("/subscribe/{id}")
+    Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, SubsDeleteRequest subsDeleteRequest, @Query("token") String token);
 
 }
 
