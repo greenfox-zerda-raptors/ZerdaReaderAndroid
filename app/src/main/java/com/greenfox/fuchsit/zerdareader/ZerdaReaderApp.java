@@ -107,7 +107,7 @@ public class ZerdaReaderApp extends Application{
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle("Scheduled Notification");
         builder.setContentText(content);
-        builder.setSmallIcon(R.drawable.ic_notification);
+        builder.setSmallIcon(R.drawable.ic_new);
         return builder.build();
     }
 }
