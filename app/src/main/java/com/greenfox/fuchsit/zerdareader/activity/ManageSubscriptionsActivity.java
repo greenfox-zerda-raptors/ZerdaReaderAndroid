@@ -2,6 +2,7 @@ package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
@@ -86,6 +87,8 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         newSubsDialogFragment = NewSubsDialogFragment.newInstance("Subscribe");
         deleteDialogFragment = DeleteDialogFragment.newInstance("Unsubcribe");
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         DaggerMockServerComponent.builder().build().inject(this);
 
         showSubscriptions();
@@ -110,7 +113,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
     public void showSubscriptions() {
 
-        apiService.getSubscriptions().enqueue(new Callback<SubscriptionResponse>() {
+        apiService.getSubscriptions(sharedPreferences.getString("token", null)).enqueue(new Callback<SubscriptionResponse>() {
             @Override
             public void onResponse(Call<SubscriptionResponse> call, Response<SubscriptionResponse> response) {
                 subscriptionsAdapter.clear();
@@ -143,7 +146,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         url = urlEditText.getText().toString();
         if (isUrlValid(url)) {
             addSubsRequest = new AddSubsRequest(url);
-            apiService.addNewSubscription(addSubsRequest).enqueue(new Callback<AddSubsResponse>() {
+            apiService.addNewSubscription(sharedPreferences.getString("token", null), addSubsRequest).enqueue(new Callback<AddSubsResponse>() {
                 @Override
                 public void onResponse(Call<AddSubsResponse> call, Response<AddSubsResponse> response) {
                     addSubsResponse = response.body();
@@ -202,7 +205,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
 
     private void checkResultAndSubscribe(AddSubsResponse addSubsResponse) {
-        if (addSubsResponse.getResult().equals("success")) {
+        if (addSubsResponse.getResult().equals("subscribed")) {
             subscriptionsAdapter.add(new SubscriptionModel(urlEditText.getText().toString(), addSubsResponse.getId()));
             Toast.makeText(ManageSubscriptionsActivity.this, "You have successfully subscribed to " + urlEditText.getText(), Toast.LENGTH_LONG).show();
             newSubsDialogFragment.dismiss();

@@ -52,10 +52,10 @@ public interface ReaderApiInterface {
     Call<UserResponse> signUpUser(@Body LoginRequest loginRequest);
 
     @GET("/subscriptions")
-    Call<SubscriptionResponse> getSubscriptions();
+    Call<SubscriptionResponse> getSubscriptions(@Query("token") String token);
 
     @POST("/subscribe")
-    Call<AddSubsResponse> addNewSubscription(AddSubsRequest addSubsRequest);
+    Call<AddSubsResponse> addNewSubscription(@Query("token") String token, @Body AddSubsRequest addSubsRequest);
 
     @DELETE("/subscribe/{id}")
     Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, SubsDeleteRequest subsDeleteRequest, @Query("token") String token);

@@ -19,6 +19,7 @@ import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -29,6 +30,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Body;
+import retrofit2.http.Query;
 
 /**
  * Created by Zsuzska on 2017. 01. 20..
@@ -125,7 +128,7 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public Call<SubscriptionResponse> getSubscriptions() {
+    public Call<SubscriptionResponse> getSubscriptions(@Query("token") String token) {
         return new MockCall<SubscriptionResponse>() {
             @Override
             public void enqueue(Callback<SubscriptionResponse> callback) {
@@ -142,7 +145,7 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public Call<AddSubsResponse> addNewSubscription(final AddSubsRequest addSubsRequest) {
+    public Call<AddSubsResponse> addNewSubscription(String token, final AddSubsRequest addSubsRequest) {
         return new MockCall<AddSubsResponse>() {
             @Override
             public void enqueue(Callback<AddSubsResponse> callback) {
@@ -154,7 +157,7 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public Call<SubsDeleteResponse> deleteSubscription(@Path("id") long id, final SubsDeleteRequest subsDeleteRequest, @Query("token") String token) {
+    public Call<SubsDeleteResponse> deleteSubscription(long id, final SubsDeleteRequest subsDeleteRequest, String token) {
         return new MockCall<SubsDeleteResponse>() {
             @Override
             public void enqueue(Callback<SubsDeleteResponse> callback) {
@@ -190,7 +193,7 @@ public class MockServer implements ReaderApiInterface {
         if (addSubsRequest.getUrl().equals("blabla.hu")) {
             addSubsResponse = new AddSubsResponse("fail", "Failed to subscribe");
         } else {
-            addSubsResponse = new AddSubsResponse("success", 2587L);
+            addSubsResponse = new AddSubsResponse("subscribed", 2587L);
         }
 
         return addSubsResponse;
