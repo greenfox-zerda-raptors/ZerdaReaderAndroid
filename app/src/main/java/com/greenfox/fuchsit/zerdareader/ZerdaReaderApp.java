@@ -21,7 +21,6 @@ import org.greenrobot.eventbus.Subscribe;
 public class ZerdaReaderApp extends Application{
 
     static Application application;
-    public static boolean visible;
     public static boolean startingActivity;
     private AlarmManager alarm;
 
@@ -75,7 +74,7 @@ public class ZerdaReaderApp extends Application{
     }
 
     private long defineInterval() {
-        if(visible) {
+        if(startingActivity) {
             Log.e("App", "in Foreground");
             return 120000L;
         } else {
