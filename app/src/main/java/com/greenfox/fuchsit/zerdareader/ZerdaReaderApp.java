@@ -12,6 +12,14 @@ public class ZerdaReaderApp extends Application implements Application.ActivityL
 
     static Application application;
     public static boolean inForeground;
+    private static ZerdaReaderApp zerdaReaderApp;
+
+    public static void init(Application app){
+        if (zerdaReaderApp == null){
+            zerdaReaderApp = new ZerdaReaderApp();
+            app.registerActivityLifecycleCallbacks(zerdaReaderApp);
+        }
+    }
 
     public static Application getApplication() {
         return application;
@@ -50,7 +58,6 @@ public class ZerdaReaderApp extends Application implements Application.ActivityL
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
     }
 
     @Override

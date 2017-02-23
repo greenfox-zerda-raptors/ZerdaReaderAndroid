@@ -14,6 +14,8 @@ import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.ZerdaReaderApp;
 import com.greenfox.fuchsit.zerdareader.backgroundSync.BackgroundSyncReceiver;
 
+import java.util.Set;
+
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     
     private SharedPreferences preferences;
@@ -53,8 +55,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     private long defineInterval() {
         if(ZerdaReaderApp.inForeground) {
+            Log.e("SettingsAct", "in Foreground");
             return 120000L;
         } else {
+            Log.e("SettingsAct", "not in Foreground");
             return 600000L;
         }
     }
