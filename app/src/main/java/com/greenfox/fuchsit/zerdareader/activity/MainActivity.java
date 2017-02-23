@@ -100,7 +100,6 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()){
             case R.id.refresh:
                 sendRefreshEvent();
-                Toast.makeText(this,"Refreshed",Toast.LENGTH_LONG).show();
                 break;
             case R.id.logout:
                 logOut();
@@ -117,12 +116,6 @@ public class MainActivity extends BaseActivity {
 
     private void sendRefreshEvent() {
         EventBus.getDefault().post(new RefreshEvent());
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        sendRefreshEvent();
     }
 }
 

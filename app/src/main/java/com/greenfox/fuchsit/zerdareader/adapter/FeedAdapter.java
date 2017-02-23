@@ -1,7 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.adapter;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +21,12 @@ import java.util.ArrayList;
 public class FeedAdapter extends ArrayAdapter<NewsItem> {
 
     FavoriteHandler favoriteHandler;
-    AppCompatActivity activity;
     Context context;
 
     public FeedAdapter(Context context) {
         super(context, 0, new ArrayList<NewsItem>());
-        this.activity = (AppCompatActivity) context;
         this.context = context;
+        favoriteHandler = new FavoriteHandler(context);
     }
 
     @Override
@@ -60,8 +58,6 @@ public class FeedAdapter extends ArrayAdapter<NewsItem> {
 
         title.setText(newsItem.getTitle());
         feedName.setText(newsItem.getFeedName());
-
-        favoriteHandler = new FavoriteHandler((AppCompatActivity) context);
 
         star.setOnClickListener(new View.OnClickListener() {
             @Override
