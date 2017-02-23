@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,12 +27,10 @@ import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
 import com.greenfox.fuchsit.zerdareader.model.SubscriptionResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
-import com.greenfox.fuchsit.zerdareader.server.MockServer;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -158,15 +155,21 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
                 }
             });
-        } else {
+        } else if (isUrlTextfieldEmpty()) {
+            notValidUrlError.setError("Please enter URL.");
+        }
+        else {
             notValidUrlError.setError("Please enter a valid URL.");
         }
-
     }
 
     public boolean isUrlValid(String url) {
         Pattern pattern = Patterns.WEB_URL;
         return pattern.matcher(url).matches();
+    }
+
+    private boolean isUrlTextfieldEmpty() {
+        return url.equals("");
     }
 
 

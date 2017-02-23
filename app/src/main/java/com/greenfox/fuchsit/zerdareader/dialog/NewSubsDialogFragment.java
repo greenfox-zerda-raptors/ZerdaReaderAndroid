@@ -54,6 +54,7 @@ public class NewSubsDialogFragment extends DialogFragment {
         okButton = (Button) view.findViewById(R.id.okButton);
         notValidUrlError = (TextInputLayout) view.findViewById(R.id.not_valid_url);
 
+
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Subscribe");
         getDialog().setTitle(title);
