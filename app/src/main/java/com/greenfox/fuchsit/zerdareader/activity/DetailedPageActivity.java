@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
+import com.greenfox.fuchsit.zerdareader.event.RefreshEvent;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteHandler;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 
@@ -105,6 +106,7 @@ public class DetailedPageActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                EventBus.getDefault().post(new RefreshEvent());
                 finish();
                 break;            
             case R.id.add_favorite:
