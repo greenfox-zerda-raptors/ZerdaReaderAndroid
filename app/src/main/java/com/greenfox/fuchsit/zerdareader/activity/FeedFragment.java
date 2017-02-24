@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,6 @@ public class FeedFragment extends ListFragment {
     int tabNumber;
     SharedPreferences sharedPreferences;
     UpdateRequest updateRequest;
-    ArrayList<NewsItem> news;
 
     @Inject
     ReaderApiInterface apiService;
@@ -134,6 +134,7 @@ public class FeedFragment extends ListFragment {
 
     @Subscribe
     public void onBackgroundSyncEvent (BackgroundSyncEvent backgroundSyncEvent) {
+        Log.e("feedfragment", "event caught");
         adapter.clear();
         adapter.addAll(backgroundSyncEvent.getNewsList());
     }
