@@ -110,7 +110,7 @@ public class FeedFragment extends ListFragment {
 
             @Override
             public void onFailure(Call<FeedResponse> call, Throwable t) {
-                Log.d("onfailure", t.toString());
+                Log.d("onfailure-dwnldfeed", t.toString());
                 ((BaseActivity) getActivity()).showServerErrorDialog(null);
             }
         });
@@ -137,7 +137,7 @@ public class FeedFragment extends ListFragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                ((BaseActivity) getActivity()).showServerErrorDialog(null);
             }
         });
 
