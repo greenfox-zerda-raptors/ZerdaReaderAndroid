@@ -24,6 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+        serverErrorDialog = ServerErrorDialog.newInstance("server error");
     }
 
     @Override
@@ -52,8 +53,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     public void showServerErrorDialog(View view) {
         FragmentManager fm = getSupportFragmentManager();
-        serverErrorDialog.show(fm, "new_subs_dialog");
-
+        if (fm.findFragmentByTag("server_error_dialog") == null || !fm.findFragmentByTag("server_error_dialog").isAdded()) {
+            serverErrorDialog.show(fm, "server_error_dialog");
+        }
     }
-
 }
