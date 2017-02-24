@@ -50,7 +50,7 @@ public class ZerdaReaderApp extends Application{
     @Subscribe
     public void onLeavingApplicationEvent(LeavingApplicationEvent event) {
         PendingIntent pIntent = setupPendingIntent();
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), defineInterval(), pIntent);
+        scheduleAlarm();
     }
 
     @Subscribe
@@ -71,12 +71,12 @@ public class ZerdaReaderApp extends Application{
     public void scheduleAlarm() {
         final PendingIntent pIntent = setupPendingIntent();
         alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), defineInterval(), pIntent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + defineInterval(), defineInterval(), pIntent);
     }
 
     public PendingIntent setupPendingIntent() {
-        Intent intent = new Intent(this, BackgroundSyncReceiver.class);
-        return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(getApplicationContext(), BackgroundSyncReceiver.class);
+        return PendingIntent.getBroadcast(this, 0, intent,0);
     }
 
     private long defineInterval() {
