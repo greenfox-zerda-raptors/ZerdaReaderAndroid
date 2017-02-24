@@ -31,12 +31,8 @@
         <activity android:name=".activity.ManageSubscriptionsActivity"/>
 
         <receiver
-            android:name=".backgroundSync.BackgroundSyncReceiver"
-            android:process=":remote" >
+            android:name=".backgroundSync.BackgroundSyncReceiver">
         </receiver>
-        <!--<intent-filter>-->
-            <!--<action android:name="BackgroundSyncService.TRANSACTION_DONE" />-->
-        <!--</intent-filter>-->
     </application>
 
 </manifest>

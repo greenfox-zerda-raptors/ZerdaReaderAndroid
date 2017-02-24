@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncEvent;
+import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncStartedEvent;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
 
@@ -36,9 +37,12 @@ public class BackgroundSyncReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.e("BackgroundSyncReceiver", "Service triggered");
         updateNewsItems(context);
+        Log.e("BackgroundSyncReceiver", "Service stopped");
     }
 
     private void updateNewsItems(Context context) {
+        EventBus.getDefault().post(new BackgroundSyncStartedEvent());
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         DaggerMockServerComponent.builder().build().inject(this);
 

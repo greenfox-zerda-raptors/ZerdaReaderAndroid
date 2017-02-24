@@ -7,17 +7,25 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.PagerAdapter;
+import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncEvent;
+import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncStartedEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends BaseActivity {
 
     SharedPreferences sharedPreferences;
+    MenuItem refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +96,7 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_toolbar_menu, menu);
+        refresh = menu.findItem(R.id.refresh);
         return true;
     }
 
@@ -111,7 +120,27 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Subscribe
+    public void onBackgroundSyncStartedEvent(BackgroundSyncStartedEvent event) {
+        Log.e("MainActivity", "change refresh to loading");
+        refresh.setActionView(new ProgressBar(this));
+    }
+
+    @Subscribe
+    public void onBackgroundSyncEvent(BackgroundSyncEvent event) {
+        Log.e("MainActivity", "change back to refresh");
+        refresh.setActionView(null);
+    }
 }
-
-
-

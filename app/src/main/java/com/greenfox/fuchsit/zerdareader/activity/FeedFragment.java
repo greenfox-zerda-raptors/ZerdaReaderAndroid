@@ -6,14 +6,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.ListView;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
-import com.greenfox.fuchsit.zerdareader.dagger.DaggerAppComponent;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.event.BackgroundSyncEvent;
 import com.greenfox.fuchsit.zerdareader.event.FavoriteSavedEvent;
@@ -25,7 +27,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.inject.Inject;
 
@@ -44,7 +45,10 @@ public class FeedFragment extends ListFragment {
     int tabNumber;
     SharedPreferences sharedPreferences;
     UpdateRequest updateRequest;
+<<<<<<< HEAD
     BaseActivity baseActivity;
+=======
+>>>>>>> 597048983a75d9c099fe003a85953e4b9abb0ce7
 
     @Inject
     ReaderApiInterface apiService;
@@ -123,7 +127,6 @@ public class FeedFragment extends ListFragment {
 
     public static FeedFragment newInstance(int tabNumber) {
         FeedFragment myFragment = new FeedFragment();
-
         Bundle args = new Bundle();
         args.putInt("tabNumber", tabNumber);
         myFragment.setArguments(args);
@@ -138,6 +141,7 @@ public class FeedFragment extends ListFragment {
 
     @Subscribe
     public void onBackgroundSyncEvent (BackgroundSyncEvent backgroundSyncEvent) {
+        Log.e("feedfragment", "event caught");
         adapter.clear();
         adapter.addAll(backgroundSyncEvent.getNewsList());
     }
