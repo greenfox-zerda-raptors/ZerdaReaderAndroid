@@ -60,18 +60,20 @@ public class ZerdaReaderApp extends Application{
 
     public void enableBackgroundSync(boolean checkboxChecked) {
         if(checkboxChecked) {
-            Log.e("SettingsActivity", "background sync enabled");
+            Log.e("App", "Background sync enabled");
             scheduleAlarm();
         } else {
-            Log.e("SettingsActivity", "background sync disabled");
+            Log.e("App", "Background sync disabled");
             cancelAlarm();
         }
     }
 
     public void scheduleAlarm() {
         final PendingIntent pIntent = setupPendingIntent();
+        Long interval = defineInterval();
         alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + defineInterval(), defineInterval(), pIntent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + interval, interval, pIntent);
+        Log.e("App", "Alarm scheduled");
     }
 
     public PendingIntent setupPendingIntent() {
@@ -81,10 +83,10 @@ public class ZerdaReaderApp extends Application{
 
     private long defineInterval() {
         if(startingActivity) {
-            Log.e("App", "in Foreground");
+            Log.e("App", "in foreground");
             return 120000L;
         } else {
-            Log.e("App", "not in Foreground");
+            Log.e("App", "not in foreground");
             return 600000L;
         }
     }
@@ -92,6 +94,7 @@ public class ZerdaReaderApp extends Application{
     public void cancelAlarm() {
         alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarm.cancel(setupPendingIntent());
+        Log.e("App", "Alarm cancelled");
     }
 
     @Subscribe
