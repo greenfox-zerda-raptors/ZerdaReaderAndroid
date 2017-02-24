@@ -118,7 +118,5 @@ public class MainActivity extends BaseActivity {
     private void sendRefreshEvent() {
         EventBus.getDefault().post(new RefreshEvent());
     }
+
 }
-
-
-

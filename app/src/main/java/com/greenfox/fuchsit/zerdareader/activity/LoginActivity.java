@@ -128,7 +128,6 @@ public class LoginActivity extends BaseActivity {
         Intent i = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(i);
     }
-
 }
 
 
