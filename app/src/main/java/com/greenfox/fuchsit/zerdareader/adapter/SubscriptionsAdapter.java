@@ -49,7 +49,7 @@ public class SubscriptionsAdapter extends ArrayAdapter<SubscriptionModel> {
                 if (onTrashcanClickListenerInterface != null) {
                     onTrashcanClickListenerInterface.onTrashcanClicked((SubscriptionModel) v.getTag());
                 }
-                Toast.makeText(getContext(), "Trashcan clicked: " , Toast.LENGTH_SHORT).show();
+
             }
         });
 

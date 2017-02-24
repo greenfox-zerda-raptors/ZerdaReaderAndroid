@@ -184,7 +184,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     }
 
 
-    public void unsubscribe(SubscriptionModel subscriptionModel) {
+    public void unsubscribe(final SubscriptionModel subscriptionModel) {
         subsDeleteRequest = new SubsDeleteRequest(subscriptionModel.getUrl());
         Call<SubsDeleteResponse> call = apiService.deleteSubscription(subscriptionModel.getId(), subsDeleteRequest, sharedPreferences.getString("token", "default"));
 
@@ -192,7 +192,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
             @Override
             public void onResponse(Call<SubsDeleteResponse> call, Response<SubsDeleteResponse> response) {
                 subsDeleteResponse = response.body();
-                checkDeleteResult(subsDeleteResponse);
+                checkDeleteResult(subscriptionModel);
             }
 
             @Override
@@ -203,10 +203,9 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         showSubscriptions();
     }
 
-    private void checkDeleteResult(SubsDeleteResponse subsDeleteResponse) {
+    private void checkDeleteResult(SubscriptionModel subscriptionModel) {
         if (subsDeleteResponse.getResult().equals("success")) {
-//            SubscriptionModel subscriptionModel = subscriptionsList.getItemAtPosition();
-//            subscriptionsAdapter.remove(subscriptionModel.getId());
+            subscriptionsAdapter.remove(subscriptionModel);
             Toast.makeText(ManageSubscriptionsActivity.this, "You have successfully unsubscribed.", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(ManageSubscriptionsActivity.this, subsDeleteResponse.getResult(), Toast.LENGTH_LONG).show();
