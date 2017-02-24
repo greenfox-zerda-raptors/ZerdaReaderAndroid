@@ -4,17 +4,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.ZerdaReaderApp;
 import com.greenfox.fuchsit.zerdareader.event.LeavingApplicationEvent;
 
 import org.greenrobot.eventbus.EventBus;
+import com.greenfox.fuchsit.zerdareader.dialog.ServerErrorDialog;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
+    ServerErrorDialog serverErrorDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,4 +50,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         ZerdaReaderApp.startingActivity = true;
         super.startActivity(intent);
     }
+    public void showServerErrorDialog(View view) {
+        FragmentManager fm = getSupportFragmentManager();
+        serverErrorDialog.show(fm, "new_subs_dialog");
+
+    }
+
 }

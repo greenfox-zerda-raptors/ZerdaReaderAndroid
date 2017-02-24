@@ -51,8 +51,8 @@ public class NewSubsDialogFragment extends DialogFragment {
         // Get field from view
         enterUrlTExView = (TextView) view.findViewById(R.id.enterUrlTextView);
         urlEditText = (EditText) view.findViewById(R.id.urlEditText);
-        okButton = (Button) view.findViewById(R.id.okButton);
         notValidUrlError = (TextInputLayout) view.findViewById(R.id.not_valid_url);
+        okButton = (Button) view.findViewById(R.id.okButton);
 
 
         // Fetch arguments from bundle and set title

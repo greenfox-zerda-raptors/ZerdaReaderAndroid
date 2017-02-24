@@ -76,7 +76,7 @@ public class LoginActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(Call<UserResponse> call, Throwable t) {
-                    
+                    showServerErrorDialog(null);
                 }
             });
         }

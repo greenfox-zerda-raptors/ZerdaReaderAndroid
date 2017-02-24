@@ -50,6 +50,7 @@ public class FeedFragment extends ListFragment {
     int tabNumber;
     SharedPreferences sharedPreferences;
     UpdateRequest updateRequest;
+    BaseActivity baseActivity;
 
     @Inject
     ReaderApiInterface apiService;
@@ -109,7 +110,8 @@ public class FeedFragment extends ListFragment {
 
             @Override
             public void onFailure(Call<FeedResponse> call, Throwable t) {
-                t.printStackTrace();
+                Log.d("onfailure", t.toString());
+                baseActivity.showServerErrorDialog(null);
             }
         });
     }
