@@ -38,6 +38,7 @@ public class ZerdaReaderApp extends Application{
     public void onCreate() {
         super.onCreate();
         application = this;
+        alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         EventBus.getDefault().register(this);
     }
 
@@ -70,7 +71,6 @@ public class ZerdaReaderApp extends Application{
 
     public void scheduleAlarm() {
         final PendingIntent pIntent = setupPendingIntent();
-        alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), defineInterval(), pIntent);
     }
 

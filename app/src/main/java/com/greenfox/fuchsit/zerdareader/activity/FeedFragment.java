@@ -105,7 +105,6 @@ public class FeedFragment extends ListFragment {
                     getActivity().finish();
                 }
                 Log.d("onResponse", "code:" + response.code());
-                Log.d("response body", response.body().toString());
             }
 
             @Override

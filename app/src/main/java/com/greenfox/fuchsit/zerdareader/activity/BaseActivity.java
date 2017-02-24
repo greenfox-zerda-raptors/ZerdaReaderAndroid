@@ -51,6 +51,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         ZerdaReaderApp.startingActivity = true;
         super.startActivity(intent);
     }
+
+    @Override
+    public void finish() {
+        ZerdaReaderApp.startingActivity = true;
+        super.finish();
+    }
+
     public void showServerErrorDialog(View view) {
         FragmentManager fm = getSupportFragmentManager();
         if (fm.findFragmentByTag("server_error_dialog") == null || !fm.findFragmentByTag("server_error_dialog").isAdded()) {

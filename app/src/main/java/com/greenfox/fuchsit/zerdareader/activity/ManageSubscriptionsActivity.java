@@ -100,7 +100,6 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.short_menu, menu);
         return true;
@@ -142,8 +141,6 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         FragmentManager fm = getSupportFragmentManager();
         newSubsDialogFragment.show(fm, "new_subs_dialog");
     }
-
-
 
     public void subscribeToFeed(View view) {
 
