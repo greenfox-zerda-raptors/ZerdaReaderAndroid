@@ -74,6 +74,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         subscriptionsAdapter = new SubscriptionsAdapter(this);
         subscriptionsList.setAdapter(subscriptionsAdapter);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         subscriptionsAdapter.setOnTrashcanClickListenerInterface(new SubscriptionsAdapter.OnTrashcanClickListenerInterface() {
             @Override
@@ -197,7 +198,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
                 showServerErrorDialog(null);
             }
         });
-        showSubscriptions();
+
     }
 
     private void checkDeleteResult(SubscriptionModel subscriptionModel) {
@@ -235,6 +236,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     @Subscribe
     public void onOkDeleteSubscriptionEvent(OkDeleteSubscriptionEvent okDeleteSubscriptionEvent) {
         unsubscribe(okDeleteSubscriptionEvent.getSubscriptionModel());
+        Log.d("kjnfjvlj", "event caught");
     }
 
 
