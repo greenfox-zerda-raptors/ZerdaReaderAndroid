@@ -55,7 +55,7 @@ public class FavoriteHandler implements FavoriteErrorDialog.FavoriteErrorListene
 
             @Override
             public void onFailure(Call<FavoriteResponse> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }
@@ -75,7 +75,7 @@ public class FavoriteHandler implements FavoriteErrorDialog.FavoriteErrorListene
 
             @Override
             public void onFailure(Call<FavoriteResponse> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }
