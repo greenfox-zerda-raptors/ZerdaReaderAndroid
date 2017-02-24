@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.FeedAdapter;
@@ -69,15 +71,15 @@ public class FeedFragment extends ListFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onAttach(Context context) {
+        super.onAttach(context);
         EventBus.getDefault().register(this);
     }
 
     @Override
-    public void onStop() {
+    public void onDetach() {
+        super.onDetach();
         EventBus.getDefault().unregister(this);
-        super.onStop();
     }
 
     public void downloadNewsItems() {
@@ -93,7 +95,13 @@ public class FeedFragment extends ListFragment {
         call.enqueue(new Callback<FeedResponse>() {
             @Override
             public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
-                showNewsItems(response.body().feed);
+                if (response.code() == 200) {
+                    showNewsItems(response.body().feed);
+                }
+                if (response.code() == 401) {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    getActivity().finish();
+                }
             }
 
             @Override
@@ -106,6 +114,7 @@ public class FeedFragment extends ListFragment {
     public void showNewsItems(ArrayList<NewsItem> newsItems) {
         adapter.clear();
         adapter.addAll(newsItems);
+        feed.smoothScrollToPositionFromTop(0, 0, 0);
     }
 
     @Override
@@ -144,6 +153,7 @@ public class FeedFragment extends ListFragment {
     @Subscribe
     public void onFavoriteSavedEvent(FavoriteSavedEvent favoriteSavedEvent) {
         adapter.toggleFavoriteById(favoriteSavedEvent.getItem_id());
+        feed.smoothScrollToPositionFromTop(0, 0, 0);
     }
 
     @Subscribe
@@ -154,5 +164,7 @@ public class FeedFragment extends ListFragment {
     @Subscribe
     public void onRefreshEvent(RefreshEvent refreshEvent) {
         downloadNewsItems();
+        Toast.makeText(getActivity(),"Refreshed",Toast.LENGTH_LONG).show();
+
     }
 }

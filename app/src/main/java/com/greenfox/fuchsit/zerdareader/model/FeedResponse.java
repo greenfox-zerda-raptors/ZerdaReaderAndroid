@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class FeedResponse {
 
     public ArrayList<NewsItem> feed;
+    public String error;
 
     public FeedResponse() {
     }

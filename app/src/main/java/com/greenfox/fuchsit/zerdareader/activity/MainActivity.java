@@ -119,6 +119,7 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().post(new RefreshEvent());
     }
 
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -126,3 +127,4 @@ public class MainActivity extends BaseActivity {
     }
 
 }
+
