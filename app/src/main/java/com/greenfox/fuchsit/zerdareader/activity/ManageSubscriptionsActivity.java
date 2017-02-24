@@ -2,9 +2,11 @@ package com.greenfox.fuchsit.zerdareader.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,6 +74,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         subscriptionsAdapter = new SubscriptionsAdapter(this);
         subscriptionsList.setAdapter(subscriptionsAdapter);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         subscriptionsAdapter.setOnTrashcanClickListenerInterface(new SubscriptionsAdapter.OnTrashcanClickListenerInterface() {
             @Override
@@ -233,6 +236,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     @Subscribe
     public void onOkDeleteSubscriptionEvent(OkDeleteSubscriptionEvent okDeleteSubscriptionEvent) {
         unsubscribe(okDeleteSubscriptionEvent.getSubscriptionModel());
+        Log.d("kjnfjvlj", "event caught");
     }
 
 
