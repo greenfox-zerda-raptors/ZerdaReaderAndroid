@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class FeedFragment extends ListFragment {
     int tabNumber;
     SharedPreferences sharedPreferences;
     UpdateRequest updateRequest;
+    BaseActivity baseActivity;
 
     @Inject
     ReaderApiInterface apiService;
@@ -102,11 +104,13 @@ public class FeedFragment extends ListFragment {
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                     getActivity().finish();
                 }
+                Log.d("onResponse", "code:" + response.code());
             }
 
             @Override
             public void onFailure(Call<FeedResponse> call, Throwable t) {
-
+                Log.d("onfailure-dwnldfeed", t.toString());
+                ((BaseActivity) getActivity()).showServerErrorDialog(null);
             }
         });
     }
@@ -132,7 +136,7 @@ public class FeedFragment extends ListFragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                ((BaseActivity) getActivity()).showServerErrorDialog(null);
             }
         });
 

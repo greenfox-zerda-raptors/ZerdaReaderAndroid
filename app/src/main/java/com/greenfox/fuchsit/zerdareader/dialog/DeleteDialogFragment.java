@@ -19,7 +19,6 @@ import org.greenrobot.eventbus.EventBus;
  */
 
 public class DeleteDialogFragment extends DialogFragment {
-    ManageSubscriptionsActivity manageSubscriptionsActivity;
     SubscriptionModel subscriptionModel;
 
     public DeleteDialogFragment() {

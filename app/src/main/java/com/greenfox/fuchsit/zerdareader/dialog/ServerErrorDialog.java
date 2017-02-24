@@ -14,15 +14,14 @@ import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
  * Created by Zsuzska on 2017. 02. 16..
  */
 
-public class SubsServerErrorDialog extends DialogFragment {
-    ManageSubscriptionsActivity manageSubscriptionsActivity;
+public class ServerErrorDialog extends DialogFragment {
     SubscriptionModel subscriptionModel;
 
-    public SubsServerErrorDialog() {
+    public ServerErrorDialog() {
     }
 
-    public static DeleteDialogFragment newInstance(String title) {
-        DeleteDialogFragment fragment = new DeleteDialogFragment();
+    public static ServerErrorDialog newInstance(String title) {
+        ServerErrorDialog fragment = new ServerErrorDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
         fragment.setArguments(args);
@@ -35,15 +34,7 @@ public class SubsServerErrorDialog extends DialogFragment {
         builder.setTitle("Error");
         builder.setMessage("Something went wrong while connecting to server.");
         subscriptionModel = (SubscriptionModel) getArguments().getSerializable("subscriptionModel");
-        builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ((ManageSubscriptionsActivity)getActivity()).subscribeToFeed(null);
-                dismiss();
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dismiss();

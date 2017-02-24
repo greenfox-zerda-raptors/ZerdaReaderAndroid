@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -73,6 +74,7 @@ public class MainActivity extends BaseActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
+        Log.d("token", sharedPreferences.getString("token", null));
     }
 
     public void logOut() {

@@ -6,7 +6,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
 import com.greenfox.fuchsit.zerdareader.R;
-import com.greenfox.fuchsit.zerdareader.ZerdaReaderApp;
 import com.greenfox.fuchsit.zerdareader.event.BackSyncSettingEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,11 +29,5 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         setPreferenceScreen(null);
         addPreferencesFromResource(R.xml.preferences);
         EventBus.getDefault().post(new BackSyncSettingEvent(preferences.getBoolean("checkbox_sync", true)));
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ZerdaReaderApp.visible = true;
     }
 }

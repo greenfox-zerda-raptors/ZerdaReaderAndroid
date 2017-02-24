@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,7 @@ import com.greenfox.fuchsit.zerdareader.adapter.SubscriptionsAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.dialog.DeleteDialogFragment;
 import com.greenfox.fuchsit.zerdareader.dialog.NewSubsDialogFragment;
+import com.greenfox.fuchsit.zerdareader.dialog.ServerErrorDialog;
 import com.greenfox.fuchsit.zerdareader.event.OkDeleteSubscriptionEvent;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
@@ -47,6 +49,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     ReaderApiInterface apiService;
     NewSubsDialogFragment newSubsDialogFragment;
     DeleteDialogFragment deleteDialogFragment;
+
 
     private EditText urlEditText;
     TextInputLayout notValidUrlError;
@@ -86,6 +89,8 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         newSubsDialogFragment = NewSubsDialogFragment.newInstance("Subscribe");
         deleteDialogFragment = DeleteDialogFragment.newInstance("Unsubcribe");
+        serverErrorDialog = ServerErrorDialog.newInstance("Server Error");
+
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -95,7 +100,6 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.short_menu, menu);
         return true;
@@ -122,7 +126,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<SubscriptionResponse> call, Throwable t) {
-
+                showServerErrorDialog(null);
             }
         });
     }
@@ -155,7 +159,8 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(Call<AddSubsResponse> call, Throwable t) {
-
+                    Log.d("onfailure", t.toString());
+                    showServerErrorDialog(null);
                 }
             });
         } else if (isUrlTextfieldEmpty()) {
@@ -176,7 +181,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     }
 
 
-    public void unsubscribe(SubscriptionModel subscriptionModel) {
+    public void unsubscribe(final SubscriptionModel subscriptionModel) {
         subsDeleteRequest = new SubsDeleteRequest(subscriptionModel.getUrl());
         Call<SubsDeleteResponse> call = apiService.deleteSubscription(subscriptionModel.getId(), subsDeleteRequest, sharedPreferences.getString("token", "default"));
 
@@ -184,19 +189,20 @@ public class ManageSubscriptionsActivity extends BaseActivity {
             @Override
             public void onResponse(Call<SubsDeleteResponse> call, Response<SubsDeleteResponse> response) {
                 subsDeleteResponse = response.body();
-                checkDeleteResult(subsDeleteResponse);
+                checkDeleteResult(subscriptionModel);
             }
 
             @Override
             public void onFailure(Call<SubsDeleteResponse> call, Throwable t) {
-
+                showServerErrorDialog(null);
             }
         });
         showSubscriptions();
     }
 
-    private void checkDeleteResult(SubsDeleteResponse subsDeleteResponse) {
+    private void checkDeleteResult(SubscriptionModel subscriptionModel) {
         if (subsDeleteResponse.getResult().equals("success")) {
+            subscriptionsAdapter.remove(subscriptionModel);
             Toast.makeText(ManageSubscriptionsActivity.this, "You have successfully unsubscribed.", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(ManageSubscriptionsActivity.this, subsDeleteResponse.getResult(), Toast.LENGTH_LONG).show();
