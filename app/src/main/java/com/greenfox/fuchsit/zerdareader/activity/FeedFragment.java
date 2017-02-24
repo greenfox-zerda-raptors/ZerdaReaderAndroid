@@ -44,7 +44,7 @@ public class FeedFragment extends ListFragment {
     int tabNumber;
     SharedPreferences sharedPreferences;
     UpdateRequest updateRequest;
-    ArrayList<NewsItem> news;
+    BaseActivity baseActivity;
 
     @Inject
     ReaderApiInterface apiService;
@@ -97,6 +97,8 @@ public class FeedFragment extends ListFragment {
 
             @Override
             public void onFailure(Call<ArrayList<NewsItem>> call, Throwable t) {
+                baseActivity.showServerErrorDialog(null);
+
             }
         });
     }

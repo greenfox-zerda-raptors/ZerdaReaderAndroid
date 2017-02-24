@@ -19,6 +19,7 @@ import com.greenfox.fuchsit.zerdareader.adapter.SubscriptionsAdapter;
 import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.dialog.DeleteDialogFragment;
 import com.greenfox.fuchsit.zerdareader.dialog.NewSubsDialogFragment;
+import com.greenfox.fuchsit.zerdareader.dialog.ServerErrorDialog;
 import com.greenfox.fuchsit.zerdareader.event.OkDeleteSubscriptionEvent;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
 import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
@@ -46,6 +47,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
     ReaderApiInterface apiService;
     NewSubsDialogFragment newSubsDialogFragment;
     DeleteDialogFragment deleteDialogFragment;
+
 
     private EditText urlEditText;
     TextInputLayout notValidUrlError;
@@ -85,6 +87,8 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         newSubsDialogFragment = NewSubsDialogFragment.newInstance("Subscribe");
         deleteDialogFragment = DeleteDialogFragment.newInstance("Unsubcribe");
+        serverErrorDialog = ServerErrorDialog.newInstance("Server Error");
+
 
         DaggerMockServerComponent.builder().build().inject(this);
 
@@ -119,7 +123,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<SubscriptionResponse> call, Throwable t) {
-
+                showServerErrorDialog(null);
             }
         });
     }
@@ -134,6 +138,8 @@ public class ManageSubscriptionsActivity extends BaseActivity {
         FragmentManager fm = getSupportFragmentManager();
         newSubsDialogFragment.show(fm, "new_subs_dialog");
     }
+
+
 
     public void subscribeToFeed(View view) {
 
@@ -152,7 +158,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(Call<AddSubsResponse> call, Throwable t) {
-
+                    showServerErrorDialog(null);
                 }
             });
         } else if (isUrlTextfieldEmpty()) {
@@ -186,7 +192,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<SubsDeleteResponse> call, Throwable t) {
-
+                showServerErrorDialog(null);
             }
         });
         showSubscriptions();
@@ -194,6 +200,8 @@ public class ManageSubscriptionsActivity extends BaseActivity {
 
     private void checkDeleteResult(SubsDeleteResponse subsDeleteResponse) {
         if (subsDeleteResponse.getResult().equals("success")) {
+//            SubscriptionModel subscriptionModel = subscriptionsList.getItemAtPosition();
+//            subscriptionsAdapter.remove(subscriptionModel.getId());
             Toast.makeText(ManageSubscriptionsActivity.this, "You have successfully unsubscribed.", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(ManageSubscriptionsActivity.this, subsDeleteResponse.getResult(), Toast.LENGTH_LONG).show();
