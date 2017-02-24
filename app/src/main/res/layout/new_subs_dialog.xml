@@ -20,8 +20,21 @@
         android:ems="10"
         android:id="@+id/urlEditText"
         android:inputType="textUri"
-        android:layout_below="@+id/enterUrlTextView"/>
+        android:layout_below="@+id/enterUrlTextView"
+        android:layout_centerHorizontal="true" />
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/not_valid_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        app:errorTextAppearance="@style/url_error_appearance"
+
+        android:layout_below="@+id/urlEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:onClick="subscribeToFeed"
@@ -30,18 +43,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/okButton"
         android:layout_weight="0.02"
-        android:layout_below="@+id/urlEditText"
-        android:layout_centerHorizontal="true"/>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/not_valid_url"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/okButton"
-        android:layout_marginTop="10dp"
-        app:errorEnabled="true"
-        app:errorTextAppearance="@style/url_error_appearance"
-        android:orientation="horizontal" />
+        android:layout_below="@+id/not_valid_url"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
