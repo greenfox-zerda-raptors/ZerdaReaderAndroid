@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:transcriptMode="alwaysScroll"
         android:id="@+id/subscriptions_list"
-        android:background="@color/lightPink" />
+        android:background="@color/white" />
 
 
 </RelativeLayout>
