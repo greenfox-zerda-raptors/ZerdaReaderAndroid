@@ -198,7 +198,7 @@ public class ManageSubscriptionsActivity extends BaseActivity {
                 showServerErrorDialog(null);
             }
         });
-        showSubscriptions();
+
     }
 
     private void checkDeleteResult(SubscriptionModel subscriptionModel) {
