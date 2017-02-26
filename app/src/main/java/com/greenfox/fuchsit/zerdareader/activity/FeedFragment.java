@@ -45,10 +45,7 @@ public class FeedFragment extends ListFragment {
     int tabNumber;
     SharedPreferences sharedPreferences;
     UpdateRequest updateRequest;
-<<<<<<< HEAD
     BaseActivity baseActivity;
-=======
->>>>>>> 597048983a75d9c099fe003a85953e4b9abb0ce7
 
     @Inject
     ReaderApiInterface apiService;
