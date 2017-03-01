@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.SubscriptionsAdapter;
-import com.greenfox.fuchsit.zerdareader.dagger.DaggerMockServerComponent;
 import com.greenfox.fuchsit.zerdareader.dialog.DeleteDialogFragment;
 import com.greenfox.fuchsit.zerdareader.dialog.NewSubsDialogFragment;
 import com.greenfox.fuchsit.zerdareader.dialog.ServerErrorDialog;
