@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +15,9 @@ import android.widget.Toast;
 
 import com.greenfox.fuchsit.zerdareader.R;
 import com.greenfox.fuchsit.zerdareader.adapter.PagerAdapter;
+import com.greenfox.fuchsit.zerdareader.event.RefreshEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends BaseActivity {
 
@@ -49,6 +53,7 @@ public class MainActivity extends BaseActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                sendRefreshEvent();
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -69,6 +74,7 @@ public class MainActivity extends BaseActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
+        Log.d("token", sharedPreferences.getString("token", null));
     }
 
     public void logOut() {
@@ -95,6 +101,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.refresh:
+                sendRefreshEvent();
                 Toast.makeText(this,"Refreshed",Toast.LENGTH_LONG).show();
                 break;
             case R.id.logout:
@@ -110,7 +117,8 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    private void sendRefreshEvent() {
+        EventBus.getDefault().post(new RefreshEvent());
+    }
+
 }
-
-
-

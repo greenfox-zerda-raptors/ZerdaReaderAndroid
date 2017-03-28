@@ -1,12 +1,20 @@
 package com.greenfox.fuchsit.zerdareader.server;
 
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
+import com.greenfox.fuchsit.zerdareader.model.AddSubsRequest;
+import com.greenfox.fuchsit.zerdareader.model.AddSubsResponse;
 import com.greenfox.fuchsit.zerdareader.ZerdaReaderApp;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteRequest;
 import com.greenfox.fuchsit.zerdareader.model.FavoriteResponse;
+import com.greenfox.fuchsit.zerdareader.model.FeedResponse;
 import com.greenfox.fuchsit.zerdareader.model.LoginRequest;
 import com.greenfox.fuchsit.zerdareader.model.NewsItem;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteRequest;
+import com.greenfox.fuchsit.zerdareader.model.SubsDeleteResponse;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionModel;
+import com.greenfox.fuchsit.zerdareader.model.SubscriptionResponse;
 import com.greenfox.fuchsit.zerdareader.model.UpdateRequest;
 import com.greenfox.fuchsit.zerdareader.model.UserResponse;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApiInterface;
@@ -18,10 +26,11 @@ import java.util.Random;
 import dagger.Module;
 import io.kimo.lib.faker.component.number.NumberComponent;
 import io.kimo.lib.faker.component.text.LoremComponent;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Path;
+import retrofit2.http.Body;
 import retrofit2.http.Query;
 
 /**
@@ -29,6 +38,7 @@ import retrofit2.http.Query;
  */
 @Module
 public class MockServer implements ReaderApiInterface {
+    ArrayList<SubscriptionModel> subscriptionModels = new ArrayList<>();
 
     LoremComponent loremComponent;
     NumberComponent numberComponent;
@@ -41,22 +51,22 @@ public class MockServer implements ReaderApiInterface {
     }
 
     @Override
-    public MockCall<ArrayList<NewsItem>> getNewsItems(String token) {
-        return new MockCall<ArrayList<NewsItem>>() {
+    public MockCall<FeedResponse> getNewsItems(String token) {
+        return new MockCall<FeedResponse>() {
             @Override
-            public void enqueue(Callback<ArrayList<NewsItem>> callback) {
-                Response<ArrayList<NewsItem>> r = Response.success(newsItems);
+            public void enqueue(Callback<FeedResponse> callback) {
+                Response<FeedResponse> r = Response.success(new FeedResponse(newsItems));
                 callback.onResponse(this, r);
             }
         };
     }
 
     @Override
-    public MockCall<ArrayList<NewsItem>> getFavouriteNewsItems(String token) {
-        return new MockCall<ArrayList<NewsItem>>() {
+    public MockCall<FeedResponse> getFavouriteNewsItems(String token) {
+        return new MockCall<FeedResponse>() {
             @Override
-            public void enqueue(Callback<ArrayList<NewsItem>> callback) {
-                Response<ArrayList<NewsItem>> r = Response.success(addFavoriteNewsItems());
+            public void enqueue(Callback<FeedResponse> callback) {
+                Response<FeedResponse> r = Response.success(new FeedResponse(addFavoriteNewsItems()));
                 callback.onResponse(this, r);
             }
         };
@@ -96,9 +106,15 @@ public class MockServer implements ReaderApiInterface {
         };
     }
 
-    @Override
-    public void updateOpened(long id, String token, UpdateRequest updateRequest) {
 
+    @Override
+    public MockCall<okhttp3.ResponseBody> updateOpened(long id, String token, UpdateRequest updateRequest) {
+        return new MockCall<ResponseBody>() {
+            @Override
+            public void enqueue(Callback<ResponseBody> callback) {
+
+            }
+        };
     }
 
     public MockCall<UserResponse> signUpUser(final LoginRequest loginRequest) {
@@ -110,6 +126,47 @@ public class MockServer implements ReaderApiInterface {
             }
         };
     }
+
+    @Override
+    public Call<SubscriptionResponse> getSubscriptions(@Query("token") String token) {
+        return new MockCall<SubscriptionResponse>() {
+            @Override
+            public void enqueue(Callback<SubscriptionResponse> callback) {
+                ArrayList<SubscriptionModel> subscriptionModels = null;
+                try {
+                    subscriptionModels = addSubscriptions();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Response<SubscriptionResponse> r = Response.success(new SubscriptionResponse(subscriptionModels));
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
+    @Override
+    public Call<AddSubsResponse> addNewSubscription(String token, final AddSubsRequest addSubsRequest) {
+        return new MockCall<AddSubsResponse>() {
+            @Override
+            public void enqueue(Callback<AddSubsResponse> callback) {
+
+                Response<AddSubsResponse> r = Response.success(checkSubsResponse(addSubsRequest));
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
+    @Override
+    public Call<SubsDeleteResponse> deleteSubscription(long id, final SubsDeleteRequest subsDeleteRequest, String token) {
+        return new MockCall<SubsDeleteResponse>() {
+            @Override
+            public void enqueue(Callback<SubsDeleteResponse> callback) {
+                Response<SubsDeleteResponse> r = Response.success(checkDelResponse(subsDeleteRequest));
+                callback.onResponse(this, r);
+            }
+        };
+    }
+
 
     private UserResponse checkUsername(LoginRequest loginRequest) {
         UserResponse userResponse;
@@ -123,7 +180,7 @@ public class MockServer implements ReaderApiInterface {
 
     private UserResponse checkUser(LoginRequest loginRequest) {
         UserResponse userResponse;
-        if (loginRequest.getEmail().equals("admin") && loginRequest.getPassword().equals("fuchsit")) {
+        if (loginRequest.getEmail().equals("admin@admin.com") && loginRequest.getPassword().equals("fuchsit")) {
             userResponse = new UserResponse("success");
         } else {
             userResponse = new UserResponse("fail");
@@ -131,6 +188,32 @@ public class MockServer implements ReaderApiInterface {
         return userResponse;
     }
 
+    private AddSubsResponse checkSubsResponse(AddSubsRequest addSubsRequest) {
+        AddSubsResponse addSubsResponse;
+        if (addSubsRequest.getUrl().equals("blabla.hu")) {
+            addSubsResponse = new AddSubsResponse("fail", "Failed to subscribe");
+        } else {
+            addSubsResponse = new AddSubsResponse("subscribed", 2587L);
+        }
+
+        return addSubsResponse;
+    }
+
+    private SubsDeleteResponse checkDelResponse(SubsDeleteRequest subsDeleteRequest) {
+        SubsDeleteResponse subsDeleteResponse = new SubsDeleteResponse("success");
+        return subsDeleteResponse;
+    }
+
+    @NonNull
+    private ArrayList<SubscriptionModel> addSubscriptions() throws ParseException {
+
+        subscriptionModels.add(new SubscriptionModel("www.index.hu/feed", 1L));
+        subscriptionModels.add(new SubscriptionModel("www.hvg.hu/feed", 2L));
+        subscriptionModels.add(new SubscriptionModel("www.origo.hu/feed", 3L));
+        subscriptionModels.add(new SubscriptionModel("www.444.hu/feed", 4L));
+        subscriptionModels.add(new SubscriptionModel("www.444.hu/feed", 5L));
+        return subscriptionModels;
+    }
 
     @NonNull
     private ArrayList<NewsItem> addNewsItems() {
@@ -145,26 +228,6 @@ public class MockServer implements ReaderApiInterface {
                     getRandomBoolean(),
                     getRandomBoolean()));
         }
-        //hardcoded
-//        newsItems.add(new NewsItem(1, "Pofont nem, maximum orrpöckölést kap az európai elit a francia elnökválasztáson",
-//                "Ice cream soufflé tart marshmallow. Dragée tiramisu wafer danish candy canes croissant gummi bears. Toffee chocolate apple pie cupcake. Cupcake muffin macaroon tootsie roll pastry macaroon pastry toffee jelly. Sugar plum gingerbread dessert chocolate liquorice jelly beans wafer. Cheesecake fruitcake candy canes caramels marzipan fruitcake cotton candy gummies wafer. Tootsie roll tart jujubes chupa chups gummi bears bonbon. Gingerbread caramels cake cotton candy. Gummies pie gummi bears biscuit. Bear claw chocolate cake marshmallow muffin brownie chocolate bar carrot cake oat cake. Topping sesame snaps brownie jelly-o. Jelly-o bonbon donut chupa chups dessert. Muffin gummies tart. Sweet roll marzipan cake apple pie pie.\n\n" +
-//                        "Oat cake icing carrot cake cake soufflé croissant. Jelly fruitcake sugar plum brownie biscuit sweet roll cotton candy. Cookie jujubes cheesecake danish chocolate cake dessert. Liquorice bonbon ice cream liquorice carrot cake. Bear claw halvah cookie wafer. Caramels caramels candy canes tart powder gummies. Jujubes soufflé ice cream sesame snaps chocolate cake tiramisu soufflé jelly-o. Caramels topping macaroon croissant chupa chups sweet toffee chocolate bar. Cupcake toffee danish croissant. Bonbon pastry pie tart croissant powder candy canes. Liquorice sesame snaps tart donut tootsie roll gummi bears chocolate bar croissant soufflé. Sesame snaps dessert brownie fruitcake chupa chups sugar plum dragée oat cake chupa chups. Tiramisu biscuit toffee chocolate jelly candy jelly-o apple pie cotton candy.\n" +
-//                        "\n" +
-//                        "Biscuit dragée jelly beans croissant. Cotton candy lemon drops jelly. Gummies cookie powder donut sugar plum halvah. Topping pie muffin pudding pudding carrot cake. Toffee biscuit oat cake bear claw chocolate bar danish croissant sesame snaps. Fruitcake cake candy tootsie roll cake. Brownie biscuit candy cotton candy apple pie tootsie roll donut wafer. Gummies wafer bonbon chupa chups. Muffin wafer gummies cookie topping wafer pudding wafer. Jelly beans apple pie cake cupcake cookie tart wafer donut dragée. Liquorice ice cream tart sweet roll cheesecake marshmallow apple pie lollipop. Gingerbread tiramisu chocolate wafer. Cake oat cake dragée pie candy. Pie gummi bears tootsie roll.\n" +
-//                        "\n" +
-//                        "Marzipan bear claw gingerbread cake gummies cheesecake jelly-o sesame snaps. Marshmallow lemon drops oat cake sugar plum jelly beans bear claw. Chocolate dragée donut chupa chups. Lemon drops topping cheesecake jelly beans halvah danish. Candy canes dessert powder. Powder wafer cheesecake. Halvah lollipop brownie toffee apple pie caramels chocolate bar cotton candy chocolate bar. Chocolate jelly-o muffin bear claw candy canes biscuit lemon drops apple pie. Biscuit cheesecake jelly dragée. Liquorice biscuit macaroon jujubes pudding cake soufflé lollipop tiramisu. Jelly candy fruitcake muffin gummies apple pie. Carrot cake pastry donut.\n" +
-//                        "\n" +
-//                        "Cupcake croissant icing sugar plum jelly. Oat cake donut jelly apple pie chocolate cake. Muffin bonbon chocolate bar tootsie roll. Soufflé lemon drops danish pie pudding dessert jujubes cookie candy. Tiramisu oat cake icing. Candy canes croissant chupa chups biscuit. Chocolate dessert gummies pastry muffin toffee. Apple pie caramels tart biscuit biscuit. Biscuit carrot cake cupcake marshmallow ice cream chocolate cake candy. Liquorice pie gingerbread chocolate. Marshmallow chocolate cake fruitcake jelly-o. Oat cake sesame snaps jelly beans dragée oat cake pastry cheesecake. Croissant cookie fruitcake soufflé jelly beans jelly-o croissant. Candy caramels pie sugar plum.",
-//                d1, "Fox Crunch", false, false));
-//        newsItems.add(new NewsItem(2, "Schóbert Norbertnek köszönhetően egy ország lett kémiaszakértő", "Marzipan cotton candy marzipan pie lemon drops. Sweet roll soufflé biscuit bear claw ice cream cotton candy candy canes. Pastry jujubes sweet roll muffin cookie sweet roll muffin. Cotton candy danish caramels apple pie pastry cake. Wafer brownie oat cake tart chocolate cake. Marzipan jujubes cake soufflé. Jujubes sweet fruitcake gingerbread sesame snaps wafer. Bonbon liquorice muffin cake. Gingerbread tart chupa chups candy canes cheesecake cotton candy halvah jelly-o chocolate cake. Jelly jelly muffin soufflé jelly pastry topping. Candy halvah gummies. Danish cake biscuit cake tiramisu.",
-//                d1, "Fox Brunch", false, false));
-//        newsItems.add(new NewsItem(3, "Title 3", "Pastry danish caramels lollipop gummi bears muffin. Dragée caramels marshmallow pudding bonbon. Sweet roll dessert liquorice bear claw oat cake carrot cake. Icing sweet roll chupa chups wafer. Sugar plum ice cream gingerbread. Tart gummies tootsie roll pie chocolate. Chupa chups jujubes chocolate bar ice cream sugar plum gingerbread jujubes brownie chocolate cake. Carrot cake jujubes carrot cake gummi bears donut apple pie. Cupcake tart chocolate bar bear claw brownie chupa chups chupa chups. Chocolate gummi bears liquorice cake halvah jelly-o marshmallow oat cake candy canes. Topping ice cream candy canes powder wafer sweet roll cupcake. Brownie candy sugar plum. Tart gummies oat cake pastry jelly-o pie cake fruitcake topping. Pastry marshmallow biscuit croissant cake.",
-//                d1, "Fox Crunch", true, false));
-//        newsItems.add(new NewsItem(4, "Title 4", "Icing halvah apple pie tiramisu cake macaroon oat cake. Ice cream dragée croissant marzipan. Caramels icing marshmallow ice cream. Wafer candy candy marzipan caramels. Sweet roll liquorice chupa chups marshmallow brownie cotton candy tiramisu. Donut pastry dragée candy canes chocolate cake gingerbread sweet roll ice cream apple pie. Cake pastry liquorice toffee toffee jelly beans danish. Muffin jujubes bonbon marshmallow lollipop. Liquorice croissant icing ice cream. Cake jujubes tootsie roll sesame snaps fruitcake macaroon. Lemon drops macaroon candy cotton candy bear claw icing tart icing. Pastry tiramisu halvah dragée candy tart tiramisu tart cupcake.",
-//                d1, "Fox Lunch", true, true));
-//        newsItems.add(new NewsItem(5, "Title 5", "Pastry candy canes oat cake icing sugar plum jelly-o biscuit danish. Dessert icing cookie bear claw jelly. Carrot cake icing sweet. Croissant jelly-o cheesecake biscuit dessert caramels wafer dragée tootsie roll. Lollipop pastry soufflé. Wafer cotton candy caramels apple pie sugar plum pie sesame snaps candy. Jelly-o tootsie roll ice cream croissant dessert. Jujubes cheesecake toffee pudding. Carrot cake bear claw gingerbread jelly chupa chups. Candy canes jelly beans candy canes soufflé. Liquorice donut donut. Sweet apple pie carrot cake pastry biscuit marshmallow.",
-//                d1, "Fox Crunch", false, true));
-//
         return newsItems;
     }
 

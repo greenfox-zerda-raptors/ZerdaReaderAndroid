@@ -1,7 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.dagger;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.greenfox.fuchsit.zerdareader.BuildConfig;
 import com.greenfox.fuchsit.zerdareader.rest.ReaderApi;
@@ -24,7 +23,7 @@ public class ReaderApiProvider {
 
     @Provides
     public ReaderApiInterface provideApiInterface() {
-        if(BuildConfig.DEBUG) {
+        if(BuildConfig.DEBUG && false) {
             return new MockServer();
         } else {
             return ReaderApi.getClient().create(ReaderApiInterface.class);

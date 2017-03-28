@@ -83,7 +83,7 @@ public class SignupActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(Call<UserResponse> call, Throwable t) {
-
+                    showServerErrorDialog(null);
                 }
             });
         }

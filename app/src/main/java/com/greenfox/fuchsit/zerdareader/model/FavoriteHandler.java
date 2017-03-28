@@ -1,5 +1,6 @@
 package com.greenfox.fuchsit.zerdareader.model;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -29,15 +30,14 @@ public class FavoriteHandler implements FavoriteErrorDialog.FavoriteErrorListene
 
     SharedPreferences sharedPreferences;
 
-    AppCompatActivity activity;
+    Context context;
 
-    public FavoriteHandler(AppCompatActivity activity) {
-
-        this.activity = activity;
+    public FavoriteHandler(Context context) {
+        this.context = context;
 
         DaggerMockServerComponent.builder().build().inject(this);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public void createFavoriteCall(final long itemId) {
@@ -55,7 +55,7 @@ public class FavoriteHandler implements FavoriteErrorDialog.FavoriteErrorListene
 
             @Override
             public void onFailure(Call<FavoriteResponse> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }
@@ -75,7 +75,7 @@ public class FavoriteHandler implements FavoriteErrorDialog.FavoriteErrorListene
 
             @Override
             public void onFailure(Call<FavoriteResponse> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }
@@ -91,6 +91,6 @@ public class FavoriteHandler implements FavoriteErrorDialog.FavoriteErrorListene
 
     private void showFavoriteErrorDialog(String message, boolean isFavoriting, long item_id) {
         FavoriteErrorDialog newFragment = new FavoriteErrorDialog(message, isFavoriting, item_id);
-        newFragment.show(activity.getSupportFragmentManager(), "favoriteError");
+        newFragment.show(((AppCompatActivity)context).getSupportFragmentManager(), "favoriteError");
     }
 }

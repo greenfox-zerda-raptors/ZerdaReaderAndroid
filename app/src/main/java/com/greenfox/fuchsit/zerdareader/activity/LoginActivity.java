@@ -62,8 +62,6 @@ public class LoginActivity extends BaseActivity {
 
         if (isTextfieldsEmpty()) {
             til.setError("Please fill in your email and password");
-        } else if (!isEmailAddressValid()){
-            til.setError("Please fill in a valid email address");
         } else {
             loginRequest = new LoginRequest(editEmail.getText().toString(), editPassword.getText().toString());
             Call<UserResponse> call = apiService.loginUser(loginRequest);
@@ -78,7 +76,7 @@ public class LoginActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(Call<UserResponse> call, Throwable t) {
-                    
+                    showServerErrorDialog(null);
                 }
             });
         }
@@ -130,7 +128,6 @@ public class LoginActivity extends BaseActivity {
         Intent i = new Intent(LoginActivity.this, SignupActivity.class);
         startActivity(i);
     }
-
 }
 
 
